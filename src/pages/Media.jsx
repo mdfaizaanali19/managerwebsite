@@ -10,7 +10,7 @@ export default function Media() {
       title: 'Directorial Acumen & Cinematic Vision',
       desc: 'National newspaper coverage highlighting Sohel Vaseem’s innovative approach to visual storytelling, brand narratives, and production leadership.',
       thumb: '/images/resource/Hindu.jpg',
-      zoom: '/images/resource/Hindu_zoom.jpg',
+      zoom: '/images/resource/Hindu.jpg',
       type: 'National Daily'
     },
     {
@@ -18,7 +18,7 @@ export default function Media() {
       title: 'Television Series & Ad Direction Spotlight',
       desc: 'In-depth feature examining Sohel’s directorial execution across television drama serials and nationwide advertising campaigns.',
       thumb: '/images/resource/chronicle.jpg',
-      zoom: '/images/resource/chronicle_zoom.jpg',
+      zoom: '/images/resource/chronicle.jpg',
       type: 'Print Feature'
     },
     {
@@ -26,7 +26,7 @@ export default function Media() {
       title: 'Creative Excellence in Modern Commercials',
       desc: 'Chronicle reporting on Sohel Vaseem’s storytelling craft and his leadership on high-profile corporate commercial film sets.',
       thumb: '/images/resource/chronicleone.jpg',
-      zoom: '/images/resource/chronicleone_zoom.jpg',
+      zoom: '/images/resource/chronicleone.jpg',
       type: 'Commercial Spotlight'
     },
     {
@@ -34,7 +34,7 @@ export default function Media() {
       title: 'Director Sohel Vaseem’s Creative Milestone',
       desc: 'Extensive regional daily reporting highlighting Sohel’s artistic storytelling contributions and commercial campaign triumph.',
       thumb: '/images/resource/eenadu.jpg',
-      zoom: '/images/resource/eenadu_zoom.jpg',
+      zoom: '/images/resource/eenadu.jpg',
       type: 'Regional Leader'
     },
     {
@@ -42,7 +42,7 @@ export default function Media() {
       title: 'Artistic Journey Behind The Camera',
       desc: 'Feature article examining the making of high-concept television commercials and on-set directorial discipline.',
       thumb: '/images/resource/andhrajyothi.jpg',
-      zoom: '/images/resource/andhrajyothi_zoom.jpg',
+      zoom: '/images/resource/andhrajyothi.jpg',
       type: 'Cultural Daily'
     },
     {
@@ -50,7 +50,7 @@ export default function Media() {
       title: 'Acclaimed Filmmaker & Directorial Craft',
       desc: 'Prominent coverage spotlighting Sohel Vaseem’s national advertising campaigns and cultural storytelling.',
       thumb: '/images/resource/siasatone.jpg',
-      zoom: '/images/resource/siasatone_zoom.jpg',
+      zoom: '/images/resource/siasatone.jpg',
       type: 'National Daily'
     },
     {
@@ -58,7 +58,7 @@ export default function Media() {
       title: 'Media & Television Directorial Triumph',
       desc: 'Special press reporting on prime-time television direction and successful brand inception initiatives.',
       thumb: '/images/resource/siasattwo.jpg',
-      zoom: '/images/resource/siasattwo_zoom.jpg',
+      zoom: '/images/resource/siasattwo.jpg',
       type: 'Press Profile'
     },
     {
@@ -66,7 +66,7 @@ export default function Media() {
       title: 'Milestone Commercial Achievements',
       desc: 'Daily news profile tracing Sohel Vaseem’s evolution as a strategic brand builder and creative director.',
       thumb: '/images/resource/vaarta.jpg',
-      zoom: '/images/resource/vaarta_zoom.jpg',
+      zoom: '/images/resource/vaarta.jpg',
       type: 'Print Feature'
     }
   ];
