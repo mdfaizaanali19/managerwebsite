@@ -895,7 +895,7 @@ p {
 .hero-cinematic {
   position: relative;
   background-color: #f7f0e4;
-  background-image: url('../images/resource/hero_cinematic_full_bg.jpg?v=5');
+  background-image: url('../images/resource/hero_cinematic_full_bg.jpg');
   background-repeat: no-repeat;
   background-position: right bottom;
   background-size: auto 100%;
@@ -2919,24 +2919,24 @@ p {
 
 /* Page Specific Background Images */
 .page-hero-editorial.hero-page-expertise {
-  background-image: url('../images/resource/hero_expertise.jpg?v=brand2');
+  background-image: url('../images/resource/hero_expertise.jpg');
 }
 
 .page-hero-editorial.hero-page-work {
-  background-image: url('../images/resource/hero_work.jpg?v=brand2');
+  background-image: url('../images/resource/hero_work.jpg');
 }
 
 .page-hero-editorial.hero-page-filmmaking {
-  background-image: url('../images/resource/hero_filmmaking.jpg?v=brand2');
+  background-image: url('../images/resource/hero_filmmaking.jpg');
   background-position: center 38%;
 }
 
 .page-hero-editorial.hero-page-insights {
-  background-image: url('../images/resource/hero_insights.jpg?v=brand2');
+  background-image: url('../images/resource/hero_insights.jpg');
 }
 
 .page-hero-editorial.hero-page-contact {
-  background-image: url('../images/resource/hero_contact.jpg?v=brand2');
+  background-image: url('../images/resource/hero_contact.jpg');
 }
 
 /* Cinematic Dark Luxury Overlay */
@@ -3155,7 +3155,7 @@ p {
 .about-hero-cinematic {
   position: relative;
   background-color: #f7f0e4;
-  background-image: url('../images/resource/about_hero_exact_ref_bg.jpg?v=7');
+  background-image: url('../images/resource/about_hero_exact_ref_bg.jpg');
   background-repeat: no-repeat;
   background-position: right bottom;
   background-size: auto 100%;

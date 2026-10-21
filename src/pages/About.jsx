@@ -46,7 +46,7 @@ export default function About() {
           <div className="about-hero-visual-mobile">
             <div className="about-mobile-portrait-wrapper">
               <img 
-                src="/images/resource/about_portrait_mobile.jpg?v=2" 
+                src="/images/resource/about_portrait_mobile.jpg" 
                 alt="Sohel Vaseem" 
                 className="about-mobile-portrait-img" 
                 loading="eager" 

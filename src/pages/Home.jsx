@@ -48,7 +48,7 @@ export default function Home() {
           <div className="hero-cinematic-visual-mobile">
             <div className="hero-mobile-portrait-wrapper">
               <img 
-                src="/images/resource/home_portrait_mobile.jpg?v=2" 
+                src="/images/resource/home_portrait_mobile.jpg" 
                 alt="Sohel Vaseem" 
                 className="hero-mobile-portrait-img" 
                 loading="eager" 
