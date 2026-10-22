@@ -4554,3 +4554,246 @@ html, body {
     line-height: 1.6;
   }
 }
+
+/* ===================================================================
+   PHASE 4-10: LUXURY EDITORIAL SYSTEM REFINEMENTS
+   =================================================================== */
+
+/* 1. About Page Editorial Timeline & Cards */
+.about-milestone-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xs);
+  padding: 38px 34px;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
+              border-color 0.3s ease, 
+              box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: hidden;
+}
+
+.about-milestone-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 0;
+  background: var(--accent-bronze);
+  transition: height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-milestone-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(157, 120, 68, 0.38);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06);
+}
+
+.about-milestone-card:hover::before {
+  height: 100%;
+}
+
+.about-story-quote-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(247, 240, 228, 0.75) 0%, rgba(255, 255, 255, 0.95) 100%);
+  border: 1px solid rgba(157, 120, 68, 0.22);
+  border-left: 4px solid var(--accent-bronze);
+  border-radius: var(--radius-xs);
+  padding: 42px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+}
+
+.about-story-quote-card::after {
+  content: '“';
+  position: absolute;
+  top: 10px;
+  right: 24px;
+  font-family: var(--font-serif);
+  font-size: 6rem;
+  line-height: 1;
+  color: var(--accent-bronze);
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+/* 2. Diagnostic Pillars Elevation */
+.about-pillar-item {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xs);
+  padding: 38px 30px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.3s ease;
+  overflow: hidden;
+}
+
+.about-pillar-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent-bronze);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-pillar-item:hover {
+  transform: translateY(-5px);
+  border-color: rgba(157, 120, 68, 0.35);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+}
+
+.about-pillar-item:hover::before {
+  transform: scaleX(1);
+}
+
+.about-pillar-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(157, 120, 68, 0.08);
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-bronze);
+  line-height: 1;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.about-pillar-item:hover .about-pillar-num {
+  background: var(--accent-bronze);
+  color: #ffffff;
+}
+
+/* 3. Services Page Enhanced Row Items */
+.service-row-item {
+  position: relative;
+  background: transparent;
+  padding: 36px 24px;
+  border-bottom: 1px solid var(--border-light);
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: var(--radius-xs);
+}
+
+.service-row-item:hover {
+  background: #ffffff;
+  padding-left: 32px;
+  padding-right: 32px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05);
+  border-color: transparent;
+}
+
+.service-row-item::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 0;
+  width: 3px;
+  background: var(--accent-bronze);
+  opacity: 0;
+  transform: scaleY(0.4);
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-row-item:hover::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+/* 4. Portfolio Filter Buttons Active State */
+.portfolio-filter-btn {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.portfolio-filter-btn:hover {
+  border-color: var(--accent-bronze);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.portfolio-filter-btn.active {
+  background: var(--text-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--text-primary) !important;
+  box-shadow: 0 4px 14px rgba(20, 19, 18, 0.18);
+  transform: translateY(-1px);
+}
+
+/* 5. Filmmaking Stats Grid Cards */
+.filmmaking-stat-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xs);
+  padding: 28px 24px;
+  border-left: 3px solid var(--accent-bronze);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.filmmaking-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+}
+
+/* 6. Form Input Focus Polish */
+.form-control:focus {
+  outline: none;
+  border-color: var(--accent-bronze) !important;
+  box-shadow: 0 0 0 3px rgba(157, 120, 68, 0.15) !important;
+}
+
+/* 7. Navbar Active & Scroll Refinements */
+.main-navbar.scrolled {
+  background: rgba(247, 240, 228, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(157, 120, 68, 0.18);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
+}
+
+.nav-link {
+  position: relative;
+  transition: color 0.25s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent-bronze);
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}

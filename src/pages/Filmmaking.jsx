@@ -134,28 +134,28 @@ export default function Filmmaking() {
       </section>
 
       {/* Directorial Milestones & Credentials */}
-      <section style={{ backgroundColor: 'var(--bg-card)', borderBottom: '1px solid var(--border-light)', padding: '42px 0' }}>
+      <section style={{ backgroundColor: 'var(--bg-card)', borderBottom: '1px solid var(--border-light)', padding: '48px 0' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '32px', textAlign: 'left' }}>
-            <div style={{ borderLeft: '2px solid var(--accent-bronze)', paddingLeft: '18px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px', textAlign: 'left' }}>
+            <div className="filmmaking-stat-card">
               <div style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1 }}>150+</div>
-              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent-bronze)', marginTop: '6px', fontWeight: 600 }}>Commercial Films Directed</div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '4px' }}>Nationwide broadcast and multi-channel campaigns</div>
+              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent-bronze)', marginTop: '8px', fontWeight: 600 }}>Commercial Films Directed</div>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '6px' }}>Nationwide broadcast and multi-channel campaigns</div>
             </div>
-            <div style={{ borderLeft: '2px solid var(--accent-bronze)', paddingLeft: '18px' }}>
+            <div className="filmmaking-stat-card">
               <div style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1 }}>20+</div>
-              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent-bronze)', marginTop: '6px', fontWeight: 600 }}>Years Directorial Craft</div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '4px' }}>Decades commanding film sets &amp; soundstages</div>
+              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent-bronze)', marginTop: '8px', fontWeight: 600 }}>Years Directorial Craft</div>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '6px' }}>Decades commanding film sets &amp; soundstages</div>
             </div>
-            <div style={{ borderLeft: '2px solid var(--accent-bronze)', paddingLeft: '18px' }}>
+            <div className="filmmaking-stat-card">
               <div style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1 }}>Prime-Time</div>
-              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent-bronze)', marginTop: '6px', fontWeight: 600 }}>Television Drama Series</div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '4px' }}>Critically acclaimed multi-episode broadcasts</div>
+              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent-bronze)', marginTop: '8px', fontWeight: 600 }}>Television Drama Series</div>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '6px' }}>Critically acclaimed multi-episode broadcasts</div>
             </div>
-            <div style={{ borderLeft: '2px solid var(--accent-bronze)', paddingLeft: '18px' }}>
+            <div className="filmmaking-stat-card">
               <div style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1 }}>National</div>
-              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent-bronze)', marginTop: '6px', fontWeight: 600 }}>Media Recognition</div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '4px' }}>Covered in The Hindu, Deccan Chronicle, Siasat</div>
+              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent-bronze)', marginTop: '8px', fontWeight: 600 }}>Media Recognition</div>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '6px' }}>Covered in The Hindu, Deccan Chronicle, Siasat</div>
             </div>
           </div>
         </div>
