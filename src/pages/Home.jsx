@@ -1,69 +1,125 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { projects } from '../data/projects';
 
 export default function Home() {
+  const [activeVideo, setActiveVideo] = useState(null);
+
   // Curated spotlight project (Vintagio flagship) and companion projects
   const spotlightProject = projects.find(p => p.id === 1) || projects[0];
   const companionProjects = projects.filter(p => p.is_featured === 1 && p.id !== spotlightProject.id).slice(0, 4);
 
-  const coreServices = [
+  const threePillars = [
     {
       num: '01',
-      title: 'Brand Strategy & Strategic Positioning',
-      desc: 'Formulating rigorous brand audits, competitive differentiation, narrative frameworks, and core value proposition architecture that give businesses commanding market presence.'
+      title: 'Brand Strategy & Positioning',
+      desc: 'Formulating rigorous market audits, competitive differentiation, narrative architecture, and value propositions that build defensible market leadership.',
+      deliverables: ['Brand Architecture & Audits', 'Market Positioning & Strategy', 'Messaging & Narrative Systems'],
+      link: '/services'
     },
     {
       num: '02',
-      title: 'Creative Direction & Identity Systems',
-      desc: 'Architecting complete visual identities, typographic hierarchy, brand manuals, and tactile packaging design that build immediate prestige and customer recognition.'
+      title: 'Creative Direction & Identity',
+      desc: 'Architecting bespoke visual identities, typography, brand guidelines, and high-performance digital platforms that command consumer trust and prestige.',
+      deliverables: ['Visual Identity Systems', 'Packaging & Structural Design', 'Web Platforms & UI/UX Design'],
+      link: '/services'
     },
     {
       num: '03',
-      title: 'Cinematic Directing & Commercial Filmmaking',
-      desc: 'Directing broadcast-grade television commercials (TVCs), corporate brand films, and dramatic visual spots with 4K cinematography and precision sound design.'
-    },
-    {
-      num: '04',
-      title: 'Digital Web Architecture & Platforms',
-      desc: 'Engineering high-conversion digital flagships, luxury e-commerce marketplaces, and hospital CRM patient inquiry portals designed for measurable commercial traction.'
+      title: 'Commercial Filmmaking & TVCs',
+      desc: 'Directing broadcast television commercials, corporate brand films, and dramatic visual spots with 4K cinematography, precision lighting, and sound choreography.',
+      deliverables: ['Television Commercials (TVCs)', 'Corporate Brand Films', 'Key Visuals & Theatrical Art'],
+      link: '/filmmaking'
     }
   ];
 
   return (
     <>
+      {/* Video Modal */}
+      {activeVideo && (
+        <div 
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0,0,0,0.88)',
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '24px'
+          }}
+          onClick={() => setActiveVideo(null)}
+        >
+          <div 
+            style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '920px',
+              aspectRatio: '16/9',
+              backgroundColor: '#000',
+              borderRadius: '6px',
+              overflow: 'hidden',
+              boxShadow: '0 24px 60px rgba(0,0,0,0.5)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button 
+              onClick={() => setActiveVideo(null)}
+              style={{
+                position: 'absolute',
+                top: '-42px',
+                right: '0',
+                background: 'transparent',
+                border: 'none',
+                color: '#fff',
+                fontSize: '1.25rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <i className="fa-solid fa-xmark"></i> Close
+            </button>
+            <iframe 
+              src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1`}
+              title="Soheal Vaseem Directorial Showreel"
+              style={{ width: '100%', height: '100%', border: 'none' }}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+      )}
+
       {/* ===================================================================
-           HERO: LUXURY CINEMATIC EDITORIAL BANNER
+           1. HERO: RESTRAINED EDITORIAL BANNER (Kumar Aman & Anna Rahier Style)
            =================================================================== */}
       <section className="hero-cinematic" id="hero">
         <div className="hero-cinematic-inner">
-          {/* Left Side: Editorial Typography & Actions */}
           <div className="hero-cinematic-content">
-            <div className="hero-category-label">
-              <span>BRAND STRATEGY</span>
-              <span className="dot">&bull;</span>
-              <span>CREATIVE DIRECTION</span>
-              <span className="dot">&bull;</span>
-              <span>FILMMAKING</span>
+            <div className="editorial-kicker">
+              <span className="kicker-line"></span>
+              <span>STRATEGY &bull; CREATIVE DIRECTION &bull; FILMMAKING</span>
             </div>
 
             <h1 className="hero-cinematic-headline">
-              Building Brands<br />
-              With Purpose.<br />
-              <span className="hero-italic-gold">Stories That Stay.</span>
+              Brand Strategist,<br />
+              Creative Director<br />
+              <span style={{ color: 'var(--text-primary)', fontStyle: 'italic', fontWeight: 500 }}>&amp; Filmmaker.</span>
             </h1>
 
             <p className="hero-cinematic-lead">
-              I partner with founders, enterprise leadership, and visionary businesses to transform core business clarity into distinctive market positioning, compelling communication, and enduring commercial value.
+              For over three decades, Soheal Vaseem has partnered with founders, enterprise leadership teams, and ambitious businesses to transform strategic clarity into distinctive market positioning, compelling creative direction, and enduring commercial value.
             </p>
 
             <div className="hero-cinematic-actions">
               <a href="#work" className="btn-cinematic-dark" title="Explore Selected Work">
-                <span>EXPLORE MY WORK</span>
+                <span>EXPLORE WORK</span>
                 <i className="fa-solid fa-arrow-right"></i>
               </a>
-              <Link to="/contact" className="btn-cinematic-outline" title="Let's Build Your Brand">
-                <span>LET'S BUILD YOUR BRAND</span>
+              <Link to="/contact" className="btn-cinematic-outline" title="Initiate Consultation">
+                <span>LET'S TALK</span>
                 <i className="fa-solid fa-arrow-right"></i>
               </Link>
             </div>
@@ -84,71 +140,76 @@ export default function Home() {
       </section>
 
       {/* ===================================================================
-          SECTION 1: BRAND PHILOSOPHY (EDITORIAL SPREAD)
-          =================================================================== */}
+           2. BRAND POSITIONING PHILOSOPHY (Anna Rahier Style)
+           =================================================================== */}
       <section className="philosophy-editorial-section">
         <div className="container">
           <div className="philosophy-editorial-wrapper">
-            <span className="editorial-badge">Brand Philosophy</span>
+            <div className="editorial-kicker">
+              <span className="kicker-line"></span>
+              <span>BRAND PHILOSOPHY &bull; SINCE 1991</span>
+            </div>
             <h2 className="philosophy-editorial-headline">
               Great Brands Begin With <em>Clear Thinking.</em>
             </h2>
             <p className="philosophy-editorial-lead">
-              In a crowded commercial landscape, brand distinction is never accidental—it is engineered. Meaningful growth happens when strategic business clarity, sharp market positioning, and disciplined creative execution operate in total alignment. When an organization understands precisely who it is, why it matters, and where it is going, every design choice, campaign, and digital touchpoint builds compounding enterprise value.
+              In a crowded market, distinction is never accidental—it is engineered. Meaningful commercial growth happens when strategic business clarity, sharp positioning, and disciplined creative execution operate in total alignment. When an organization understands precisely who it is, why it matters, and where it is going, every design choice, campaign, and touchpoint builds compounding enterprise equity.
             </p>
           </div>
         </div>
       </section>
 
       {/* ===================================================================
-          SECTION 2: SERVICES & STRATEGIC DISCIPLINES (NUMBERED ROWS)
-          =================================================================== */}
-      <section className="expertise-preview-section" id="services">
+           3. THE THREE CORE PILLARS (Kumar Aman Style)
+           =================================================================== */}
+      <section className="expertise-preview-section" id="capabilities">
         <div className="container">
           <div className="section-header-editorial">
             <div>
-              <span className="editorial-badge">Strategic Disciplines</span>
-              <h2>Core Areas of Expertise</h2>
+              <div className="editorial-kicker">
+                <span className="kicker-line"></span>
+                <span>CORE CAPABILITIES</span>
+              </div>
+              <h2>Three Disciplines. One Integrated Practice.</h2>
             </div>
             <p className="section-header-lead">
-              End-to-end strategic advisory, visual identity, and growth capabilities tailored for ambitious businesses.
+              A comprehensive approach combining strategic business advisory, identity design, and broadcast commercial direction.
             </p>
           </div>
 
-          {/* Editorial Numbered Rows Layout */}
-          <div className="services-editorial-list">
-            {coreServices.map((service) => (
-              <div className="service-editorial-row" key={service.num}>
-                <div className="service-row-num">{service.num}</div>
-                <div className="service-row-main">
-                  <h3 className="service-row-title">{service.title}</h3>
-                  <p className="service-row-desc">{service.desc}</p>
-                </div>
-                <Link to="/services" className="service-row-arrow" aria-label={`Explore ${service.title}`}>
+          <div className="pillars-three-grid">
+            {threePillars.map((pillar) => (
+              <div className="pillar-three-card" key={pillar.num}>
+                <div className="pillar-three-num">{pillar.num}</div>
+                <h3 className="pillar-three-title">{pillar.title}</h3>
+                <p className="pillar-three-desc">{pillar.desc}</p>
+                <ul className="pillar-three-deliverables">
+                  {pillar.deliverables.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+                <Link to={pillar.link} className="pillar-three-link">
+                  <span>Explore Discipline</span>
                   <i className="fa-solid fa-arrow-right"></i>
                 </Link>
               </div>
             ))}
           </div>
-
-          <div className="expertise-preview-footer" style={{ marginTop: '36px' }}>
-            <Link to="/services" className="btn btn-secondary">
-              <span>Explore All Capabilities</span>
-              <i className="fa-solid fa-arrow-right"></i>
-            </Link>
-          </div>
         </div>
       </section>
 
       {/* ===================================================================
-          SECTION 3: CURATED PORTFOLIO SHOWCASE (ASYMMETRIC EDITORIAL)
-          =================================================================== */}
+           4. CURATED WORK & DIGITAL PLATFORMS (thisisbrown Style)
+           =================================================================== */}
       <section className="work-editorial-section" id="work">
         <div className="container">
           <div className="section-header-editorial">
             <div>
-              <span className="editorial-badge">Verified Client Work</span>
-              <h2>Selected Work &amp; Digital Platforms</h2>
+              <div className="editorial-kicker">
+                <span className="kicker-line"></span>
+                <span>SELECTED WORK</span>
+              </div>
+              <h2>Recent Case Studies &amp; Platforms</h2>
             </div>
             <Link to="/portfolio" className="btn btn-outline btn-sm">
               <span>View All Projects</span>
@@ -198,26 +259,26 @@ export default function Home() {
             </div>
           )}
 
-          {/* 2. Curated Companion Grid */}
-          <div className="work-grid-editorial" style={{ marginTop: '36px' }}>
+          {/* 2. Curated Image-Led Companion Grid */}
+          <div className="portfolio-image-grid">
             {companionProjects.map((project) => (
-              <div key={project.id} className="work-card-editorial">
-                <div className="work-img-box">
+              <div key={project.id} className="portfolio-image-card">
+                <div className="portfolio-image-frame">
                   <img src={project.image_path} alt={project.title} loading="lazy" />
                   {project.logo_path && (
-                    <div className="work-brand-logo-badge" title={`${project.title} Official Brand Logo`}>
+                    <div className="work-brand-logo-badge" title={`${project.title} Brand Logo`}>
                       <img src={project.logo_path} alt={`${project.title} Logo`} />
                     </div>
                   )}
                 </div>
-                <div className="work-content-box">
-                  <span className="work-cat-tag">{project.cat_label}</span>
-                  <h4 className="work-title-text">{project.title}</h4>
-                  <p className="work-desc-text">{project.description}</p>
-                  <div className="work-card-actions">
+                <div className="portfolio-image-meta">
+                  <span className="portfolio-image-cat">{project.cat_label}</span>
+                  <h4 className="portfolio-image-title">{project.title}</h4>
+                  <p className="portfolio-image-desc">{project.description}</p>
+                  <div style={{ marginTop: '14px' }}>
                     {project.project_url && project.project_url !== '#' ? (
                       <a href={project.project_url} target="_blank" rel="noopener noreferrer" className="work-view-link">
-                        <span>View Project</span> <i className="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>View Project</span> <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.74rem' }}></i>
                       </a>
                     ) : (
                       <Link to="/portfolio" className="work-view-link">
@@ -233,17 +294,74 @@ export default function Home() {
       </section>
 
       {/* ===================================================================
-          SECTION 4: LATEST INSIGHTS & PRESS RECOGNITION
-          =================================================================== */}
+           5. ATMOSPHERIC CINEMATIC TEASER (Phil Griffiths & Siddhesh Salvi Style)
+           =================================================================== */}
+      <section className="cinematic-dark-section">
+        <div className="container">
+          <div style={{ maxWidth: '820px', margin: '0 auto 48px', textAlign: 'center' }}>
+            <div className="editorial-kicker" style={{ justifyContent: 'center' }}>
+              <span className="kicker-line"></span>
+              <span>COMMERCIAL DIRECTION &bull; 150+ FILMS</span>
+            </div>
+            <h2 style={{ fontSize: 'clamp(2rem, 3.2vw, 2.75rem)', margin: '14px 0 16px', lineHeight: 1.25 }}>
+              Stories Beyond the Frame.
+            </h2>
+            <p style={{ fontSize: '1.05rem', lineHeight: 1.8 }}>
+              Directing broadcast commercials, prime-time television serials, and high-concept brand monographs with rigorous cinematic composition and dramatic timing.
+            </p>
+          </div>
+
+          <div style={{ maxWidth: '1040px', margin: '0 auto', position: 'relative', borderRadius: 'var(--radius-xs)', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 24px 60px rgba(0,0,0,0.6)' }}>
+            <div style={{ position: 'relative', aspectRatio: '16/9', background: '#000000', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img src="/images/resource/slider02.jpg" alt="Soheal Vaseem Directorial Showreel" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.78 }} />
+              
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(14, 18, 28, 0.85) 0%, rgba(14, 18, 28, 0.2) 60%, rgba(14, 18, 28, 0.4) 100%)' }}></div>
+
+              <button 
+                type="button"
+                onClick={() => setActiveVideo('O0AT4TKrUSY')}
+                title="Play Directorial Showreel" 
+                style={{ position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '14px', background: 'transparent', border: 'none', cursor: 'pointer', zIndex: 2 }}
+              >
+                <div style={{ width: '84px', height: '84px', borderRadius: '50%', background: 'rgba(142, 109, 54, 0.95)', border: '2px solid rgba(255,255,255,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontSize: '1.75rem', boxShadow: '0 12px 32px rgba(0,0,0,0.5)' }}>
+                  <i className="fa-solid fa-play" style={{ marginLeft: '4px' }}></i>
+                </div>
+                <span style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#ffffff', background: 'rgba(0,0,0,0.7)', padding: '6px 18px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.2)' }}>
+                  Watch Directorial Reel (4K)
+                </span>
+              </button>
+
+              <div style={{ position: 'absolute', bottom: '24px', left: '28px', zIndex: 2, color: '#ffffff' }}>
+                <span style={{ fontSize: '0.72rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#c49e5e', fontWeight: 700, display: 'block' }}>Commercial Direction</span>
+                <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem' }}>Television &bull; Cinema &bull; Brand Films</span>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '36px' }}>
+            <Link to="/filmmaking" className="btn btn-outline" style={{ borderColor: 'rgba(255,255,255,0.25)', color: '#ffffff' }}>
+              <span>Explore Filmmaking Archive</span>
+              <i className="fa-solid fa-arrow-right"></i>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================================
+           6. DOCUMENTED PRESS & MEDIA RECOGNITION
+           =================================================================== */}
       <section className="insights-editorial-section" id="insights">
         <div className="container">
           <div className="section-header-editorial">
             <div>
-              <span className="editorial-badge">Documented Recognition</span>
-              <h2>Latest Insights &amp; Press</h2>
+              <div className="editorial-kicker">
+                <span className="kicker-line"></span>
+                <span>DOCUMENTED RECOGNITION</span>
+              </div>
+              <h2>Featured in National &amp; Regional Press</h2>
             </div>
             <Link to="/media" className="btn btn-outline btn-sm">
-              <span>Read All Insights</span>
+              <span>View Press Archive</span>
               <i className="fa-solid fa-arrow-right"></i>
             </Link>
           </div>
@@ -260,7 +378,7 @@ export default function Home() {
                   National newspaper coverage highlighting Soheal Vaseem’s innovative approach to visual storytelling, brand narratives, and production leadership.
                 </p>
                 <Link to="/media" className="insight-read-link">
-                  <span>Read Full Feature</span> <i className="fa-solid fa-arrow-right"></i>
+                  <span>Read Feature</span> <i className="fa-solid fa-arrow-right"></i>
                 </Link>
               </div>
             </div>
@@ -276,7 +394,7 @@ export default function Home() {
                   In-depth feature examining Soheal’s directorial execution across television drama serials and nationwide advertising campaigns.
                 </p>
                 <Link to="/media" className="insight-read-link">
-                  <span>Read Full Feature</span> <i className="fa-solid fa-arrow-right"></i>
+                  <span>Read Feature</span> <i className="fa-solid fa-arrow-right"></i>
                 </Link>
               </div>
             </div>
@@ -292,7 +410,7 @@ export default function Home() {
                   Extensive regional daily reporting highlighting Soheal’s artistic storytelling contributions and commercial campaign triumph.
                 </p>
                 <Link to="/media" className="insight-read-link">
-                  <span>Read Full Feature</span> <i className="fa-solid fa-arrow-right"></i>
+                  <span>Read Feature</span> <i className="fa-solid fa-arrow-right"></i>
                 </Link>
               </div>
             </div>
@@ -301,19 +419,22 @@ export default function Home() {
       </section>
 
       {/* ===================================================================
-          SECTION 5: FINAL CALL TO ACTION (LUXURY INVITATION)
-          =================================================================== */}
+           7. CALL TO ACTION (CONSULTATION INVITATION)
+           =================================================================== */}
       <section className="cta-meaningful-section" id="contact">
         <div className="container">
           <div className="cta-meaningful-inner">
-            <span className="editorial-badge" style={{ justifyContent: 'center' }}>Start a Conversation</span>
+            <div className="editorial-kicker" style={{ justifyContent: 'center' }}>
+              <span className="kicker-line"></span>
+              <span>START A CONVERSATION</span>
+            </div>
             <h2>Let's Build Something Meaningful.</h2>
             <p>
-              Have a brand, business, or marketing challenge in mind? Let's start a conversation about the possibilities.
+              Have a brand, business, or marketing challenge in mind? Let's explore the possibilities through an exploratory advisory dialogue.
             </p>
-            <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '20px' }}>
+            <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '24px' }}>
               <Link to="/contact" className="btn-cinematic-dark">
-                <span>Start a Conversation</span>
+                <span>Initiate Consultation</span>
                 <i className="fa-solid fa-arrow-right"></i>
               </Link>
               <a 

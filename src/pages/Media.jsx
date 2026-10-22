@@ -79,7 +79,7 @@ export default function Media() {
           style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: 'rgba(0,0,0,0.9)',
+            backgroundColor: 'rgba(0,0,0,0.92)',
             zIndex: 9999,
             display: 'flex',
             alignItems: 'center',
@@ -110,7 +110,7 @@ export default function Media() {
               style={{ maxWidth: '100%', maxHeight: '85vh', objectFit: 'contain', borderRadius: '4px' }}
             />
             <div style={{ color: '#fff', marginTop: '12px', textAlign: 'center', fontSize: '1rem', fontFamily: 'var(--font-serif)' }}>
-              {activeZoom.publication} — {activeZoom.title}
+              {activeZoom.publication} &mdash; {activeZoom.title}
             </div>
           </div>
         </div>
@@ -121,16 +121,16 @@ export default function Media() {
         <div className="hero-editorial-overlay"></div>
         <div className="container">
           <div className="hero-editorial-content">
-            <div className="hero-editorial-badge">
-              <span className="dash"></span>
+            <div className="editorial-kicker">
+              <span className="kicker-line"></span>
               <span>PERSPECTIVES &bull; PRESS ARCHIVE</span>
             </div>
             <h1 className="hero-editorial-headline">
               Perspectives That Move<br />
-              Brands <span className="hero-italic-gold">Forward.</span>
+              Brands <span style={{ color: 'var(--text-primary)', fontStyle: 'italic', fontWeight: 500 }}>Forward.</span>
             </h1>
             <p className="hero-editorial-lead">
-              Ideas and observations on branding, creativity, communication, and the changing business landscape.
+              Verified coverage, publications, and observations on brand strategy, visual craft, and directorial production.
             </p>
             <div className="hero-editorial-actions">
               <a href="#press-archive" className="btn-hero-dark-pill" title="Explore Press Archive">
@@ -156,7 +156,10 @@ export default function Media() {
         <div className="container">
           <div className="section-header-editorial" style={{ marginBottom: 0 }}>
             <div>
-              <span className="editorial-badge">Critical Recognition</span>
+              <div className="editorial-kicker">
+                <span className="kicker-line"></span>
+                <span>DOCUMENTED RECOGNITION</span>
+              </div>
               <h2>Three Decades of Media Coverage &amp; Documented Craft.</h2>
             </div>
             <p className="section-header-lead">
@@ -198,7 +201,10 @@ export default function Media() {
       <section className="cta-meaningful-section">
         <div className="container">
           <div className="cta-meaningful-inner">
-            <span className="editorial-badge" style={{ justifyContent: 'center' }}>Media &amp; Speaking</span>
+            <div className="editorial-kicker" style={{ justifyContent: 'center' }}>
+              <span className="kicker-line"></span>
+              <span>MEDIA &amp; SPEAKING</span>
+            </div>
             <h2>Let's Start With a Conversation.</h2>
             <p>
               For speaking engagements, press commentary on branding &amp; advertising, or strategic consulting on brand architecture.
