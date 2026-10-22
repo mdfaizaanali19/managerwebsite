@@ -3,7 +3,32 @@ import { Link } from 'react-router-dom';
 import { projects } from '../data/projects';
 
 export default function Home() {
-  const homeProjects = projects.filter(p => p.is_featured === 1).slice(0, 6);
+  // Curated spotlight project (Vintagio flagship) and companion projects
+  const spotlightProject = projects.find(p => p.id === 1) || projects[0];
+  const companionProjects = projects.filter(p => p.is_featured === 1 && p.id !== spotlightProject.id).slice(0, 4);
+
+  const coreServices = [
+    {
+      num: '01',
+      title: 'Brand Strategy & Strategic Positioning',
+      desc: 'Formulating rigorous brand audits, competitive differentiation, narrative frameworks, and core value proposition architecture that give businesses commanding market presence.'
+    },
+    {
+      num: '02',
+      title: 'Creative Direction & Identity Systems',
+      desc: 'Architecting complete visual identities, typographic hierarchy, brand manuals, and tactile packaging design that build immediate prestige and customer recognition.'
+    },
+    {
+      num: '03',
+      title: 'Cinematic Directing & Commercial Filmmaking',
+      desc: 'Directing broadcast-grade television commercials (TVCs), corporate brand films, and dramatic visual spots with 4K cinematography and precision sound design.'
+    },
+    {
+      num: '04',
+      title: 'Digital Web Architecture & Platforms',
+      desc: 'Engineering high-conversion digital flagships, luxury e-commerce marketplaces, and hospital CRM patient inquiry portals designed for measurable commercial traction.'
+    }
+  ];
 
   return (
     <>
@@ -29,11 +54,11 @@ export default function Home() {
             </h1>
 
             <p className="hero-cinematic-lead">
-              I help businesses find their voice, shape their identity, and communicate with greater impact &mdash; through strategic thinking and cinematic storytelling.
+              I partner with founders, enterprise leadership, and visionary businesses to transform core business clarity into distinctive market positioning, compelling communication, and enduring commercial value.
             </p>
 
             <div className="hero-cinematic-actions">
-              <a href="#work" className="btn-cinematic-dark" title="Explore My Work">
+              <a href="#work" className="btn-cinematic-dark" title="Explore Selected Work">
                 <span>EXPLORE MY WORK</span>
                 <i className="fa-solid fa-arrow-right"></i>
               </a>
@@ -49,7 +74,7 @@ export default function Home() {
             <div className="hero-mobile-portrait-wrapper">
               <img 
                 src="/images/resource/home_portrait_mobile.jpg" 
-                alt="Soheal Vaseem" 
+                alt="Soheal Vaseem — Brand Strategist & Filmmaker" 
                 className="hero-mobile-portrait-img" 
                 loading="eager" 
               />
@@ -59,7 +84,7 @@ export default function Home() {
       </section>
 
       {/* ===================================================================
-          SECTION 1: BRAND PHILOSOPHY
+          SECTION 1: BRAND PHILOSOPHY (EDITORIAL SPREAD)
           =================================================================== */}
       <section className="philosophy-editorial-section">
         <div className="container">
@@ -76,7 +101,7 @@ export default function Home() {
       </section>
 
       {/* ===================================================================
-          SECTION 2: CORE EXPERTISE PREVIEW (4 KEY AREAS)
+          SECTION 2: SERVICES & STRATEGIC DISCIPLINES (NUMBERED ROWS)
           =================================================================== */}
       <section className="expertise-preview-section" id="services">
         <div className="container">
@@ -90,43 +115,25 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="expertise-preview-grid">
-            <div className="expertise-preview-card">
-              <span className="expertise-preview-num">01</span>
-              <h3 className="expertise-preview-title">Brand Strategy and Positioning</h3>
-              <p className="expertise-preview-desc">
-                Formulating rigorous market positioning, value propositions, and strategic narratives that distinguish enterprises from competitor noise.
-              </p>
-            </div>
-
-            <div className="expertise-preview-card">
-              <span className="expertise-preview-num">02</span>
-              <h3 className="expertise-preview-title">Branding and Creative Direction</h3>
-              <p className="expertise-preview-desc">
-                Architecting complete visual identities, typographic systems, brand guidelines, and collateral that build immediate prestige and customer recognition.
-              </p>
-            </div>
-
-            <div className="expertise-preview-card">
-              <span className="expertise-preview-num">03</span>
-              <h3 className="expertise-preview-title">Digital Marketing and Growth</h3>
-              <p className="expertise-preview-desc">
-                Designing multi-channel campaigns, performance media planning, and content strategies that connect with qualified audiences and drive acquisition.
-              </p>
-            </div>
-
-            <div className="expertise-preview-card">
-              <span className="expertise-preview-num">04</span>
-              <h3 className="expertise-preview-title">Business Strategy and Consulting</h3>
-              <p className="expertise-preview-desc">
-                Providing confidential advisory to leadership teams on market expansion, product incubation, and strategic organizational alignment.
-              </p>
-            </div>
+          {/* Editorial Numbered Rows Layout */}
+          <div className="services-editorial-list">
+            {coreServices.map((service) => (
+              <div className="service-editorial-row" key={service.num}>
+                <div className="service-row-num">{service.num}</div>
+                <div className="service-row-main">
+                  <h3 className="service-row-title">{service.title}</h3>
+                  <p className="service-row-desc">{service.desc}</p>
+                </div>
+                <Link to="/services" className="service-row-arrow" aria-label={`Explore ${service.title}`}>
+                  <i className="fa-solid fa-arrow-right"></i>
+                </Link>
+              </div>
+            ))}
           </div>
 
-          <div className="expertise-preview-footer">
+          <div className="expertise-preview-footer" style={{ marginTop: '36px' }}>
             <Link to="/services" className="btn btn-secondary">
-              <span>Explore All Expertise</span>
+              <span>Explore All Capabilities</span>
               <i className="fa-solid fa-arrow-right"></i>
             </Link>
           </div>
@@ -134,7 +141,7 @@ export default function Home() {
       </section>
 
       {/* ===================================================================
-          SECTION 3: SELECTED WORK
+          SECTION 3: CURATED PORTFOLIO SHOWCASE (ASYMMETRIC EDITORIAL)
           =================================================================== */}
       <section className="work-editorial-section" id="work">
         <div className="container">
@@ -149,8 +156,51 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="work-grid-editorial">
-            {homeProjects.map((project) => (
+          {/* 1. Premier Flagship Spotlight */}
+          {spotlightProject && (
+            <div className="work-spotlight-card">
+              <div className="work-spotlight-img-box">
+                <img 
+                  src={spotlightProject.image_path} 
+                  alt={spotlightProject.title} 
+                  loading="lazy" 
+                />
+                {spotlightProject.logo_path && (
+                  <div className="work-brand-logo-badge" title={`${spotlightProject.title} Official Brand Logo`}>
+                    <img src={spotlightProject.logo_path} alt={`${spotlightProject.title} Logo`} />
+                  </div>
+                )}
+                <span className="work-spotlight-pill">Flagship Case Study</span>
+              </div>
+              <div className="work-spotlight-content">
+                <span className="work-cat-tag">{spotlightProject.cat_label}</span>
+                <h3 className="work-spotlight-title">{spotlightProject.title}</h3>
+                <p className="work-spotlight-desc">{spotlightProject.description}</p>
+                <div className="work-spotlight-footer">
+                  {spotlightProject.project_url && spotlightProject.project_url !== '#' ? (
+                    <a 
+                      href={spotlightProject.project_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="btn-cinematic-dark"
+                    >
+                      <span>Visit Live Platform</span>
+                      <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '11px' }}></i>
+                    </a>
+                  ) : (
+                    <Link to="/portfolio" className="btn-cinematic-dark">
+                      <span>Explore Case Study</span>
+                      <i className="fa-solid fa-arrow-right" style={{ fontSize: '11px' }}></i>
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 2. Curated Companion Grid */}
+          <div className="work-grid-editorial" style={{ marginTop: '36px' }}>
+            {companionProjects.map((project) => (
               <div key={project.id} className="work-card-editorial">
                 <div className="work-img-box">
                   <img src={project.image_path} alt={project.title} loading="lazy" />
@@ -183,7 +233,7 @@ export default function Home() {
       </section>
 
       {/* ===================================================================
-          SECTION 4: LATEST INSIGHTS
+          SECTION 4: LATEST INSIGHTS & PRESS RECOGNITION
           =================================================================== */}
       <section className="insights-editorial-section" id="insights">
         <div className="container">
@@ -251,7 +301,7 @@ export default function Home() {
       </section>
 
       {/* ===================================================================
-          SECTION 5: FINAL CALL TO ACTION
+          SECTION 5: FINAL CALL TO ACTION (LUXURY INVITATION)
           =================================================================== */}
       <section className="cta-meaningful-section" id="contact">
         <div className="container">
@@ -261,10 +311,22 @@ export default function Home() {
             <p>
               Have a brand, business, or marketing challenge in mind? Let's start a conversation about the possibilities.
             </p>
-            <Link to="/contact" className="btn btn-primary">
-              <span>Start a Conversation</span>
-              <i className="fa-solid fa-arrow-right"></i>
-            </Link>
+            <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '20px' }}>
+              <Link to="/contact" className="btn-cinematic-dark">
+                <span>Start a Conversation</span>
+                <i className="fa-solid fa-arrow-right"></i>
+              </Link>
+              <a 
+                href="https://wa.me/919014365364?text=Hi%20Soheal,%20I%20would%20like%20to%20discuss%20a%20brand%20strategy%20or%20film%20project." 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn-cinematic-outline"
+                style={{ backgroundColor: '#ffffff', color: '#181716' }}
+              >
+                <i className="fa-brands fa-whatsapp" style={{ color: '#25d366' }}></i>
+                <span>Direct WhatsApp</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
