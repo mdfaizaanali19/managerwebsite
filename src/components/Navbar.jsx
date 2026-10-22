@@ -103,8 +103,8 @@ export default function Navbar() {
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to="/contact" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-                    Contact
+                  <NavLink to="/filmmaking" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                    Film Making
                   </NavLink>
                 </li>
               </ul>
@@ -112,8 +112,8 @@ export default function Navbar() {
 
             {/* Nav CTA & Mobile Toggle */}
             <div className="nav-actions-group">
-              <NavLink to="/filmmaking" className={({ isActive }) => `nav-cta-btn ${isActive ? 'active' : ''}`} title="Film Making & Direction Portfolio">
-                <span>Film Making</span>
+              <NavLink to="/contact" className={({ isActive }) => `nav-cta-btn ${isActive ? 'active' : ''}`} title="Let's Talk — Start a Conversation">
+                <span>Let's Talk</span>
                 <i className="fa-solid fa-arrow-right"></i>
               </NavLink>
               <button 
@@ -216,7 +216,7 @@ export default function Navbar() {
         {/* Drawer Footer Actions */}
         <div className="drawer-footer">
           <Link to="/contact" className="drawer-cta-btn" onClick={() => setDrawerOpen(false)}>
-            <span>Schedule Advisory Call</span>
+            <span>Let's Talk</span>
             <i className="fa-solid fa-arrow-right"></i>
           </Link>
           <div className="drawer-contact-block">
