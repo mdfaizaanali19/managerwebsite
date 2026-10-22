@@ -2,116 +2,208 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { projects } from '../data/projects';
 
+const archiveItems = [
+  {
+    id: 101,
+    title: 'Signature Brand Identity System',
+    category: 'archive',
+    cat_label: 'Brand Architecture',
+    image_path: '/images/portfolio/01.jpg',
+    logo_path: '',
+    project_url: '',
+    description: 'Comprehensive brand architecture, corporate identity manual, and visual stationery system developed for coherent multi-touchpoint communication.'
+  },
+  {
+    id: 102,
+    title: 'Luxury Packaging & Structural Design',
+    category: 'archive',
+    cat_label: 'Packaging System',
+    image_path: '/images/portfolio/02.jpg',
+    logo_path: '',
+    project_url: '',
+    description: 'Premium retail packaging structural design engineered for standout retail presence and tactile shelf appeal.'
+  },
+  {
+    id: 103,
+    title: 'Commercial Advertising Campaign',
+    category: 'archive',
+    cat_label: 'Campaign Direction',
+    image_path: '/images/portfolio/03.jpg',
+    logo_path: '',
+    project_url: '',
+    description: 'Visual advertising campaign roll-out with multi-channel creative direction across print, outdoor displays, and commercial media.'
+  },
+  {
+    id: 104,
+    title: 'Corporate Symbol & Monogram Mark',
+    category: 'archive',
+    cat_label: 'Logo Design',
+    image_path: '/images/portfolio/04.jpg',
+    logo_path: '',
+    project_url: '',
+    description: 'Bespoke corporate typographic mark designed for enduring corporate stature and high digital scalability.'
+  },
+  {
+    id: 105,
+    title: 'Theatrical Commercial Key Visual Art',
+    category: 'archive',
+    cat_label: 'Key Visual Art',
+    image_path: '/images/portfolio/07.jpg',
+    logo_path: '',
+    project_url: '',
+    description: 'Cinematic visual art and promotional poster layout designed for widescreen theatrical release and billboard advertising.'
+  },
+  {
+    id: 106,
+    title: 'Television Commercial Storyboard Art',
+    category: 'archive',
+    cat_label: 'Directorial Art',
+    image_path: '/images/portfolio/14.jpg',
+    logo_path: '',
+    project_url: '',
+    description: 'Directorial storyboards mapping camera shot compositions, temporal pacing, and dramatic beats before on-set filming.'
+  }
+];
+
+const allItems = [...projects, ...archiveItems];
+
 export default function Portfolio() {
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [filter, setFilter] = useState('all');
 
-  const categories = [
-    { key: 'all', label: 'All Projects' },
-    { key: 'ecommerce', label: 'E-Commerce' },
-    { key: 'healthcare', label: 'Healthcare & Clinics' },
-    { key: 'hospitality', label: 'Hospitality & Events' },
-    { key: 'corporate', label: 'Corporate & Services' }
-  ];
-
-  const filteredProjects = activeFilter === 'all' 
-    ? projects 
-    : projects.filter(p => p.category === activeFilter);
+  const filteredItems = filter === 'all' 
+    ? allItems 
+    : allItems.filter(item => item.category === filter);
 
   return (
-    <div className="portfolio-page">
+    <>
       {/* ===================================================================
-           1. HERO SECTION
+           PORTFOLIO HERO BANNER
            =================================================================== */}
-      <section className="page-hero">
+      <section className="page-hero-editorial hero-page-work">
+        <div className="hero-editorial-overlay"></div>
         <div className="container">
-          <div className="page-hero-inner">
-            <div className="kicker">Selected Works</div>
-            <h1 className="page-hero-title">
-              Case Studies &amp; Projects.<br />
-              <em style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 400 }}>
-                Enduring Commercial Impact.
-              </em>
+          <div className="hero-editorial-content">
+            <div className="hero-editorial-badge">
+              <span className="dash"></span>
+              <span>CURATED WORK &bull; CASE STUDIES</span>
+            </div>
+            <h1 className="hero-editorial-headline">
+              Ideas Made <span className="hero-italic-gold">Visible.</span>
             </h1>
-            <p className="page-hero-lead">
-              A curated archive of verified brand architectures, bespoke digital platforms, hospital CRM systems, and e-commerce flagships designed and deployed for ambitious enterprises.
+            <p className="hero-editorial-lead">
+              A selection of creative work shaped by strategy, storytelling, and purposeful execution.
             </p>
+            <div className="hero-editorial-actions">
+              <a href="#portfolio-grid" className="btn-hero-dark-pill" title="Explore Selected Projects">
+                <span>EXPLORE PROJECTS</span>
+                <i className="fa-solid fa-arrow-down"></i>
+              </a>
+              <Link to="/contact" className="btn-hero-outline-pill" title="Start a Project Conversation">
+                <span>START A PROJECT</span>
+                <i className="fa-solid fa-arrow-right"></i>
+              </Link>
+            </div>
+            <div className="hero-editorial-breadcrumbs">
+              <Link to="/">Home</Link>
+              <span className="sep">/</span>
+              <span>Work</span>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ===================================================================
-           2. FILTER TABS & PROJECT GRID
+           PORTFOLIO GALLERY & CATEGORY FILTERS
            =================================================================== */}
-      <section className="section-padding" style={{ background: '#ffffff' }}>
+      <section className="section-padding bg-canvas" id="portfolio-grid">
         <div className="container">
-          {/* Category Filter Pills */}
-          <div 
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              flexWrap: 'wrap',
-              marginBottom: '44px',
-              paddingBottom: '20px',
-              borderBottom: '1px solid var(--line)'
-            }}
-          >
-            {categories.map(cat => (
-              <button
-                key={cat.key}
-                onClick={() => setActiveFilter(cat.key)}
-                className={`sv-btn ${activeFilter === cat.key ? 'sv-btn-dark' : 'sv-btn-outline'}`}
-                style={{ height: '36px', fontSize: '12.5px', padding: '0 18px' }}
-              >
-                <span>{cat.label}</span>
-                {activeFilter === cat.key && (
-                  <span style={{ fontSize: '10px', opacity: 0.8, marginLeft: '4px' }}>
-                    ({filteredProjects.length})
-                  </span>
-                )}
-              </button>
-            ))}
+          {/* Category Filter Tabs */}
+          <div className="portfolio-filter-bar">
+            <button 
+              type="button" 
+              className={`portfolio-filter-btn ${filter === 'all' ? 'active' : ''}`}
+              onClick={() => setFilter('all')}
+            >
+              All Projects ({allItems.length})
+            </button>
+            <button 
+              type="button" 
+              className={`portfolio-filter-btn ${filter === 'ecommerce' ? 'active' : ''}`}
+              onClick={() => setFilter('ecommerce')}
+            >
+              E-Commerce &amp; Retail
+            </button>
+            <button 
+              type="button" 
+              className={`portfolio-filter-btn ${filter === 'healthcare' ? 'active' : ''}`}
+              onClick={() => setFilter('healthcare')}
+            >
+              Healthcare &amp; Medical
+            </button>
+            <button 
+              type="button" 
+              className={`portfolio-filter-btn ${filter === 'hospitality' ? 'active' : ''}`}
+              onClick={() => setFilter('hospitality')}
+            >
+              Hospitality &amp; Events
+            </button>
+            <button 
+              type="button" 
+              className={`portfolio-filter-btn ${filter === 'tech' ? 'active' : ''}`}
+              onClick={() => setFilter('tech')}
+            >
+              Technology &amp; Web
+            </button>
+            <button 
+              type="button" 
+              className={`portfolio-filter-btn ${filter === 'fashion' ? 'active' : ''}`}
+              onClick={() => setFilter('fashion')}
+            >
+              Fashion
+            </button>
+            <button 
+              type="button" 
+              className={`portfolio-filter-btn ${filter === 'realestate' ? 'active' : ''}`}
+              onClick={() => setFilter('realestate')}
+            >
+              Real Estate
+            </button>
+            <button 
+              type="button" 
+              className={`portfolio-filter-btn ${filter === 'archive' ? 'active' : ''}`}
+              onClick={() => setFilter('archive')}
+            >
+              Brand Architecture
+            </button>
           </div>
 
-          {/* Projects Grid */}
-          <div className="projects-grid">
-            {filteredProjects.map(project => (
-              <div className="project-card" key={project.id}>
-                <div className="project-img-wrapper">
-                  <img 
-                    src={project.image_path} 
-                    alt={project.title} 
-                    className="project-img" 
-                    loading="lazy" 
-                  />
-                  <span className="project-cat-pill">{project.cat_label}</span>
+          {/* Portfolio Projects Grid */}
+          <div className="work-grid-editorial">
+            {filteredItems.map((item) => (
+              <div key={item.id} className="work-card-editorial portfolio-item">
+                <div className="work-img-box">
+                  <img src={item.image_path} alt={item.title} loading="lazy" />
+                  {item.logo_path && (
+                    <div className="work-brand-logo-badge" title={`${item.title} Verified Brand Identity`}>
+                      <img src={item.logo_path} alt={`${item.title} Official Logo`} />
+                    </div>
+                  )}
                 </div>
 
-                <div className="project-body">
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                    <h3 className="project-title" style={{ margin: 0 }}>{project.title}</h3>
-                    {project.is_featured === 1 && (
-                      <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--red)', background: '#fee', padding: '2px 6px', borderRadius: '4px' }}>
-                        Featured
-                      </span>
-                    )}
-                  </div>
+                <div className="work-content-box">
+                  <span className="work-cat-tag">{item.cat_label}</span>
+                  <h4 className="work-title-text">{item.title}</h4>
+                  <p className="work-desc-text">{item.description}</p>
                   
-                  <p className="project-desc">{project.description}</p>
-
-                  <div className="project-footer">
-                    {project.project_url ? (
-                      <a 
-                        href={project.project_url} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="project-link"
-                      >
-                        <span>Visit Live Platform</span>
-                        <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '11px' }}></i>
+                  <div className="work-card-actions">
+                    {item.project_url && item.project_url !== '#' ? (
+                      <a href={item.project_url} target="_blank" rel="noopener noreferrer" className="work-view-link">
+                        <span>View Project</span> <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.72rem' }}></i>
                       </a>
                     ) : (
-                      <span style={{ fontSize: '12px', color: 'var(--muted)' }}>Internal Client Archive</span>
+                      <Link to="/contact" className="work-view-link">
+                        <span>Enquire Project</span> <i className="fa-solid fa-arrow-right"></i>
+                      </Link>
                     )}
                   </div>
                 </div>
@@ -121,31 +213,20 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ===================================================================
-           3. CTA BANNER
-           =================================================================== */}
-      <section className="cta-banner-section">
-        <div className="container">
-          <div className="cta-banner-inner">
-            <div className="kicker kicker-gold" style={{ justifyContent: 'center' }}>Start Your Build</div>
-            <h2 className="section-title">
-              Have a Venture or Platform in Mind?
-            </h2>
-            <p className="section-desc">
-              From foundational brand discovery to custom digital architecture &mdash; let's build something exceptional together.
-            </p>
-            <div className="cta-banner-actions">
-              <Link to="/contact" className="sv-btn sv-btn-red sv-btn-lg">
-                <span>Discuss Your Project</span>
-                <i className="fa-solid fa-arrow-right"></i>
-              </Link>
-              <Link to="/services" className="sv-btn sv-btn-white sv-btn-lg">
-                <span>Explore All Services</span>
-              </Link>
-            </div>
-          </div>
+      {/* Bottom CTA */}
+      <section className="section-padding bg-surface" style={{ borderTop: '1px solid var(--border-light)' }}>
+        <div className="container" style={{ textAlign: 'center', maxWidth: '720px' }}>
+          <span className="editorial-badge" style={{ justifyContent: 'center' }}>Start Your Build</span>
+          <h2>Have an Ambitious Project in Mind?</h2>
+          <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', marginBottom: '30px' }}>
+            From high-converting e-commerce web systems to bespoke corporate visual identities, let's architect a solution that sets your enterprise apart.
+          </p>
+          <Link to="/contact" className="btn btn-primary">
+            <span>Discuss Your Project</span>
+            <i className="fa-solid fa-arrow-right"></i>
+          </Link>
         </div>
       </section>
-    </div>
+    </>
   );
 }
