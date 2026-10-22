@@ -49,7 +49,7 @@ export default function Home() {
             <div className="hero-mobile-portrait-wrapper">
               <img 
                 src="/images/resource/home_portrait_mobile.jpg" 
-                alt="Sohel Vaseem" 
+                alt="Soheal Vaseem" 
                 className="hero-mobile-portrait-img" 
                 loading="eager" 
               />
@@ -207,7 +207,7 @@ export default function Home() {
                 <span className="insight-meta-source">The Hindu &bull; National Daily</span>
                 <h4 className="insight-title-text">Directorial Acumen &amp; Cinematic Vision</h4>
                 <p className="insight-excerpt-text">
-                  National newspaper coverage highlighting Sohel Vaseem’s innovative approach to visual storytelling, brand narratives, and production leadership.
+                  National newspaper coverage highlighting Soheal Vaseem’s innovative approach to visual storytelling, brand narratives, and production leadership.
                 </p>
                 <Link to="/media" className="insight-read-link">
                   <span>Read Full Feature</span> <i className="fa-solid fa-arrow-right"></i>
@@ -223,7 +223,7 @@ export default function Home() {
                 <span className="insight-meta-source">Deccan Chronicle &bull; Print Feature</span>
                 <h4 className="insight-title-text">Television Series &amp; Ad Direction Spotlight</h4>
                 <p className="insight-excerpt-text">
-                  In-depth feature examining Sohel’s directorial execution across television drama serials and nationwide advertising campaigns.
+                  In-depth feature examining Soheal’s directorial execution across television drama serials and nationwide advertising campaigns.
                 </p>
                 <Link to="/media" className="insight-read-link">
                   <span>Read Full Feature</span> <i className="fa-solid fa-arrow-right"></i>
@@ -233,13 +233,13 @@ export default function Home() {
 
             <div className="insight-card-editorial">
               <div className="insight-thumb-box">
-                <img src="/images/resource/eenadu.jpg" alt="Eenadu — Director Sohel Vaseem’s Creative Milestone" loading="lazy" />
+                <img src="/images/resource/eenadu.jpg" alt="Eenadu — Director Soheal Vaseem’s Creative Milestone" loading="lazy" />
               </div>
               <div className="insight-content-box">
                 <span className="insight-meta-source">Eenadu &bull; Regional Leader</span>
-                <h4 className="insight-title-text">Director Sohel Vaseem’s Creative Milestone</h4>
+                <h4 className="insight-title-text">Director Soheal Vaseem’s Creative Milestone</h4>
                 <p className="insight-excerpt-text">
-                  Extensive regional daily reporting highlighting Sohel’s artistic storytelling contributions and commercial campaign triumph.
+                  Extensive regional daily reporting highlighting Soheal’s artistic storytelling contributions and commercial campaign triumph.
                 </p>
                 <Link to="/media" className="insight-read-link">
                   <span>Read Full Feature</span> <i className="fa-solid fa-arrow-right"></i>

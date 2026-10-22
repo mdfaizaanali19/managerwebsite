@@ -12,7 +12,7 @@ export default function About() {
           <div className="about-hero-cinematic-content">
             <div className="about-hero-subhead">
               <span className="dash"></span>
-              <span>ABOUT SOHEL</span>
+              <span>ABOUT SOHEAL</span>
             </div>
 
             <h1 className="hero-cinematic-headline">
@@ -22,7 +22,7 @@ export default function About() {
             </h1>
 
             <p className="hero-cinematic-lead">
-              For over three decades, Sohel Vaseem has partnered with enterprise founders, leadership teams, and growing businesses to transform strategic business clarity into distinctive market positioning, compelling communication, and enduring commercial value.
+              For over three decades, Soheal Vaseem has partnered with enterprise founders, leadership teams, and growing businesses to transform strategic business clarity into distinctive market positioning, compelling communication, and enduring commercial value.
             </p>
 
             <div className="hero-cinematic-actions">
@@ -47,7 +47,7 @@ export default function About() {
             <div className="about-mobile-portrait-wrapper">
               <img 
                 src="/images/resource/about_portrait_mobile.jpg" 
-                alt="Sohel Vaseem" 
+                alt="Soheal Vaseem" 
                 className="about-mobile-portrait-img" 
                 loading="eager" 
               />
@@ -77,7 +77,7 @@ export default function About() {
                 <div className="about-milestone-year">1991</div>
                 <h3 className="about-milestone-title">The Foundation at Gazelle Ads</h3>
                 <p className="about-milestone-text">
-                  Sohel Vaseem’s professional journey began in advertising with Gazelle Ads in 1991. From traditional print advertising, visual communication, and commercial typography to the evolving digital landscape, his early career followed the continuous transformation of how businesses connect with audiences and build market recognition.
+                  Soheal Vaseem’s professional journey began in advertising with Gazelle Ads in 1991. From traditional print advertising, visual communication, and commercial typography to the evolving digital landscape, his early career followed the continuous transformation of how businesses connect with audiences and build market recognition.
                 </p>
               </div>
               
@@ -103,7 +103,7 @@ export default function About() {
                 <p className="about-story-quote">
                   &ldquo;Building a brand is not simply about being seen. It is about being understood, trusted, and remembered.&rdquo;
                 </p>
-                <span className="about-story-author">&mdash; Sohel Vaseem</span>
+                <span className="about-story-author">&mdash; Soheal Vaseem</span>
               </div>
             </div>
           </div>
@@ -188,7 +188,7 @@ export default function About() {
               <span className="editorial-badge">Creative Direction &bull; Directorial Craft</span>
               <h3>Where Strategy Meets Storytelling</h3>
               <p>
-                With filmmaking and creative direction as core facets of his professional identity, Sohel brings an authentic visual storytelling perspective to brand communication.
+                With filmmaking and creative direction as core facets of his professional identity, Soheal brings an authentic visual storytelling perspective to brand communication.
               </p>
               <p>
                 He believes that a strong strategic idea should not remain on paper. It must be translated into a clear visual identity, compelling narrative communication, and memorable experiences that audiences can instantly recognize. This synergy of analytical business thinking and directorial craft informs his approach to building brands that endure.
@@ -203,7 +203,7 @@ export default function About() {
 
             <div className="about-cinema-visual">
               <div className="about-cinema-frame">
-                <img src="/images/resource/slider03.jpg" alt="Sohel Vaseem Directing on Commercial Film Set" loading="lazy" />
+                <img src="/images/resource/slider03.jpg" alt="Soheal Vaseem Directing on Commercial Film Set" loading="lazy" />
               </div>
               <div className="about-cinema-caption">
                 <i className="fa-solid fa-film"></i>

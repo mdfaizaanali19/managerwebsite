@@ -66,10 +66,10 @@ export default function Navbar() {
         <div className="container">
           <div className="nav-container">
             {/* Brand Mark */}
-            <Link to="/" className="brand-mark" title="Sohel Vaseem — Brand Strategist & Filmmaker">
+            <Link to="/" className="brand-mark" title="Soheal Vaseem — Brand Strategist & Filmmaker">
               <div className="brand-monogram">SV</div>
               <div className="brand-text">
-                <span className="brand-title">SOHEL VASEEM</span>
+                <span className="brand-title">SOHEAL VASEEM</span>
                 <span className="brand-subtitle">BRAND STRATEGIST &amp; FILMMAKER</span>
               </div>
             </Link>
@@ -138,10 +138,10 @@ export default function Navbar() {
       ></div>
       <aside className={`mobile-drawer ${drawerOpen ? 'active' : ''}`} aria-label="Mobile Navigation">
         <div className="drawer-header">
-          <Link to="/" className="drawer-brand-lockup" title="Sohel Vaseem" onClick={() => setDrawerOpen(false)}>
+          <Link to="/" className="drawer-brand-lockup" title="Soheal Vaseem" onClick={() => setDrawerOpen(false)}>
             <div className="brand-monogram">SV</div>
             <div className="brand-text">
-              <span className="brand-title">SOHEL VASEEM</span>
+              <span className="brand-title">SOHEAL VASEEM</span>
               <span className="brand-subtitle">BRAND STRATEGY &bull; FILMMAKING</span>
             </div>
           </Link>

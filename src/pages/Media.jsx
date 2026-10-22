@@ -8,7 +8,7 @@ export default function Media() {
     {
       publication: 'The Hindu',
       title: 'Directorial Acumen & Cinematic Vision',
-      desc: 'National newspaper coverage highlighting Sohel Vaseem’s innovative approach to visual storytelling, brand narratives, and production leadership.',
+      desc: 'National newspaper coverage highlighting Soheal Vaseem’s innovative approach to visual storytelling, brand narratives, and production leadership.',
       thumb: '/images/resource/Hindu.jpg',
       zoom: '/images/resource/Hindu.jpg',
       type: 'National Daily'
@@ -16,7 +16,7 @@ export default function Media() {
     {
       publication: 'Deccan Chronicle',
       title: 'Television Series & Ad Direction Spotlight',
-      desc: 'In-depth feature examining Sohel’s directorial execution across television drama serials and nationwide advertising campaigns.',
+      desc: 'In-depth feature examining Soheal’s directorial execution across television drama serials and nationwide advertising campaigns.',
       thumb: '/images/resource/chronicle.jpg',
       zoom: '/images/resource/chronicle.jpg',
       type: 'Print Feature'
@@ -24,15 +24,15 @@ export default function Media() {
     {
       publication: 'Deccan Chronicle',
       title: 'Creative Excellence in Modern Commercials',
-      desc: 'Chronicle reporting on Sohel Vaseem’s storytelling craft and his leadership on high-profile corporate commercial film sets.',
+      desc: 'Chronicle reporting on Soheal Vaseem’s storytelling craft and his leadership on high-profile corporate commercial film sets.',
       thumb: '/images/resource/chronicleone.jpg',
       zoom: '/images/resource/chronicleone.jpg',
       type: 'Commercial Spotlight'
     },
     {
       publication: 'Eenadu',
-      title: 'Director Sohel Vaseem’s Creative Milestone',
-      desc: 'Extensive regional daily reporting highlighting Sohel’s artistic storytelling contributions and commercial campaign triumph.',
+      title: 'Director Soheal Vaseem’s Creative Milestone',
+      desc: 'Extensive regional daily reporting highlighting Soheal’s artistic storytelling contributions and commercial campaign triumph.',
       thumb: '/images/resource/eenadu.jpg',
       zoom: '/images/resource/eenadu.jpg',
       type: 'Regional Leader'
@@ -48,7 +48,7 @@ export default function Media() {
     {
       publication: 'The Siasat Daily',
       title: 'Acclaimed Filmmaker & Directorial Craft',
-      desc: 'Prominent coverage spotlighting Sohel Vaseem’s national advertising campaigns and cultural storytelling.',
+      desc: 'Prominent coverage spotlighting Soheal Vaseem’s national advertising campaigns and cultural storytelling.',
       thumb: '/images/resource/siasatone.jpg',
       zoom: '/images/resource/siasatone.jpg',
       type: 'National Daily'
@@ -64,7 +64,7 @@ export default function Media() {
     {
       publication: 'Vaartha',
       title: 'Milestone Commercial Achievements',
-      desc: 'Daily news profile tracing Sohel Vaseem’s evolution as a strategic brand builder and creative director.',
+      desc: 'Daily news profile tracing Soheal Vaseem’s evolution as a strategic brand builder and creative director.',
       thumb: '/images/resource/vaarta.jpg',
       zoom: '/images/resource/vaarta.jpg',
       type: 'Print Feature'
@@ -160,7 +160,7 @@ export default function Media() {
               <h2>Three Decades of Media Coverage &amp; Documented Craft.</h2>
             </div>
             <p className="section-header-lead">
-              A verified archive of national newspaper features and published commentary tracking Sohel Vaseem’s directorial milestones, commercial storytelling, and brand leadership across Indian media.
+              A verified archive of national newspaper features and published commentary tracking Soheal Vaseem’s directorial milestones, commercial storytelling, and brand leadership across Indian media.
             </p>
           </div>
         </div>

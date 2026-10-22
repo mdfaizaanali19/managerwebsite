@@ -15,7 +15,7 @@ export default function Filmmaking() {
       img: '/images/resource/slider02.jpg',
       category: 'Television Drama Broadcast',
       title: 'Prime-Time Drama Series',
-      desc: 'Director Sohel Vaseem commanding complex multi-camera setups, character staging, and dramatic scene progression on a soundstage.'
+      desc: 'Director Soheal Vaseem commanding complex multi-camera setups, character staging, and dramatic scene progression on a soundstage.'
     },
     {
       img: '/images/resource/slider03.jpg',
@@ -168,13 +168,13 @@ export default function Filmmaking() {
             <span className="editorial-badge"><i className="fa-solid fa-play"></i> Cinematic Reel</span>
             <h2 style={{ fontSize: 'clamp(2rem, 3.2vw, 2.75rem)', margin: '14px 0' }}>The Directorial Showreel (4K)</h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: '1.8' }}>
-              A curated sequence of commercial television commercials, brand monographs, and broadcast visual narratives directed by Sohel Vaseem. Click below to experience the directorial reel.
+              A curated sequence of commercial television commercials, brand monographs, and broadcast visual narratives directed by Soheal Vaseem. Click below to experience the directorial reel.
             </p>
           </div>
 
           <div style={{ maxWidth: '1040px', margin: '0 auto', position: 'relative', borderRadius: 'var(--radius-sm)', overflow: 'hidden', boxShadow: '0 24px 60px rgba(0,0,0,0.12)', border: '1px solid var(--border-light)' }}>
             <div style={{ position: 'relative', aspectRatio: '16/9', background: '#000000', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <img src="/images/resource/slider02.jpg" alt="Sohel Vaseem Directorial Showreel" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.82 }} />
+              <img src="/images/resource/slider02.jpg" alt="Soheal Vaseem Directorial Showreel" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.82 }} />
               
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(14, 18, 28, 0.85) 0%, rgba(14, 18, 28, 0.3) 60%, rgba(14, 18, 28, 0.4) 100%)' }}></div>
 

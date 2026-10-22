@@ -24,10 +24,10 @@ export default function Footer() {
         <div className="footer-grid">
           {/* Col 1: Brand Profile & Philosophy */}
           <div className="footer-brand">
-            <Link to="/" className="footer-brand-lockup" title="Sohel Vaseem — Brand Strategist &amp; Filmmaker">
+            <Link to="/" className="footer-brand-lockup" title="Soheal Vaseem — Brand Strategist &amp; Filmmaker">
               <div className="brand-monogram">SV</div>
               <div className="brand-text">
-                <span className="brand-title">SOHEL VASEEM</span>
+                <span className="brand-title">SOHEAL VASEEM</span>
                 <span className="brand-subtitle">BRAND STRATEGIST &amp; FILMMAKER</span>
               </div>
             </Link>
@@ -101,7 +101,7 @@ export default function Footer() {
         {/* Bottom Editorial Legal / Copyright Strip */}
         <div className="footer-bottom">
           <p className="copyright-text">
-            &copy; {new Date().getFullYear()} Sohel Vaseem. All Rights Reserved. Master of Brand Architecture &amp; Cinematic Direction.
+            &copy; {new Date().getFullYear()} Soheal Vaseem. All Rights Reserved. Master of Brand Architecture &amp; Cinematic Direction.
           </p>
           <div className="footer-bottom-links">
             <Link to="/contact">Privacy Policy</Link>
