@@ -10,15 +10,15 @@ export default function About() {
       <section className="about-hero-cinematic" id="about-hero">
         <div className="about-hero-cinematic-inner">
           <div className="about-hero-cinematic-content">
-            <div className="editorial-kicker">
-              <span className="kicker-line"></span>
-              <span>ABOUT SOHEAL VASEEM</span>
+            <div className="about-hero-subhead">
+              <span className="dash"></span>
+              <span>ABOUT SOHEAL</span>
             </div>
 
             <h1 className="hero-cinematic-headline">
               Strategy Gives Brands<br />
               Direction.<br />
-              <span style={{ color: 'var(--text-primary)', fontStyle: 'italic', fontWeight: 500 }}>Storytelling Gives<br />Them Meaning.</span>
+              <span className="hero-italic-gold">Storytelling Gives<br />Them Meaning.</span>
             </h1>
 
             <p className="hero-cinematic-lead">
@@ -38,7 +38,7 @@ export default function About() {
 
             <div className="about-hero-bottom-tag">
               <span className="dash"></span>
-              <span>VISION &bull; STRATEGY &bull; DIRECTORIAL CRAFT</span>
+              <span>VISION &bull; STRATEGY &bull; STORIES</span>
             </div>
           </div>
 
@@ -63,10 +63,7 @@ export default function About() {
         <div className="container">
           <div className="section-header-editorial" style={{ marginBottom: '52px' }}>
             <div>
-              <div className="editorial-kicker">
-                <span className="kicker-line"></span>
-                <span>CAREER JOURNEY &bull; SINCE 1991</span>
-              </div>
+              <span className="editorial-badge">Career Journey &bull; Since 1991</span>
               <h2>A Career Built Around Communication. A Philosophy Rooted in Strategy.</h2>
             </div>
             <p className="section-header-lead">
@@ -119,10 +116,7 @@ export default function About() {
       <section className="section-padding bg-surface" style={{ borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)' }}>
         <div className="container">
           <div className="about-philosophy-wrapper">
-            <div className="editorial-kicker" style={{ justifyContent: 'center' }}>
-              <span className="kicker-line"></span>
-              <span>STRATEGIC PHILOSOPHY</span>
-            </div>
+            <span className="editorial-badge" style={{ justifyContent: 'center' }}>Strategic Philosophy</span>
             <blockquote className="about-philosophy-statement">
               &ldquo;Branding is not simply a logo, a colour palette, or a collection of campaigns. It is the perception a business creates through every interaction.&rdquo;
             </blockquote>
@@ -140,10 +134,7 @@ export default function About() {
         <div className="container">
           <div className="section-header-editorial" style={{ marginBottom: '48px' }}>
             <div>
-              <div className="editorial-kicker">
-                <span className="kicker-line"></span>
-                <span>STRATEGIC DISCIPLINE</span>
-              </div>
+              <span className="editorial-badge">Strategic Discipline</span>
               <h2>The Four Core Diagnostic Pillars</h2>
             </div>
             <p className="section-header-lead">
@@ -194,10 +185,7 @@ export default function About() {
         <div className="container">
           <div className="about-cinema-grid">
             <div className="about-cinema-content">
-              <div className="editorial-kicker">
-                <span className="kicker-line"></span>
-                <span>CREATIVE DIRECTION &bull; DIRECTORIAL CRAFT</span>
-              </div>
+              <span className="editorial-badge">Creative Direction &bull; Directorial Craft</span>
               <h3>Where Strategy Meets Storytelling</h3>
               <p>
                 With filmmaking and creative direction as core facets of his professional identity, Soheal brings an authentic visual storytelling perspective to brand communication.
@@ -205,7 +193,7 @@ export default function About() {
               <p>
                 He believes that a strong strategic idea should not remain on paper. It must be translated into a clear visual identity, compelling narrative communication, and memorable experiences that audiences can instantly recognize. This synergy of analytical business thinking and directorial craft informs his approach to building brands that endure.
               </p>
-              <div style={{ marginTop: '16px' }}>
+              <div style={{ marginTop: '14px' }}>
                 <Link to="/filmmaking" className="btn btn-outline btn-sm">
                   <span>Explore Commercial Direction</span>
                   <i className="fa-solid fa-arrow-right"></i>
@@ -233,10 +221,7 @@ export default function About() {
         <div className="container">
           <div className="about-press-strip">
             <div className="about-press-info">
-              <div className="editorial-kicker" style={{ marginBottom: '6px' }}>
-                <span className="kicker-line"></span>
-                <span>PUBLISHED RECOGNITION</span>
-              </div>
+              <span className="editorial-badge" style={{ marginBottom: '6px' }}>Published Recognition</span>
               <h4>Featured in National &amp; Regional Press</h4>
               <p>
                 Read profile features and milestone coverages in The Hindu, Deccan Chronicle, Eenadu, and The Siasat Daily.
@@ -256,15 +241,12 @@ export default function About() {
       <section className="cta-meaningful-section" id="contact">
         <div className="container">
           <div className="cta-meaningful-inner">
-            <div className="editorial-kicker" style={{ justifyContent: 'center' }}>
-              <span className="kicker-line"></span>
-              <span>INITIATE CONSULTATION</span>
-            </div>
+            <span className="editorial-badge" style={{ justifyContent: 'center' }}>Initiate Consultation</span>
             <h2>Let's Start With a Conversation.</h2>
             <p>
               If your business is ready to define its direction, strengthen its positioning, or build an enduring brand, let's explore what comes next.
             </p>
-            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '28px', marginTop: '20px' }}>
+            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '28px' }}>
               <Link to="/contact" className="btn btn-primary" style={{ padding: '14px 34px' }}>
                 <span>Schedule An Advisory Call</span>
                 <i className="fa-solid fa-arrow-right"></i>

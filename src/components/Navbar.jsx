@@ -1,52 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40);
-
-      // Section spy
-      const sections = ['hero', 'about', 'journey', 'capabilities', 'work', 'filmmaking', 'recognition', 'contact'];
-      const scrollPos = window.scrollY + 140;
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el && el.offsetTop <= scrollPos) {
-          setActiveSection(sections[i]);
-          break;
-        }
-      }
     };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (e, sectionId) => {
+  // Close drawer on route change
+  useEffect(() => {
     setDrawerOpen(false);
-    if (location.pathname === '/' || location.pathname === '/index.html') {
-      e.preventDefault();
-      const elem = document.getElementById(sectionId);
-      if (elem) {
-        elem.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
-  const navItems = [
-    { id: 'about', label: 'About', target: 'about' },
-    { id: 'journey', label: 'Journey', target: 'journey' },
-    { id: 'capabilities', label: 'Expertise', target: 'capabilities' },
-    { id: 'work', label: 'Work', target: 'work' },
-    { id: 'filmmaking', label: 'Film Making', target: 'filmmaking' },
-    { id: 'recognition', label: 'Recognition', target: 'recognition' }
-  ];
+  const toggleDrawer = () => {
+    setDrawerOpen(prev => !prev);
+  };
 
   return (
     <>
@@ -90,52 +66,61 @@ export default function Navbar() {
         <div className="container">
           <div className="nav-container">
             {/* Brand Mark */}
-            <a 
-              href="#hero" 
-              onClick={(e) => handleNavClick(e, 'hero')} 
-              className="brand-mark" 
-              title="Soheal Vaseem — Brand Strategist & Filmmaker"
-            >
+            <Link to="/" className="brand-mark" title="Soheal Vaseem — Brand Strategist & Filmmaker">
               <div className="brand-monogram">SV</div>
               <div className="brand-text">
                 <span className="brand-title">SOHEAL VASEEM</span>
-                <span className="brand-subtitle">STRATEGY &bull; CREATIVE DIRECTION &bull; FILM</span>
+                <span className="brand-subtitle">BRAND STRATEGIST &amp; FILMMAKER</span>
               </div>
-            </a>
+            </Link>
 
-            {/* Desktop Navigation Menu (Smooth Anchors) */}
+            {/* Desktop Navigation Menu */}
             <nav className="nav-desktop-wrap" aria-label="Main Navigation">
               <ul className="nav-menu">
-                {navItems.map((item) => (
-                  <li className="nav-item" key={item.id}>
-                    <a
-                      href={`#${item.target}`}
-                      onClick={(e) => handleNavClick(e, item.target)}
-                      className={`nav-link ${activeSection === item.target ? 'active' : ''}`}
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
+                <li className="nav-item">
+                  <NavLink to="/" end className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                    Home
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="/about" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                    About
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="/services" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                    Expertise
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="/portfolio" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                    Work
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="/media" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                    Insights
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="/contact" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                    Contact
+                  </NavLink>
+                </li>
               </ul>
             </nav>
 
             {/* Nav CTA & Mobile Toggle */}
             <div className="nav-actions-group">
-              <a 
-                href="#contact" 
-                onClick={(e) => handleNavClick(e, 'contact')} 
-                className={`nav-cta-btn ${activeSection === 'contact' ? 'active' : ''}`} 
-                title="Let's Talk — Start a Conversation"
-              >
-                <span>Let's Talk</span>
+              <NavLink to="/filmmaking" className={({ isActive }) => `nav-cta-btn ${isActive ? 'active' : ''}`} title="Film Making & Direction Portfolio">
+                <span>Film Making</span>
                 <i className="fa-solid fa-arrow-right"></i>
-              </a>
+              </NavLink>
               <button 
                 type="button" 
                 className={`mobile-toggle ${drawerOpen ? 'active' : ''}`} 
                 aria-label="Toggle navigation menu"
-                onClick={() => setDrawerOpen(prev => !prev)}
+                onClick={toggleDrawer}
               >
                 <span className="toggle-line line-top"></span>
                 <span className="toggle-line line-mid"></span>
@@ -153,18 +138,13 @@ export default function Navbar() {
       ></div>
       <aside className={`mobile-drawer ${drawerOpen ? 'active' : ''}`} aria-label="Mobile Navigation">
         <div className="drawer-header">
-          <a 
-            href="#hero" 
-            className="drawer-brand-lockup" 
-            title="Soheal Vaseem" 
-            onClick={(e) => handleNavClick(e, 'hero')}
-          >
+          <Link to="/" className="drawer-brand-lockup" title="Soheal Vaseem" onClick={() => setDrawerOpen(false)}>
             <div className="brand-monogram">SV</div>
             <div className="brand-text">
               <span className="brand-title">SOHEAL VASEEM</span>
               <span className="brand-subtitle">BRAND STRATEGY &bull; FILMMAKING</span>
             </div>
-          </a>
+          </Link>
           <button 
             type="button" 
             className="drawer-close" 
@@ -182,63 +162,63 @@ export default function Navbar() {
           </div>
           <ul className="drawer-menu">
             <li>
-              <a href="#about" className="drawer-link" onClick={(e) => handleNavClick(e, 'about')}>
+              <NavLink to="/" end className="drawer-link" onClick={() => setDrawerOpen(false)}>
                 <span className="drawer-num">01</span>
-                <span className="drawer-text">About &amp; Positioning</span>
+                <span className="drawer-text">Home</span>
                 <i className="fa-solid fa-arrow-right drawer-arrow"></i>
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a href="#journey" className="drawer-link" onClick={(e) => handleNavClick(e, 'journey')}>
+              <NavLink to="/about" className="drawer-link" onClick={() => setDrawerOpen(false)}>
                 <span className="drawer-num">02</span>
-                <span className="drawer-text">Career Journey (1991)</span>
+                <span className="drawer-text">About</span>
                 <i className="fa-solid fa-arrow-right drawer-arrow"></i>
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a href="#capabilities" className="drawer-link" onClick={(e) => handleNavClick(e, 'capabilities')}>
+              <NavLink to="/services" className="drawer-link" onClick={() => setDrawerOpen(false)}>
                 <span className="drawer-num">03</span>
-                <span className="drawer-text">Strategy &amp; Methodology</span>
+                <span className="drawer-text">Expertise</span>
                 <i className="fa-solid fa-arrow-right drawer-arrow"></i>
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a href="#work" className="drawer-link" onClick={(e) => handleNavClick(e, 'work')}>
+              <NavLink to="/portfolio" className="drawer-link" onClick={() => setDrawerOpen(false)}>
                 <span className="drawer-num">04</span>
-                <span className="drawer-text">Selected Work</span>
+                <span className="drawer-text">Work</span>
                 <i className="fa-solid fa-arrow-right drawer-arrow"></i>
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a href="#filmmaking" className="drawer-link" onClick={(e) => handleNavClick(e, 'filmmaking')}>
+              <NavLink to="/filmmaking" className="drawer-link" onClick={() => setDrawerOpen(false)}>
                 <span className="drawer-num">05</span>
-                <span className="drawer-text">Filmmaking &amp; Showreel</span>
+                <span className="drawer-text">Film Making</span>
                 <i className="fa-solid fa-arrow-right drawer-arrow"></i>
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a href="#recognition" className="drawer-link" onClick={(e) => handleNavClick(e, 'recognition')}>
+              <NavLink to="/media" className="drawer-link" onClick={() => setDrawerOpen(false)}>
                 <span className="drawer-num">06</span>
-                <span className="drawer-text">Press &amp; Recognition</span>
+                <span className="drawer-text">Insights &amp; Press</span>
                 <i className="fa-solid fa-arrow-right drawer-arrow"></i>
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a href="#contact" className="drawer-link" onClick={(e) => handleNavClick(e, 'contact')}>
+              <NavLink to="/contact" className="drawer-link" onClick={() => setDrawerOpen(false)}>
                 <span className="drawer-num">07</span>
                 <span className="drawer-text">Contact &amp; Advisory</span>
                 <i className="fa-solid fa-arrow-right drawer-arrow"></i>
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>
 
         {/* Drawer Footer Actions */}
         <div className="drawer-footer">
-          <a href="#contact" className="drawer-cta-btn" onClick={(e) => handleNavClick(e, 'contact')}>
-            <span>Let's Talk</span>
+          <Link to="/contact" className="drawer-cta-btn" onClick={() => setDrawerOpen(false)}>
+            <span>Schedule Advisory Call</span>
             <i className="fa-solid fa-arrow-right"></i>
-          </a>
+          </Link>
           <div className="drawer-contact-block">
             <a href="tel:+919014365364" className="drawer-contact-link">
               <i className="fa-solid fa-phone"></i>
@@ -258,6 +238,9 @@ export default function Navbar() {
             </a>
             <a href="https://www.instagram.com/soheal_vaseem" target="_blank" rel="noopener noreferrer" title="Instagram">
               <i className="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://facebook.com/soheal.vaseem" target="_blank" rel="noopener noreferrer" title="Facebook">
+              <i className="fa-brands fa-facebook-f"></i>
             </a>
           </div>
           <div className="drawer-city-tag">

@@ -83,19 +83,19 @@ export default function Portfolio() {
         <div className="hero-editorial-overlay"></div>
         <div className="container">
           <div className="hero-editorial-content">
-            <div className="editorial-kicker">
-              <span className="kicker-line"></span>
+            <div className="hero-editorial-badge">
+              <span className="dash"></span>
               <span>CURATED WORK &bull; CASE STUDIES</span>
             </div>
             <h1 className="hero-editorial-headline">
-              Ideas Made <span style={{ color: 'var(--text-primary)', fontStyle: 'italic', fontWeight: 500 }}>Visible.</span>
+              Ideas Made <span className="hero-italic-gold">Visible.</span>
             </h1>
             <p className="hero-editorial-lead">
-              A curated selection of creative work, brand identities, and digital platforms shaped by strategic thinking and visual craft.
+              A selection of creative work shaped by strategy, storytelling, and purposeful execution.
             </p>
             <div className="hero-editorial-actions">
               <a href="#portfolio-grid" className="btn-hero-dark-pill" title="Explore Selected Projects">
-                <span>EXPLORE WORK</span>
+                <span>EXPLORE PROJECTS</span>
                 <i className="fa-solid fa-arrow-down"></i>
               </a>
               <Link to="/contact" className="btn-hero-outline-pill" title="Start a Project Conversation">
@@ -177,11 +177,11 @@ export default function Portfolio() {
             </button>
           </div>
 
-          {/* Portfolio Projects Grid (Image-Led, 2-Column Widescreen) */}
-          <div className="portfolio-image-grid" style={{ marginTop: '24px' }}>
+          {/* Portfolio Projects Grid */}
+          <div className="work-grid-editorial">
             {filteredItems.map((item) => (
-              <div key={item.id} className="portfolio-image-card">
-                <div className="portfolio-image-frame">
+              <div key={item.id} className="work-card-editorial portfolio-item">
+                <div className="work-img-box">
                   <img src={item.image_path} alt={item.title} loading="lazy" />
                   {item.logo_path && (
                     <div className="work-brand-logo-badge" title={`${item.title} Verified Brand Identity`}>
@@ -190,19 +190,19 @@ export default function Portfolio() {
                   )}
                 </div>
 
-                <div className="portfolio-image-meta">
-                  <span className="portfolio-image-cat">{item.cat_label}</span>
-                  <h3 className="portfolio-image-title">{item.title}</h3>
-                  <p className="portfolio-image-desc">{item.description}</p>
+                <div className="work-content-box">
+                  <span className="work-cat-tag">{item.cat_label}</span>
+                  <h4 className="work-title-text">{item.title}</h4>
+                  <p className="work-desc-text">{item.description}</p>
                   
-                  <div style={{ marginTop: '16px' }}>
+                  <div className="work-card-actions">
                     {item.project_url && item.project_url !== '#' ? (
                       <a href={item.project_url} target="_blank" rel="noopener noreferrer" className="work-view-link">
-                        <span>View Live Platform</span> <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.74rem' }}></i>
+                        <span>View Project</span> <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.72rem' }}></i>
                       </a>
                     ) : (
                       <Link to="/contact" className="work-view-link">
-                        <span>Enquire About Project</span> <i className="fa-solid fa-arrow-right"></i>
+                        <span>Enquire Project</span> <i className="fa-solid fa-arrow-right"></i>
                       </Link>
                     )}
                   </div>
@@ -216,13 +216,10 @@ export default function Portfolio() {
       {/* Bottom CTA */}
       <section className="section-padding bg-surface" style={{ borderTop: '1px solid var(--border-light)' }}>
         <div className="container" style={{ textAlign: 'center', maxWidth: '720px' }}>
-          <div className="editorial-kicker" style={{ justifyContent: 'center' }}>
-            <span className="kicker-line"></span>
-            <span>START YOUR BUILD</span>
-          </div>
+          <span className="editorial-badge" style={{ justifyContent: 'center' }}>Start Your Build</span>
           <h2>Have an Ambitious Project in Mind?</h2>
           <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', marginBottom: '30px' }}>
-            From high-converting e-commerce platforms to bespoke corporate visual identities, let's architect a solution that sets your enterprise apart.
+            From high-converting e-commerce web systems to bespoke corporate visual identities, let's architect a solution that sets your enterprise apart.
           </p>
           <Link to="/contact" className="btn btn-primary">
             <span>Discuss Your Project</span>

@@ -1,14 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
-  const scrollTo = (e, id) => {
-    e.preventDefault();
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <footer className="main-footer" id="footer">
       <div className="container">
@@ -20,10 +13,10 @@ export default function Footer() {
           </div>
           <div className="footer-statement-cta">
             <span className="cta-prompt">Ready to give your brand clear direction?</span>
-            <a href="#contact" onClick={(e) => scrollTo(e, 'contact')} className="footer-cta-pill">
+            <Link to="/contact" className="footer-cta-pill">
               <span>Start a Conversation</span>
               <i className="fa-solid fa-arrow-right"></i>
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -31,13 +24,13 @@ export default function Footer() {
         <div className="footer-grid">
           {/* Col 1: Brand Profile & Philosophy */}
           <div className="footer-brand">
-            <a href="#hero" onClick={(e) => scrollTo(e, 'hero')} className="footer-brand-lockup" title="Soheal Vaseem — Brand Strategist &amp; Filmmaker">
+            <Link to="/" className="footer-brand-lockup" title="Soheal Vaseem — Brand Strategist &amp; Filmmaker">
               <div className="brand-monogram">SV</div>
               <div className="brand-text">
                 <span className="brand-title">SOHEAL VASEEM</span>
-                <span className="brand-subtitle">BRAND STRATEGY &bull; FILMMAKING</span>
+                <span className="brand-subtitle">BRAND STRATEGIST &amp; FILMMAKER</span>
               </div>
-            </a>
+            </Link>
             <p>
               Partnering with visionary founders, enterprises, and creative leaders to craft enduring brand strategy, distinctive identity systems, and high-impact cinematic storytelling.
             </p>
@@ -49,15 +42,15 @@ export default function Footer() {
 
           {/* Col 2: Primary Navigation */}
           <div className="footer-nav-col">
-            <h5>Directory</h5>
+            <h5>Navigation</h5>
             <ul className="footer-nav-list">
-              <li><a href="#about" onClick={(e) => scrollTo(e, 'about')}><i className="fa-solid fa-angle-right"></i> About &amp; Positioning</a></li>
-              <li><a href="#journey" onClick={(e) => scrollTo(e, 'journey')}><i className="fa-solid fa-angle-right"></i> Career Journey (1991)</a></li>
-              <li><a href="#capabilities" onClick={(e) => scrollTo(e, 'capabilities')}><i className="fa-solid fa-angle-right"></i> Strategic Disciplines</a></li>
-              <li><a href="#work" onClick={(e) => scrollTo(e, 'work')}><i className="fa-solid fa-angle-right"></i> Selected Work</a></li>
-              <li><a href="#filmmaking" onClick={(e) => scrollTo(e, 'filmmaking')}><i className="fa-solid fa-angle-right"></i> Filmmaking &amp; Showreel</a></li>
-              <li><a href="#recognition" onClick={(e) => scrollTo(e, 'recognition')}><i className="fa-solid fa-angle-right"></i> Press &amp; Recognition</a></li>
-              <li><a href="#contact" onClick={(e) => scrollTo(e, 'contact')}><i className="fa-solid fa-angle-right"></i> Contact &amp; Advisory</a></li>
+              <li><Link to="/"><i className="fa-solid fa-angle-right"></i> Home</Link></li>
+              <li><Link to="/about"><i className="fa-solid fa-angle-right"></i> About</Link></li>
+              <li><Link to="/services"><i className="fa-solid fa-angle-right"></i> Expertise</Link></li>
+              <li><Link to="/portfolio"><i className="fa-solid fa-angle-right"></i> Work</Link></li>
+              <li><Link to="/filmmaking"><i className="fa-solid fa-angle-right"></i> Film Making</Link></li>
+              <li><Link to="/media"><i className="fa-solid fa-angle-right"></i> Insights &amp; Press</Link></li>
+              <li><Link to="/contact"><i className="fa-solid fa-angle-right"></i> Contact</Link></li>
             </ul>
           </div>
 
@@ -65,11 +58,11 @@ export default function Footer() {
           <div className="footer-nav-col">
             <h5>Practice Areas</h5>
             <ul className="footer-nav-list">
-              <li><a href="#capabilities" onClick={(e) => scrollTo(e, 'capabilities')}><i className="fa-solid fa-angle-right"></i> Brand Strategy &amp; Positioning</a></li>
-              <li><a href="#capabilities" onClick={(e) => scrollTo(e, 'capabilities')}><i className="fa-solid fa-angle-right"></i> Identity Systems &amp; Design</a></li>
-              <li><a href="#filmmaking" onClick={(e) => scrollTo(e, 'filmmaking')}><i className="fa-solid fa-angle-right"></i> Commercial &amp; Narrative Film</a></li>
-              <li><a href="#work" onClick={(e) => scrollTo(e, 'work')}><i className="fa-solid fa-angle-right"></i> Web &amp; Digital Platforms</a></li>
-              <li><a href="#capabilities" onClick={(e) => scrollTo(e, 'capabilities')}><i className="fa-solid fa-angle-right"></i> Executive Brand Advisory</a></li>
+              <li><Link to="/services"><i className="fa-solid fa-angle-right"></i> Brand Strategy &amp; Positioning</Link></li>
+              <li><Link to="/services"><i className="fa-solid fa-angle-right"></i> Identity Systems &amp; Design</Link></li>
+              <li><Link to="/filmmaking"><i className="fa-solid fa-angle-right"></i> Commercial &amp; Narrative Film</Link></li>
+              <li><Link to="/portfolio"><i className="fa-solid fa-angle-right"></i> Advertising &amp; Campaigns</Link></li>
+              <li><Link to="/services"><i className="fa-solid fa-angle-right"></i> Executive Brand Advisory</Link></li>
             </ul>
           </div>
 
@@ -80,14 +73,14 @@ export default function Footer() {
               <li>
                 <i className="fa-solid fa-envelope"></i>
                 <div>
-                  <span className="contact-label">Direct Correspondence</span>
+                  <span className="contact-label">Direct Inquiries</span>
                   <a href="mailto:info@sohealvaseem.com" className="contact-val">info@sohealvaseem.com</a>
                 </div>
               </li>
               <li>
                 <i className="fa-solid fa-phone"></i>
                 <div>
-                  <span className="contact-label">Direct Telephone</span>
+                  <span className="contact-label">Executive Advisory</span>
                   <a href="tel:+919014365364" className="contact-val">+91 9014 365 364</a>
                 </div>
               </li>
@@ -95,34 +88,27 @@ export default function Footer() {
                 <i className="fa-solid fa-calendar-check"></i>
                 <div>
                   <span className="contact-label">Private Consultation</span>
-                  <a href="#contact" onClick={(e) => scrollTo(e, 'contact')} className="footer-advisory-btn">
+                  <Link to="/contact" className="footer-advisory-btn">
                     <span>Schedule Advisory Call</span>
                     <i className="fa-solid fa-arrow-right"></i>
-                  </a>
+                  </Link>
                 </div>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Footer Bottom Bar: Copyright & Social */}
+        {/* Bottom Editorial Legal / Copyright Strip */}
         <div className="footer-bottom">
-          <div className="footer-copyright">
-            &copy; {new Date().getFullYear()} Soheal Vaseem. All Rights Reserved. Strategic Brand Consulting &amp; Commercial Direction.
-          </div>
-          <div className="footer-social-links">
-            <a href="https://www.linkedin.com/in/sohealvaseem" target="_blank" rel="noopener noreferrer" title="LinkedIn">
-              <i className="fa-brands fa-linkedin-in"></i>
-            </a>
-            <a href="https://www.youtube.com/user/Sohealvaseem" target="_blank" rel="noopener noreferrer" title="YouTube">
-              <i className="fa-brands fa-youtube"></i>
-            </a>
-            <a href="https://www.instagram.com/soheal_vaseem" target="_blank" rel="noopener noreferrer" title="Instagram">
-              <i className="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://facebook.com/soheal.vaseem" target="_blank" rel="noopener noreferrer" title="Facebook">
-              <i className="fa-brands fa-facebook-f"></i>
-            </a>
+          <p className="copyright-text">
+            &copy; {new Date().getFullYear()} Soheal Vaseem. All Rights Reserved. Master of Brand Architecture &amp; Cinematic Direction.
+          </p>
+          <div className="footer-bottom-links">
+            <Link to="/contact">Privacy Policy</Link>
+            <span className="separator">&bull;</span>
+            <Link to="/contact">Terms of Engagement</Link>
+            <span className="separator">&bull;</span>
+            <Link to="/contact">Brand Advisory Protocol</Link>
           </div>
         </div>
       </div>
