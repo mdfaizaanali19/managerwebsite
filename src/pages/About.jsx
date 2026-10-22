@@ -2,268 +2,269 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function About() {
+  const polaroids = [
+    {
+      img: '/images/resource/slider03.jpg',
+      caption: 'Directing on Commercial Set'
+    },
+    {
+      img: '/images/resource/about_director_portrait.jpg',
+      caption: 'Strategic Clarity & Vision'
+    },
+    {
+      img: '/images/resource/slider01.jpg',
+      caption: 'Multi-Camera Stage Direction'
+    },
+    {
+      img: '/images/resource/sohel_executive.jpg',
+      caption: 'Enterprise Consultation'
+    }
+  ];
+
   return (
-    <>
+    <div className="about-page">
       {/* ===================================================================
-           1. HERO SECTION — CINEMATIC LUXURY EDITORIAL BANNER
+           1. HERO SECTION
            =================================================================== */}
-      <section className="about-hero-cinematic" id="about-hero">
-        <div className="about-hero-cinematic-inner">
-          <div className="about-hero-cinematic-content">
-            <div className="about-hero-subhead">
-              <span className="dash"></span>
-              <span>ABOUT SOHEAL</span>
-            </div>
-
-            <h1 className="hero-cinematic-headline">
-              Strategy Gives Brands<br />
-              Direction.<br />
-              <span className="hero-italic-gold">Storytelling Gives<br />Them Meaning.</span>
+      <section className="page-hero">
+        <div className="container">
+          <div className="page-hero-inner">
+            <div className="kicker">About Soheal Vaseem</div>
+            <h1 className="page-hero-title">
+              Strategy Gives Brands Direction.<br />
+              <em style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 400 }}>Storytelling Gives Them Meaning.</em>
             </h1>
-
-            <p className="hero-cinematic-lead">
-              For over three decades, Soheal Vaseem has partnered with enterprise founders, leadership teams, and growing businesses to transform strategic business clarity into distinctive market positioning, compelling communication, and enduring commercial value.
+            <p className="page-hero-lead">
+              For over three decades, Soheal Vaseem has partnered with enterprise founders, leadership teams, and ambitious organizations to transform strategic business clarity into distinctive market positioning, compelling communication, and enduring commercial value.
             </p>
-
-            <div className="hero-cinematic-actions">
-              <a href="#story" className="btn-cinematic-dark" title="Explore Career Story">
-                <span>EXPLORE MY STORY</span>
-                <i className="fa-solid fa-arrow-right"></i>
-              </a>
-              <Link to="/contact" className="btn-cinematic-outline" title="Let's Build Your Brand">
-                <span>LET'S BUILD YOUR BRAND</span>
-                <i className="fa-solid fa-arrow-right"></i>
-              </Link>
-            </div>
-
-            <div className="about-hero-bottom-tag">
-              <span className="dash"></span>
-              <span>VISION &bull; STRATEGY &bull; STORIES</span>
-            </div>
-          </div>
-
-          {/* Dedicated Portrait (Mobile) */}
-          <div className="about-hero-visual-mobile">
-            <div className="about-mobile-portrait-wrapper">
-              <img 
-                src="/images/resource/about_portrait_mobile.jpg" 
-                alt="Soheal Vaseem" 
-                className="about-mobile-portrait-img" 
-                loading="eager" 
-              />
-            </div>
           </div>
         </div>
       </section>
 
       {/* ===================================================================
-           2. CAREER STORY — EDITORIAL FEATURE NARRATIVE
+           2. BEHIND THE LENS (POLAROID FRAMES)
            =================================================================== */}
-      <section className="section-padding bg-canvas" id="story">
+      <section className="section-padding" style={{ background: '#ffffff', borderBottom: '1px solid var(--line)' }}>
         <div className="container">
-          <div className="section-header-editorial" style={{ marginBottom: '52px' }}>
-            <div>
-              <span className="editorial-badge">Career Journey &bull; Since 1991</span>
-              <h2>A Career Built Around Communication. A Philosophy Rooted in Strategy.</h2>
-            </div>
-            <p className="section-header-lead">
-              Tracing a thirty-year evolution from foundational advertising to comprehensive brand architecture and commercial direction.
+          <div className="section-head centered">
+            <div className="kicker">Behind The Lens</div>
+            <h2 className="section-title">
+              Moments of Craft. <em>Decades of Dedication.</em>
+            </h2>
+            <p className="section-desc">
+              Directing commercial film sets, shaping brand narratives, and collaborating with visionary teams across Mumbai and Hyderabad.
             </p>
           </div>
 
-          <div className="about-story-grid">
-            <div className="about-story-col">
-              <div className="about-milestone-card">
-                <div className="about-milestone-year">1991</div>
-                <h3 className="about-milestone-title">The Foundation at Gazelle Ads</h3>
-                <p className="about-milestone-text">
-                  Soheal Vaseem’s professional journey began in advertising with Gazelle Ads in 1991. From traditional print advertising, visual communication, and commercial typography to the evolving digital landscape, his early career followed the continuous transformation of how businesses connect with audiences and build market recognition.
-                </p>
+          <div className="polaroid-grid">
+            {polaroids.map((p, idx) => (
+              <div className="sv-polaroid-card" key={idx}>
+                <div className="sv-polaroid-img-wrap">
+                  <img src={p.img} alt={p.caption} loading="lazy" />
+                </div>
+                <div className="sv-polaroid-caption">{p.caption}</div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================================
+           3. THE 30-YEAR JOURNEY & PHILOSOPHY
+           =================================================================== */}
+      <section className="section-padding" style={{ background: 'var(--bg)' }}>
+        <div className="container">
+          <div className="about-preview-inner">
+            {/* Visual Portrait */}
+            <div className="about-preview-visual">
+              <div className="about-preview-img-frame">
+                <img 
+                  src="/images/resource/sohel_intro_portrait.jpg" 
+                  alt="Soheal Vaseem — Directorial Milestones" 
+                  className="about-preview-img" 
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            {/* Narrative Text */}
+            <div className="about-preview-content">
+              <div className="kicker">Career Evolution &bull; Since 1991</div>
+              <h2 className="section-title">
+                From Foundational Advertising to <em>Full-Spectrum Brand Architecture.</em>
+              </h2>
               
-              <div className="about-milestone-card">
-                <div className="about-milestone-year">The Evolution</div>
-                <h3 className="about-milestone-title">Beyond Advertising to Brand Strategy</h3>
-                <p className="about-milestone-text">
-                  Over time, his perspective expanded beyond standalone campaigns. He recognized that lasting brand value depends on far more than visibility alone. It requires genuine clarity of purpose, a distinctive position in the market, a consistent identity, and a meaningful connection with the people a business serves.
-                </p>
-              </div>
-            </div>
-            
-            <div className="about-story-col">
-              <div className="about-milestone-card">
-                <div className="about-milestone-year">Media Wagon</div>
-                <h3 className="about-milestone-title">Architecture, Direction &amp; Enterprise Value</h3>
-                <p className="about-milestone-text">
-                  That evolution inspired the transition from Gazelle Ads to founding Media Wagon—uniting corporate brand positioning, digital web architecture, and multi-channel creative direction under a disciplined strategic consulting practice designed for sustainable growth.
+              <p className="section-desc" style={{ marginBottom: '18px' }}>
+                Soheal Vaseem’s professional journey began in advertising with <strong>Gazelle Ads in 1991</strong>. From traditional print advertising, visual communication, and commercial typography to television broadcasting and the digital web landscape, his career has tracked the continuous transformation of how businesses connect with audiences.
+              </p>
+
+              <p className="section-desc">
+                With filmmaking and creative direction as core facets of his identity, Soheal brings an authentic visual storytelling perspective to brand communication. He believes that true brand power emerges when analytical business strategy and high-craft emotional storytelling operate as one unified discipline.
+              </p>
+
+              <div className="about-quote-box">
+                <p className="about-quote-text">
+                  &ldquo;A great brand does not shout for attention; it creates an unmistakable gravity that draws people in, earns their trust, and commands loyalty.&rdquo;
                 </p>
               </div>
 
-              <div className="about-story-quote-card">
-                <p className="about-story-quote">
-                  &ldquo;Building a brand is not simply about being seen. It is about being understood, trusted, and remembered.&rdquo;
-                </p>
-                <span className="about-story-author">&mdash; Soheal Vaseem</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================
-           3. STRATEGIC PHILOSOPHY
-           =================================================================== */}
-      <section className="section-padding bg-surface" style={{ borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)' }}>
-        <div className="container">
-          <div className="about-philosophy-wrapper">
-            <span className="editorial-badge" style={{ justifyContent: 'center' }}>Strategic Philosophy</span>
-            <blockquote className="about-philosophy-statement">
-              &ldquo;Branding is not simply a logo, a colour palette, or a collection of campaigns. It is the perception a business creates through every interaction.&rdquo;
-            </blockquote>
-            <p className="about-philosophy-subtext">
-              Meaningful commercial growth occurs when an organization’s business reality, customer understanding, and creative execution operate in total alignment. When strategic clarity precedes design choices, every communication touchpoint builds compounding enterprise value.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================
-           4. FOUR CORE DIAGNOSTIC PILLARS
-           =================================================================== */}
-      <section className="section-padding bg-canvas">
-        <div className="container">
-          <div className="section-header-editorial" style={{ marginBottom: '48px' }}>
-            <div>
-              <span className="editorial-badge">Strategic Discipline</span>
-              <h2>The Four Core Diagnostic Pillars</h2>
-            </div>
-            <p className="section-header-lead">
-              A disciplined methodology to replace market guesswork with structural clarity, positioning precision, and creative execution.
-            </p>
-          </div>
-
-          <div className="about-pillars-grid">
-            <div className="about-pillar-item">
-              <span className="about-pillar-num">01</span>
-              <h3 className="about-pillar-title">What It Stands For</h3>
-              <p className="about-pillar-desc">
-                Uncovering the fundamental purpose, commercial ethos, and authentic principles that anchor the enterprise and guide leadership decisions.
-              </p>
-            </div>
-
-            <div className="about-pillar-item">
-              <span className="about-pillar-num">02</span>
-              <h3 className="about-pillar-title">Whom It Serves</h3>
-              <p className="about-pillar-desc">
-                Gaining acute clarity on the real needs, aspirations, and decision-making criteria of qualified customers in your specific sector.
-              </p>
-            </div>
-
-            <div className="about-pillar-item">
-              <span className="about-pillar-num">03</span>
-              <h3 className="about-pillar-title">What Makes It Different</h3>
-              <p className="about-pillar-desc">
-                Formulating a sharp, defensible market position that separates the business from competitor noise and clearly articulates superior value.
-              </p>
-            </div>
-
-            <div className="about-pillar-item">
-              <span className="about-pillar-num">04</span>
-              <h3 className="about-pillar-title">How It Is Understood</h3>
-              <p className="about-pillar-desc">
-                Translating strategic positioning into deliberate creative direction, visual identity, communication systems, and coherent brand experiences.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================
-           5. FILMMAKING AND BRAND STRATEGY
-           =================================================================== */}
-      <section className="section-padding bg-surface" style={{ borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)' }}>
-        <div className="container">
-          <div className="about-cinema-grid">
-            <div className="about-cinema-content">
-              <span className="editorial-badge">Creative Direction &bull; Directorial Craft</span>
-              <h3>Where Strategy Meets Storytelling</h3>
-              <p>
-                With filmmaking and creative direction as core facets of his professional identity, Soheal brings an authentic visual storytelling perspective to brand communication.
-              </p>
-              <p>
-                He believes that a strong strategic idea should not remain on paper. It must be translated into a clear visual identity, compelling narrative communication, and memorable experiences that audiences can instantly recognize. This synergy of analytical business thinking and directorial craft informs his approach to building brands that endure.
-              </p>
-              <div style={{ marginTop: '14px' }}>
-                <Link to="/filmmaking" className="btn btn-outline btn-sm">
-                  <span>Explore Commercial Direction</span>
+              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
+                <Link to="/services" className="sv-btn sv-btn-dark">
+                  <span>Explore Strategic Services</span>
                   <i className="fa-solid fa-arrow-right"></i>
+                </Link>
+                <Link to="/filmmaking" className="sv-btn sv-btn-outline">
+                  <span>View Film Direction</span>
                 </Link>
               </div>
             </div>
-
-            <div className="about-cinema-visual">
-              <div className="about-cinema-frame">
-                <img src="/images/resource/slider03.jpg" alt="Soheal Vaseem Directing on Commercial Film Set" loading="lazy" />
-              </div>
-              <div className="about-cinema-caption">
-                <i className="fa-solid fa-film"></i>
-                <span>Directorial execution on commercial film sets, corporate narratives, and television broadcasts.</span>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
       {/* ===================================================================
-           6. PUBLISHED RECOGNITION & PRESS
+           4. CORE STRATEGIC PRINCIPLES
            =================================================================== */}
-      <section className="section-padding-sm bg-canvas">
+      <section className="section-padding" style={{ background: '#ffffff', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)' }}>
         <div className="container">
-          <div className="about-press-strip">
-            <div className="about-press-info">
-              <span className="editorial-badge" style={{ marginBottom: '6px' }}>Published Recognition</span>
-              <h4>Featured in National &amp; Regional Press</h4>
-              <p>
-                Read profile features and milestone coverages in The Hindu, Deccan Chronicle, Eenadu, and The Siasat Daily.
+          <div className="section-head centered">
+            <div className="kicker">Working Principles</div>
+            <h2 className="section-title">
+              How Strategy &amp; Craft <em>Deliver Results.</em>
+            </h2>
+            <p className="section-desc">
+              Four fundamental rules that guide every brand architecture, visual campaign, and film production.
+            </p>
+          </div>
+
+          <div className="services-grid-4">
+            <div className="service-card">
+              <div className="service-icon-box">
+                <i className="fa-solid fa-crosshairs"></i>
+              </div>
+              <h3 className="service-card-title">1. Clarity Before Creativity</h3>
+              <p className="service-card-desc">
+                Before designing a single asset or writing a single line of script, we define exactly what problem we are solving, who we are speaking to, and what competitive space we intend to own.
               </p>
             </div>
-            <Link to="/media" className="btn btn-outline btn-sm">
-              <span>View Press Coverage</span>
-              <i className="fa-solid fa-arrow-right"></i>
-            </Link>
+
+            <div className="service-card">
+              <div className="service-icon-box">
+                <i className="fa-solid fa-heart-pulse"></i>
+              </div>
+              <h3 className="service-card-title">2. Emotion Grounded in Logic</h3>
+              <p className="service-card-desc">
+                Consumers and business buyers make decisions based on emotion and justify them with logic. Every campaign balances emotional resonance with unequivocal commercial value.
+              </p>
+            </div>
+
+            <div className="service-card">
+              <div className="service-icon-box">
+                <i className="fa-solid fa-video"></i>
+              </div>
+              <h3 className="service-card-title">3. Directorial Precision</h3>
+              <p className="service-card-desc">
+                Whether on a commercial film set or guiding an enterprise digital launch, every visual nuance, camera movement, and typographic choice is executed with uncompromising precision.
+              </p>
+            </div>
+
+            <div className="service-card">
+              <div className="service-icon-box">
+                <i className="fa-solid fa-shield-halved"></i>
+              </div>
+              <h3 className="service-card-title">4. Enduring Brand Equity</h3>
+              <p className="service-card-desc">
+                We design for longevity rather than fleeting trends. Our goal is to build brand frameworks that continue generating commercial value for years to come.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ===================================================================
-           7. FINAL CALL TO ACTION
+           5. CAREER TIMELINE
            =================================================================== */}
-      <section className="cta-meaningful-section" id="contact">
+      <section className="section-padding" style={{ background: 'var(--bg)' }}>
         <div className="container">
-          <div className="cta-meaningful-inner">
-            <span className="editorial-badge" style={{ justifyContent: 'center' }}>Initiate Consultation</span>
-            <h2>Let's Start With a Conversation.</h2>
-            <p>
-              If your business is ready to define its direction, strengthen its positioning, or build an enduring brand, let's explore what comes next.
+          <div className="section-head centered">
+            <div className="kicker">Milestone Milestones</div>
+            <h2 className="section-title">
+              Three Decades of Growth. <em>Key Eras of Impact.</em>
+            </h2>
+            <p className="section-desc">
+              A chronology of continuous reinvention and creative excellence across Indian media.
             </p>
-            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '28px' }}>
-              <Link to="/contact" className="btn btn-primary" style={{ padding: '14px 34px' }}>
-                <span>Schedule An Advisory Call</span>
-                <i className="fa-solid fa-arrow-right"></i>
-              </Link>
-              <Link to="/services" className="btn btn-outline" style={{ padding: '14px 28px' }}>
-                <span>Explore Capabilities</span>
-              </Link>
+          </div>
+
+          <div className="timeline-container">
+            <div className="timeline-item left">
+              <div className="timeline-card">
+                <div className="timeline-step">1991 &bull; Genesis</div>
+                <h3 className="timeline-title">Gazelle Ads &amp; Print Foundations</h3>
+                <p className="timeline-desc">
+                  Immersed in classical print advertising, typography, visual hierarchy, and foundational commercial copywriting that forged rigorous design discipline.
+                </p>
+              </div>
             </div>
-            <div style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', letterSpacing: '0.03em' }}>
-              <span>Mumbai &bull; Hyderabad &bull; </span>
-              <a href="mailto:info@sohealvaseem.com" style={{ color: 'var(--accent-bronze)', textDecoration: 'underline' }}>info@sohealvaseem.com</a>
-              <span> &bull; </span>
-              <a href="tel:+919014365364" style={{ color: 'var(--text-primary)', fontWeight: '600' }}>+91 9014 365 364</a>
+
+            <div className="timeline-item right">
+              <div className="timeline-card">
+                <div className="timeline-step">Early 2000s &bull; Directorial Transition</div>
+                <h3 className="timeline-title">Commercial Television Direction</h3>
+                <p className="timeline-desc">
+                  Expanded into broadcast directing, overseeing major television serials, public awareness spots, and high-budget brand commercials on regional and national networks.
+                </p>
+              </div>
+            </div>
+
+            <div className="timeline-item left">
+              <div className="timeline-card">
+                <div className="timeline-step">2010s &bull; Full-Spectrum Campaigns</div>
+                <h3 className="timeline-title">Corporate &amp; Healthcare Leadership</h3>
+                <p className="timeline-desc">
+                  Directed comprehensive marketing campaigns for hospitals, luxury hospitality venues, real estate leaders, and multi-tier consumer product brands.
+                </p>
+              </div>
+            </div>
+
+            <div className="timeline-item right">
+              <div className="timeline-card">
+                <div className="timeline-step">2020s &bull; Digital &amp; Beyond</div>
+                <h3 className="timeline-title">Modern Digital Architecture</h3>
+                <p className="timeline-desc">
+                  Synthesizing three decades of strategic consulting with luxury e-commerce platforms, patient portals, and high-conversion omnichannel digital ecosystems.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
-    </>
+
+      {/* ===================================================================
+           6. CTA BANNER
+           =================================================================== */}
+      <section className="cta-banner-section">
+        <div className="container">
+          <div className="cta-banner-inner">
+            <div className="kicker kicker-gold" style={{ justifyContent: 'center' }}>Let's Talk</div>
+            <h2 className="section-title">
+              Partner with Soheal Vaseem to Elevate Your Brand
+            </h2>
+            <p className="section-desc">
+              Available for brand architecture advisory, commercial film direction, and selective executive consulting assignments.
+            </p>
+            <div className="cta-banner-actions">
+              <Link to="/contact" className="sv-btn sv-btn-red sv-btn-lg">
+                <span>Start a Conversation</span>
+                <i className="fa-solid fa-arrow-right"></i>
+              </Link>
+              <Link to="/portfolio" className="sv-btn sv-btn-white sv-btn-lg">
+                <span>Browse Portfolio</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
