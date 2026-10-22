@@ -1,17 +1,49 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [searchParams] = useSearchParams();
+  const serviceParam = searchParams.get('service') || searchParams.get('type') || '';
+
+  const serviceOptions = [
+    { id: 'branding', label: 'Brand Architecture' },
+    { id: 'film', label: 'Commercial Film & TVCs' },
+    { id: 'advertising', label: 'Advertising & Marketing' },
+    { id: 'web', label: 'Web & Digital Platforms' },
+    { id: 'advisory', label: 'Turnkey Advisory' }
+  ];
+
+  const getInitialService = () => {
+    if (serviceParam.includes('brand')) return 'Brand Architecture';
+    if (serviceParam.includes('film')) return 'Commercial Film & TVCs';
+    if (serviceParam.includes('adver')) return 'Advertising & Marketing';
+    if (serviceParam.includes('web')) return 'Web & Digital Platforms';
+    if (serviceParam.includes('advis') || serviceParam.includes('press')) return 'Turnkey Advisory';
+    return 'Brand Architecture';
+  };
+
+  const [selectedService, setSelectedService] = useState(getInitialService());
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+    message: ''
+  });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (serviceParam) {
+      setSelectedService(getInitialService());
+    }
+  }, [serviceParam]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
     setLoading(true);
 
-    // Client-side simulation or send to Web3Forms / mailto
     setTimeout(() => {
       setLoading(false);
       setSubmitted(true);
@@ -35,11 +67,11 @@ export default function Contact() {
               Let's Start a <span className="hero-italic-gold">Conversation.</span>
             </h1>
             <p className="hero-editorial-lead">
-              Have a project, an idea, or an opportunity in mind? Let's explore what we can create together.
+              Have a project, an idea, or an ambitious market opportunity in mind? Let's explore what we can architect together.
             </p>
             <div className="hero-editorial-actions">
               <a href="#inquiry-form" className="btn-hero-dark-pill" title="Submit Project Brief">
-                <span>MESSAGE DIRECTLY</span>
+                <span>SUBMIT PROJECT BRIEF</span>
                 <i className="fa-solid fa-arrow-down"></i>
               </a>
               <a href="tel:+919014365364" className="btn-hero-outline-pill" title="Call Direct Office Line">
@@ -56,113 +88,246 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Contact Details & Form Section */}
+      {/* ===================================================================
+           CONTACT DETAILS & FORM SECTION
+           =================================================================== */}
       <section className="section-padding bg-canvas" id="inquiry-form">
         <div className="container">
-          <div className="row" style={{ alignItems: 'flex-start', justifyContent: 'space-between' }}>
-            <div className="col-md-5" style={{ marginBottom: '40px' }}>
-              <span className="editorial-badge">Consultation Inquiries</span>
-              <h2>Let's Discuss Your Commercial Objectives</h2>
-              <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: '30px' }}>
-                Every project begins with understanding your strategic vision and challenges. Reach out directly or complete the brief form to initiate a conversation.
-              </p>
+          <div className="contact-editorial-layout">
+            
+            {/* Left Column: Direct Communication Channels */}
+            <div className="contact-channels-wrapper">
+              <div style={{ marginBottom: '12px' }}>
+                <span className="editorial-badge">Consultation Inquiries</span>
+                <h2 style={{ fontSize: 'clamp(1.85rem, 2.6vw, 2.45rem)', margin: '14px 0 10px', lineHeight: 1.25 }}>
+                  Let's Discuss Your Commercial Objectives
+                </h2>
+                <p style={{ fontSize: '1.02rem', color: 'var(--text-secondary)', lineHeight: 1.75, marginBottom: '28px' }}>
+                  Every engagement begins with understanding your strategic vision, competitive landscape, and goals. Connect directly or submit a brief.
+                </p>
+              </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', borderTop: '1px solid var(--border-light)', paddingTop: '28px' }}>
-                <div>
-                  <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.14em', color: 'var(--text-muted)', marginBottom: '4px' }}>Direct Telephone</div>
-                  <a href="tel:+919014365364" style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', fontWeight: 600, color: 'var(--text-primary)' }}>+91 9014 365 364</a>
+              {/* 1. Direct Phone Card */}
+              <a href="tel:+919014365364" className="contact-channel-card" title="Direct Phone Call">
+                <div className="contact-channel-icon">
+                  <i className="fa-solid fa-phone"></i>
                 </div>
-
-                <div>
-                  <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.14em', color: 'var(--text-muted)', marginBottom: '4px' }}>Direct Email</div>
-                  <a href="mailto:info@sohealvaseem.com" style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', fontWeight: 600, color: 'var(--text-primary)' }}>info@sohealvaseem.com</a>
+                <div className="contact-channel-body">
+                  <span className="contact-channel-kicker">Direct Telephone &bull; WhatsApp</span>
+                  <div className="contact-channel-val">+91 9014 365 364</div>
+                  <p className="contact-channel-sub">Available Mon &ndash; Sat &bull; 10:00 AM &ndash; 7:00 PM IST</p>
                 </div>
+              </a>
 
-                <div>
-                  <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.14em', color: 'var(--text-muted)', marginBottom: '4px' }}>Primary Locations</div>
-                  <span style={{ fontSize: '1.05rem', color: 'var(--text-primary)', fontWeight: 500 }}>Mumbai &bull; Hyderabad &bull; Available Nationally</span>
+              {/* 2. Direct Email Card */}
+              <a href="mailto:info@sohealvaseem.com" className="contact-channel-card" title="Direct Email">
+                <div className="contact-channel-icon">
+                  <i className="fa-solid fa-envelope"></i>
                 </div>
+                <div className="contact-channel-body">
+                  <span className="contact-channel-kicker">Official Correspondence</span>
+                  <div className="contact-channel-val">info@sohealvaseem.com</div>
+                  <p className="contact-channel-sub">Direct executive inbox &bull; Guaranteed response within 24h</p>
+                </div>
+              </a>
 
-                <div style={{ marginTop: '6px' }}>
-                  <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.14em', color: 'var(--text-muted)', marginBottom: '8px' }}>Professional Network</div>
-                  <div className="top-social" style={{ fontSize: '1.1rem', gap: '16px' }}>
-                    <a href="https://www.linkedin.com/in/sohealvaseem" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i className="fa-brands fa-linkedin-in"></i></a>
-                    <a href="https://www.youtube.com/user/Sohealvaseem" target="_blank" rel="noopener noreferrer" title="YouTube"><i className="fa-brands fa-youtube"></i></a>
-                    <a href="https://www.instagram.com/soheal_vaseem" target="_blank" rel="noopener noreferrer" title="Instagram"><i className="fa-brands fa-instagram"></i></a>
-                  </div>
+              {/* 3. Studio Locations Card */}
+              <div className="contact-channel-card">
+                <div className="contact-channel-icon">
+                  <i className="fa-solid fa-location-dot"></i>
+                </div>
+                <div className="contact-channel-body">
+                  <span className="contact-channel-kicker">Primary Studios</span>
+                  <div className="contact-channel-val" style={{ fontSize: '1.18rem' }}>Mumbai &bull; Hyderabad</div>
+                  <p className="contact-channel-sub">On-site consulting &amp; film production across India &amp; overseas</p>
+                </div>
+              </div>
+
+              {/* 4. Professional Networks Card */}
+              <div className="contact-channel-card" style={{ flexDirection: 'column', gap: '14px' }}>
+                <span className="contact-channel-kicker" style={{ margin: 0 }}>Professional Network &amp; Media</span>
+                <div className="contact-social-row">
+                  <a href="https://www.linkedin.com/in/sohealvaseem" target="_blank" rel="noopener noreferrer" className="contact-social-btn">
+                    <i className="fa-brands fa-linkedin-in"></i>
+                    <span>LinkedIn</span>
+                  </a>
+                  <a href="https://www.youtube.com/user/Sohealvaseem" target="_blank" rel="noopener noreferrer" className="contact-social-btn">
+                    <i className="fa-brands fa-youtube"></i>
+                    <span>YouTube</span>
+                  </a>
+                  <a href="https://www.instagram.com/soheal_vaseem" target="_blank" rel="noopener noreferrer" className="contact-social-btn">
+                    <i className="fa-brands fa-instagram"></i>
+                    <span>Instagram</span>
+                  </a>
                 </div>
               </div>
             </div>
 
-            <div className="col-md-6">
-              <div style={{ background: '#ffffff', border: '1px solid var(--border-light)', padding: '40px', boxShadow: 'var(--shadow-subtle)', borderRadius: '4px' }}>
-                <h3 style={{ marginBottom: '6px' }}>Submit a Project Brief</h3>
-                <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', marginBottom: '26px' }}>
-                  Share your goals, current brand challenges, and timeline. I review all inquiries and respond within 24 hours.
+            {/* Right Column: Premium Inquiry Form */}
+            <div className="contact-form-card">
+              <div className="contact-form-header">
+                <span className="editorial-badge">Project Intake &bull; Confidential</span>
+                <h3>Submit a Project Brief</h3>
+                <p>
+                  Share your strategic goals, timeline, or current commercial challenge. Soheal Vaseem reviews all inquiries personally.
                 </p>
+              </div>
 
-                {submitted ? (
-                  <div className="alert alert-success" style={{ padding: '20px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '4px', color: '#166534', marginBottom: '20px' }}>
-                    <i className="fa-solid fa-circle-check" style={{ marginRight: '8px' }}></i>
-                    <strong>Thank you, {formData.name}!</strong> Your message has been received. I will review your project brief and get in touch shortly.
+              {submitted ? (
+                <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '6px', padding: '32px 24px', textAlign: 'center' }}>
+                  <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#22c55e', color: '#ffffff', display: 'grid', placeItems: 'center', margin: '0 auto 16px', fontSize: '1.5rem' }}>
+                    <i className="fa-solid fa-check"></i>
                   </div>
-                ) : (
-                  <form onSubmit={handleSubmit}>
-                    <div className="form-group" style={{ marginBottom: '20px' }}>
-                      <label htmlFor="contact-name" style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>Your Full Name *</label>
+                  <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', color: '#14532d', marginBottom: '8px' }}>
+                    Thank you, {formData.name}!
+                  </h4>
+                  <p style={{ color: '#166534', fontSize: '0.98rem', lineHeight: 1.6, maxWidth: '440px', margin: '0 auto 20px' }}>
+                    Your project brief regarding <strong>{selectedService}</strong> has been received. You will receive a direct response within 24 business hours.
+                  </p>
+                  <button 
+                    type="button" 
+                    className="btn btn-outline btn-sm" 
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({ name: '', email: '', phone: '', company: '', message: '' });
+                    }}
+                  >
+                    <span>Send Another Inquiry</span>
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  {/* Service Focus Selector */}
+                  <div className="contact-services-selector">
+                    <label className="contact-services-label">Focus Area &bull; Strategic Scope</label>
+                    <div className="contact-services-chips">
+                      {serviceOptions.map((opt) => (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          className={`contact-chip ${selectedService === opt.label ? 'active' : ''}`}
+                          onClick={() => setSelectedService(opt.label)}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Name & Email Row */}
+                  <div className="contact-fields-row">
+                    <div className="contact-field-group">
+                      <label htmlFor="contact-name" className="contact-field-label">
+                        <span>Your Full Name</span>
+                        <span className="required-dot">*</span>
+                      </label>
                       <input 
                         id="contact-name" 
                         type="text" 
-                        className="form-control" 
-                        placeholder="Enter your full name" 
+                        className="contact-input" 
+                        placeholder="e.g. Rahul Sharma" 
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        style={{ width: '100%', padding: '12px 16px', border: '1px solid var(--border-medium)', borderRadius: '4px' }}
                       />
                     </div>
 
-                    <div className="form-group" style={{ marginBottom: '20px' }}>
-                      <label htmlFor="contact-email" style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>Email Address *</label>
+                    <div className="contact-field-group">
+                      <label htmlFor="contact-email" className="contact-field-label">
+                        <span>Email Address</span>
+                        <span className="required-dot">*</span>
+                      </label>
                       <input 
                         id="contact-email" 
                         type="email" 
-                        className="form-control" 
+                        className="contact-input" 
                         placeholder="name@company.com" 
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        style={{ width: '100%', padding: '12px 16px', border: '1px solid var(--border-medium)', borderRadius: '4px' }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Phone & Company Row */}
+                  <div className="contact-fields-row">
+                    <div className="contact-field-group">
+                      <label htmlFor="contact-phone" className="contact-field-label">
+                        <span>Phone / WhatsApp</span>
+                        <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>(Optional)</span>
+                      </label>
+                      <input 
+                        id="contact-phone" 
+                        type="tel" 
+                        className="contact-input" 
+                        placeholder="+91 98765 43210" 
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       />
                     </div>
 
-                    <div className="form-group" style={{ marginBottom: '24px' }}>
-                      <label htmlFor="contact-message" style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>Project Brief or Objective *</label>
-                      <textarea 
-                        id="contact-message" 
-                        className="form-control" 
-                        rows="5" 
-                        placeholder="Describe your brand, key requirements, and timeline..." 
-                        required
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        style={{ width: '100%', padding: '12px 16px', border: '1px solid var(--border-medium)', borderRadius: '4px' }}
-                      ></textarea>
+                    <div className="contact-field-group">
+                      <label htmlFor="contact-company" className="contact-field-label">
+                        <span>Company / Brand</span>
+                        <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>(Optional)</span>
+                      </label>
+                      <input 
+                        id="contact-company" 
+                        type="text" 
+                        className="contact-input" 
+                        placeholder="Organization or brand name" 
+                        value={formData.company}
+                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      />
                     </div>
+                  </div>
 
-                    <button 
-                      type="submit" 
-                      className="btn btn-primary" 
-                      disabled={loading}
-                      style={{ width: '100%', justifyContent: 'center' }}
-                    >
-                      <span>{loading ? 'Sending...' : 'Send Project Inquiry'}</span>
-                      <i className="fa-solid fa-arrow-right"></i>
-                    </button>
-                  </form>
-                )}
-              </div>
+                  {/* Message Field */}
+                  <div className="contact-field-group">
+                    <label htmlFor="contact-message" className="contact-field-label">
+                      <span>Project Brief, Objectives or Timeline</span>
+                      <span className="required-dot">*</span>
+                    </label>
+                    <textarea 
+                      id="contact-message" 
+                      className="contact-textarea" 
+                      rows="4" 
+                      placeholder="Describe your brand, key goals, target audience, and current timeline..." 
+                      required
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    ></textarea>
+                  </div>
+
+                  {/* Submit Button */}
+                  <button 
+                    type="submit" 
+                    className="contact-submit-btn" 
+                    disabled={loading}
+                  >
+                    <span>{loading ? 'Sending Inquiry...' : 'Send Project Inquiry'}</span>
+                    <i className="fa-solid fa-arrow-right"></i>
+                  </button>
+
+                  {/* Trust Reassurance Badges */}
+                  <div className="contact-trust-strip">
+                    <div className="contact-trust-item">
+                      <i className="fa-solid fa-lock"></i>
+                      <span>Confidential &bull; NDA upon request</span>
+                    </div>
+                    <div className="contact-trust-item">
+                      <i className="fa-solid fa-clock"></i>
+                      <span>24-Hour Response</span>
+                    </div>
+                    <div className="contact-trust-item">
+                      <i className="fa-solid fa-user-shield"></i>
+                      <span>Direct Advisory</span>
+                    </div>
+                  </div>
+                </form>
+              )}
             </div>
+
           </div>
         </div>
       </section>
