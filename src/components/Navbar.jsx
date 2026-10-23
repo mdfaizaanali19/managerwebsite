@@ -1,253 +1,135 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'motion/react';
+
+/**
+ * Single navigation list. The desktop bar and the full-screen overlay both read
+ * from here so a route can never appear in one and be missing from the other.
+ */
+const LINKS = [
+  { to: '/', label: 'Home', end: true },
+  { to: '/about', label: 'About' },
+  { to: '/portfolio', label: 'Projects' },
+  { to: '/services', label: 'Services' },
+  { to: '/filmmaking', label: 'Filmmaking' },
+  { to: '/media', label: 'Insights' },
+  { to: '/contact', label: 'Contact' }
+];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Close drawer on route change
-  useEffect(() => {
-    setDrawerOpen(false);
-    window.scrollTo(0, 0);
+    setMenuOpen(false);
+    if (window.__lenis) window.__lenis.scrollTo(0, { immediate: true });
+    else window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  const toggleDrawer = () => {
-    setDrawerOpen(prev => !prev);
-  };
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [menuOpen]);
 
   return (
     <>
-      {/* Top Info Bar */}
-      <div className="top-info-bar">
-        <div className="container">
-          <div className="top-info-content">
-            <div className="top-info-left">
-              <div className="top-info-item">
-                <i className="fa-solid fa-location-dot"></i> Mumbai &bull; Hyderabad
-              </div>
-              <div className="top-info-item">
-                <i className="fa-solid fa-envelope"></i>
-                <a href="mailto:info@sohealvaseem.com">info@sohealvaseem.com</a>
-              </div>
-              <div className="top-info-item">
-                <i className="fa-solid fa-phone"></i>
-                <a href="tel:+919014365364">+91 9014 365 364</a>
-              </div>
-            </div>
-            
-            <div className="top-info-right">
-              <div className="top-social">
-                <a href="https://www.linkedin.com/in/sohealvaseem" target="_blank" rel="noopener noreferrer" title="LinkedIn">
-                  <i className="fa-brands fa-linkedin-in"></i>
-                </a>
-                <a href="https://www.youtube.com/user/Sohealvaseem" target="_blank" rel="noopener noreferrer" title="YouTube">
-                  <i className="fa-brands fa-youtube"></i>
-                </a>
-                <a href="https://www.instagram.com/soheal_vaseem" target="_blank" rel="noopener noreferrer" title="Instagram">
-                  <i className="fa-brands fa-instagram"></i>
-                </a>
-              </div>
-            </div>
+      <div className="rl-nav-wrap">
+        <header className="rl-nav">
+          <Link to="/" className="rl-nav-logo" aria-label="Soheal Vaseem — Home">
+            <span className="rl-nav-mark">SV</span>
+            <span className="rl-nav-word">SOHEAL VASEEM</span>
+          </Link>
+
+          <nav className="rl-nav-links" aria-label="Primary">
+            {LINKS.map((l) => (
+              <NavLink
+                key={l.to}
+                to={l.to}
+                end={l.end}
+                className={({ isActive }) => `rl-nav-link ${isActive ? 'is-active' : ''}`}
+              >
+                {l.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          <div className="rl-nav-right">
+            <span className="rl-nav-based">Mumbai &amp; Hyderabad</span>
+            <button
+              type="button"
+              className={`rl-menu-btn ${menuOpen ? 'is-open' : ''}`}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((v) => !v)}
+            >
+              <span />
+              <span />
+            </button>
           </div>
-        </div>
+        </header>
       </div>
 
-      {/* Main Sticky Navbar */}
-      <header className={`main-navbar ${scrolled ? 'scrolled' : ''}`}>
-        <div className="container">
-          <div className="nav-container">
-            {/* Brand Mark */}
-            <Link to="/" className="brand-mark" title="Soheal Vaseem — Brand Strategist & Filmmaker">
-              <div className="brand-monogram">SV</div>
-              <div className="brand-text">
-                <span className="brand-title">SOHEAL VASEEM</span>
-                <span className="brand-subtitle">BRAND STRATEGIST &amp; FILMMAKER</span>
-              </div>
-            </Link>
-
-            {/* Desktop Navigation Menu */}
-            <nav className="nav-desktop-wrap" aria-label="Main Navigation">
-              <ul className="nav-menu">
-                <li className="nav-item">
-                  <NavLink to="/" end className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-                    Home
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink to="/about" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-                    About
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink to="/services" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-                    Expertise
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink to="/portfolio" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-                    Work
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink to="/media" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-                    Insights
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink to="/contact" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-                    Contact
-                  </NavLink>
-                </li>
-              </ul>
-            </nav>
-
-            {/* Nav CTA & Mobile Toggle */}
-            <div className="nav-actions-group">
-              <NavLink to="/filmmaking" className={({ isActive }) => `nav-cta-btn ${isActive ? 'active' : ''}`} title="Film Making & Direction Portfolio">
-                <span>Film Making</span>
-                <i className="fa-solid fa-arrow-right"></i>
-              </NavLink>
-              <button 
-                type="button" 
-                className={`mobile-toggle ${drawerOpen ? 'active' : ''}`} 
-                aria-label="Toggle navigation menu"
-                onClick={toggleDrawer}
-              >
-                <span className="toggle-line line-top"></span>
-                <span className="toggle-line line-mid"></span>
-                <span className="toggle-line line-bot"></span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Mobile Offcanvas Drawer */}
-      <div 
-        className={`drawer-backdrop ${drawerOpen ? 'active' : ''}`} 
-        onClick={() => setDrawerOpen(false)}
-      ></div>
-      <aside className={`mobile-drawer ${drawerOpen ? 'active' : ''}`} aria-label="Mobile Navigation">
-        <div className="drawer-header">
-          <Link to="/" className="drawer-brand-lockup" title="Soheal Vaseem" onClick={() => setDrawerOpen(false)}>
-            <div className="brand-monogram">SV</div>
-            <div className="brand-text">
-              <span className="brand-title">SOHEAL VASEEM</span>
-              <span className="brand-subtitle">BRAND STRATEGY &bull; FILMMAKING</span>
-            </div>
-          </Link>
-          <button 
-            type="button" 
-            className="drawer-close" 
-            aria-label="Close navigation menu" 
-            onClick={() => setDrawerOpen(false)}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            className="rl-menu-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           >
-            <i className="fa-solid fa-xmark"></i>
-          </button>
-        </div>
+            <div className="rl-menu-inner">
+              <nav className="rl-menu-links" aria-label="Full navigation">
+                {LINKS.map((l, i) => (
+                  <motion.div
+                    key={l.to}
+                    initial={{ y: '110%', opacity: 0 }}
+                    animate={{ y: '0%', opacity: 1 }}
+                    transition={{ delay: 0.08 + i * 0.05, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <Link to={l.to} className="rl-menu-link" onClick={() => setMenuOpen(false)}>
+                      <span className="rl-menu-num">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="rl-menu-label">{l.label}</span>
+                    </Link>
+                  </motion.div>
+                ))}
+              </nav>
 
-        <div className="drawer-nav-wrap">
-          <div className="drawer-meta-tag">
-            <span className="dash"></span>
-            <span>DIRECTORY &bull; 2026</span>
-          </div>
-          <ul className="drawer-menu">
-            <li>
-              <NavLink to="/" end className="drawer-link" onClick={() => setDrawerOpen(false)}>
-                <span className="drawer-num">01</span>
-                <span className="drawer-text">Home</span>
-                <i className="fa-solid fa-arrow-right drawer-arrow"></i>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/about" className="drawer-link" onClick={() => setDrawerOpen(false)}>
-                <span className="drawer-num">02</span>
-                <span className="drawer-text">About</span>
-                <i className="fa-solid fa-arrow-right drawer-arrow"></i>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/services" className="drawer-link" onClick={() => setDrawerOpen(false)}>
-                <span className="drawer-num">03</span>
-                <span className="drawer-text">Expertise</span>
-                <i className="fa-solid fa-arrow-right drawer-arrow"></i>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/portfolio" className="drawer-link" onClick={() => setDrawerOpen(false)}>
-                <span className="drawer-num">04</span>
-                <span className="drawer-text">Work</span>
-                <i className="fa-solid fa-arrow-right drawer-arrow"></i>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/filmmaking" className="drawer-link" onClick={() => setDrawerOpen(false)}>
-                <span className="drawer-num">05</span>
-                <span className="drawer-text">Film Making</span>
-                <i className="fa-solid fa-arrow-right drawer-arrow"></i>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/media" className="drawer-link" onClick={() => setDrawerOpen(false)}>
-                <span className="drawer-num">06</span>
-                <span className="drawer-text">Insights &amp; Press</span>
-                <i className="fa-solid fa-arrow-right drawer-arrow"></i>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/contact" className="drawer-link" onClick={() => setDrawerOpen(false)}>
-                <span className="drawer-num">07</span>
-                <span className="drawer-text">Contact &amp; Advisory</span>
-                <i className="fa-solid fa-arrow-right drawer-arrow"></i>
-              </NavLink>
-            </li>
-          </ul>
-        </div>
-
-        {/* Drawer Footer Actions */}
-        <div className="drawer-footer">
-          <Link to="/contact" className="drawer-cta-btn" onClick={() => setDrawerOpen(false)}>
-            <span>Schedule Advisory Call</span>
-            <i className="fa-solid fa-arrow-right"></i>
-          </Link>
-          <div className="drawer-contact-block">
-            <a href="tel:+919014365364" className="drawer-contact-link">
-              <i className="fa-solid fa-phone"></i>
-              <span>+91 9014 365 364</span>
-            </a>
-            <a href="mailto:info@sohealvaseem.com" className="drawer-contact-link">
-              <i className="fa-solid fa-envelope"></i>
-              <span>info@sohealvaseem.com</span>
-            </a>
-          </div>
-          <div className="drawer-social-strip">
-            <a href="https://www.linkedin.com/in/sohealvaseem" target="_blank" rel="noopener noreferrer" title="LinkedIn">
-              <i className="fa-brands fa-linkedin-in"></i>
-            </a>
-            <a href="https://www.youtube.com/user/Sohealvaseem" target="_blank" rel="noopener noreferrer" title="YouTube">
-              <i className="fa-brands fa-youtube"></i>
-            </a>
-            <a href="https://www.instagram.com/soheal_vaseem" target="_blank" rel="noopener noreferrer" title="Instagram">
-              <i className="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://facebook.com/soheal.vaseem" target="_blank" rel="noopener noreferrer" title="Facebook">
-              <i className="fa-brands fa-facebook-f"></i>
-            </a>
-          </div>
-          <div className="drawer-city-tag">
-            <span>Mumbai &bull; Hyderabad &bull; Working Nationally</span>
-          </div>
-        </div>
-      </aside>
+              <motion.div
+                className="rl-menu-meta"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.45, duration: 0.6 }}
+              >
+                <div className="rl-menu-meta-group">
+                  <span className="rl-menu-eyebrow">Get in touch</span>
+                  <a href="mailto:info@sohealvaseem.com">info@sohealvaseem.com</a>
+                  <a href="tel:+919014365364">+91 9014 365 364</a>
+                </div>
+                <div className="rl-menu-meta-group">
+                  <span className="rl-menu-eyebrow">Based in</span>
+                  <span>Mumbai &amp; Hyderabad, India</span>
+                  <span>Working Nationally</span>
+                </div>
+                <div className="rl-menu-socials">
+                  <a href="https://www.linkedin.com/in/sohealvaseem" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                  <a href="https://www.youtube.com/user/Sohealvaseem" target="_blank" rel="noopener noreferrer">YouTube</a>
+                  <a href="https://www.instagram.com/soheal_vaseem" target="_blank" rel="noopener noreferrer">Instagram</a>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

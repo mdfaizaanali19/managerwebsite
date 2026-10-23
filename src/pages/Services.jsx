@@ -1,155 +1,169 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import PageHero from '../components/PageHero';
+import Accordion from '../components/Accordion';
+import Reveal from '../motion/Reveal';
+import { services } from '../data/services';
+import ServiceBody from '../components/ServiceBody';
+
+const SERVICES = services.map((service) => ({
+  num: service.num,
+  title: service.title,
+  body: <ServiceBody service={service} />
+}));
+
+const METHOD = [
+  { num: '(01)', title: 'Diagnose', text: 'Business model, market dynamics and current perception — read first-hand before any recommendation.' },
+  { num: '(02)', title: 'Define', text: 'Positioning, narrative and brand architecture documented and agreed with leadership.' },
+  { num: '(03)', title: 'Direct', text: 'Identity, campaigns and platforms built to carry the position into the market.' },
+  { num: '(04)', title: 'Steward', text: 'Review and refinement so consistency holds as the business grows.' }
+];
+
+const ENGAGEMENTS = [
+  {
+    tag: 'Entry point',
+    title: 'Advisory Sprint',
+    text: 'A focused diagnostic for leadership teams that need clarity before committing to a larger build.',
+    list: ['Positioning workshop', 'Perception audit', 'Strategic roadmap'],
+    foot: '2 – 3 weeks'
+  },
+  {
+    tag: 'Most common',
+    title: 'Brand Build',
+    text: 'The complete engagement — strategy, identity and the digital flagship, delivered as one coherent system.',
+    list: ['Strategy & narrative', 'Identity system', 'Website & launch assets'],
+    foot: '6 – 10 weeks',
+    dark: true
+  },
+  {
+    tag: 'Ongoing',
+    title: 'Retained Direction',
+    text: 'Continuous strategic and creative direction for brands that are scaling and need a consistent hand.',
+    list: ['Monthly advisory', 'Campaign direction', 'Brand governance'],
+    foot: 'Monthly retainer'
+  }
+];
 
 export default function Services() {
-  const servicesList = [
-    {
-      num: '01',
-      title: 'Advertising and Performance Marketing',
-      subtitle: 'Campaign Direction • Media Strategy',
-      desc: 'Formulating synchronized cross-channel advertising campaigns, targeted media planning, and creative direction across broadcast, digital, and outdoor formats to engage qualified customers and maximize return on marketing investment.',
-      link: '/contact?service=advertising',
-      btnText: 'Enquire Service'
-    },
-    {
-      num: '02',
-      title: 'Branding and Graphic Design',
-      subtitle: 'Identity Systems • Visual Architecture',
-      desc: 'Architecting memorable corporate marks, cohesive typographic systems, brand guidelines, packaging structural design, and corporate stationery that establish premium market positioning and consumer resonance.',
-      link: '/contact?service=branding',
-      btnText: 'Explore Branding'
-    },
-    {
-      num: '03',
-      title: 'Website Design and Development',
-      subtitle: 'UI/UX Architecture • Web Platforms',
-      desc: 'Crafting elegant, mobile-responsive, and high-performance digital web experiences. Engineered with intuitive information architecture, fast load times, and structured customer pathways that convert traffic into business conversations.',
-      link: '/contact?service=web',
-      btnText: 'Enquire Service'
-    },
-    {
-      num: '04',
-      title: 'Digital Marketing and Social Media Marketing',
-      subtitle: 'Audience Engagement • Channel Growth',
-      desc: 'Formulating content narratives, social platform strategies, organic community engagement, and digital activations that build enduring brand authority across key stakeholder touchpoints.',
-      link: '/contact?service=digital',
-      btnText: 'Enquire Service'
-    },
-    {
-      num: '05',
-      title: 'Search Engine Optimization (SEO)',
-      subtitle: 'Search Visibility • Content Discovery',
-      desc: 'Optimizing technical website architecture, metadata structures, and search intent alignment to build organic search authority, ensuring prospective clients discover your services naturally over time.',
-      link: '/contact?service=seo',
-      btnText: 'Enquire Service'
-    },
-    {
-      num: '06',
-      title: 'Filmmaking and Creative Production',
-      subtitle: 'Commercial Direction • Brand Films',
-      desc: 'Bringing cinematic craftsmanship and directorial discipline to television commercials (TVCs), corporate documentaries, product narrative films, and brand visual assets with 4K cinematography and precision sound design.',
-      link: '/filmmaking',
-      btnText: 'Explore Film Portfolio'
-    },
-    {
-      num: '07',
-      title: 'Events and Consulting',
-      subtitle: 'Turnkey Advisory • Brand Inception',
-      desc: 'Providing senior executive advisory for new business launches, turnkey brand setups, corporate event visual direction, and strategic feasibility consulting for enterprise leadership teams.',
-      link: '/contact?service=advisory',
-      btnText: 'Explore Advisory'
-    }
-  ];
-
   return (
     <>
-      {/* ===================================================================
-           EXPERTISE HERO BANNER
-           =================================================================== */}
-      <section className="page-hero-editorial hero-page-expertise">
-        <div className="hero-editorial-overlay"></div>
-        <div className="container">
-          <div className="hero-editorial-content">
-            <div className="hero-editorial-badge">
-              <span className="dash"></span>
-              <span>STRATEGIC DISCIPLINES &bull; CONSULTING</span>
-            </div>
-            <h1 className="hero-editorial-headline">
-              Strategy That Gives<br />
-              Brands <span className="hero-italic-gold">Direction.</span>
-            </h1>
-            <p className="hero-editorial-lead">
-              Building clarity, distinction, and meaningful connections between brands and the people they serve.
+      <PageHero
+        crumb="Services"
+        title={(
+          <>
+            Services <em className="rl-script">&amp;</em><br />
+            Methodology
+          </>
+        )}
+        lead="Building clarity, distinction and meaningful connection between brands and the people they serve."
+        meta={[`${services.length} disciplines`, 'Advisory since 1991', 'Strategy to execution']}
+      />
+
+      {/* ---------------- POSITIONING ---------------- */}
+      <section className="rl-section">
+        <div className="rl-container">
+          <span className="rl-eyebrow">Advisory philosophy</span>
+          <Reveal direction="up">
+            <p className="rl-statement">
+              Clarity precedes creative execution. Without it, marketing spend is overhead. With it, every touchpoint builds <em className="rl-script">enterprise</em> equity.
             </p>
-            <div className="hero-editorial-actions">
-              <a href="#capabilities" className="btn-hero-dark-pill" title="Explore Consulting Capabilities">
-                <span>EXPLORE SERVICES</span>
-                <i className="fa-solid fa-arrow-down"></i>
-              </a>
-              <Link to="/contact" className="btn-hero-outline-pill" title="Schedule Strategic Advisory">
-                <span>SCHEDULE ADVISORY</span>
-                <i className="fa-solid fa-arrow-right"></i>
-              </Link>
-            </div>
-            <div className="hero-editorial-breadcrumbs">
-              <Link to="/">Home</Link>
-              <span className="sep">/</span>
-              <span>Expertise</span>
-            </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* Strategic Philosophy */}
-      <section className="section-padding bg-surface" style={{ borderBottom: '1px solid var(--border-light)' }}>
-        <div className="container">
-          <div className="section-header-editorial" style={{ marginBottom: 0 }}>
+      {/* ---------------- SERVICES ---------------- */}
+      <section className="rl-section rl-section--light">
+        <div className="rl-container">
+          <div className="rl-section-head">
             <div>
-              <span className="editorial-badge">Advisory Philosophy</span>
-              <h2>Clarity Precedes Creative Execution.</h2>
+              <span className="rl-eyebrow">Services</span>
+              <h2 className="rl-h2">What we can<br /><em className="rl-script">work on</em><br />together</h2>
             </div>
-            <p className="section-header-lead">
-              Sustainable commercial distinction begins with honest self-examination: understanding precisely who your brand is, the exact problem it solves, and why customers should care. Without strategic clarity, marketing spend is merely overhead. With it, every touchpoint builds compounding enterprise equity.
+            <p className="rl-section-lead">
+              From a single identity system to a full market launch — each service is delivered against the same strategic reference point.
             </p>
+          </div>
+
+          <Accordion items={SERVICES} defaultOpen={0} className="rl-accordion-light" />
+
+          <div className="rl-services-foot">
+            <Link to="/contact" className="rl-pill rl-pill-dark">
+              Discuss a brief <span className="rl-pill-arrow">→</span>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* 7 Exact Capabilities Detailed */}
-      <section className="section-padding bg-canvas" id="capabilities">
-        <div className="container">
-          <div className="services-list-editorial">
-            {servicesList.map((service) => (
-              <div key={service.num} className="service-row-item">
-                <span className="service-num">{service.num}</span>
-                <div>
-                  <h3 className="service-name-title">{service.title}</h3>
-                  <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent-bronze)', marginTop: '4px' }}>
-                    {service.subtitle}
-                  </div>
-                </div>
-                <p className="service-desc-text">{service.desc}</p>
-                <Link to={service.link} className="service-action-link">
-                  <span>{service.btnText}</span> <i className="fa-solid fa-arrow-right"></i>
-                </Link>
-              </div>
+      {/* ---------------- METHODOLOGY ---------------- */}
+      <section className="rl-section rl-services">
+        <div className="rl-container">
+          <div className="rl-section-head">
+            <div>
+              <span className="rl-eyebrow">Methodology</span>
+              <h2 className="rl-h2">Four phases.<br />One <em className="rl-script">direction</em>.</h2>
+            </div>
+            <p className="rl-section-lead">
+              A repeatable process that keeps ambition, evidence and execution moving in the same direction.
+            </p>
+          </div>
+
+          <div className="rl-method">
+            {METHOD.map((m, i) => (
+              <Reveal className="rl-method-row" direction="up" delay={i * 0.05} key={m.num}>
+                <span className="rl-method-num">{m.num}</span>
+                <h3>{m.title}</h3>
+                <p>{m.text}</p>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Direct Engagement CTA */}
-      <section className="section-padding bg-surface" style={{ borderTop: '1px solid var(--border-light)' }}>
-        <div className="container" style={{ textAlign: 'center', maxWidth: '720px' }}>
-          <span className="editorial-badge" style={{ justifyContent: 'center' }}>Bespoke Scope</span>
-          <h2>Need a Tailored Strategy or Creative Solution?</h2>
-          <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', marginBottom: '30px' }}>
-            Every brand faces distinct challenges. Let us examine your market landscape and structure an engagement plan aligned with your commercial targets.
-          </p>
-          <Link to="/contact" className="btn btn-primary">
-            <span>Schedule Initial Consultation</span>
-            <i className="fa-solid fa-arrow-right"></i>
-          </Link>
+      {/* ---------------- ENGAGEMENTS ---------------- */}
+      <section className="rl-section rl-section--light">
+        <div className="rl-container">
+          <div className="rl-head">
+            <div>
+              <span className="rl-eyebrow">Engagement formats</span>
+              <h2 className="rl-h2">Three ways<br />to <em className="rl-script">begin</em></h2>
+            </div>
+            <p className="rl-head-lead">
+              Scope is shaped around the decision in front of the business — not around a standard deliverable list.
+            </p>
+          </div>
+
+          <div className="rl-engage-grid">
+            {ENGAGEMENTS.map((e, i) => (
+              <Reveal
+                key={e.title}
+                direction="up"
+                delay={i * 0.1}
+                className={`rl-engage-card ${e.dark ? 'rl-engage-card--dark' : ''}`}
+              >
+                <span className="rl-engage-tag">{e.tag}</span>
+                <h3>{e.title}</h3>
+                <p>{e.text}</p>
+                <ul className="rl-engage-list">
+                  {e.list.map((li) => <li key={li}>{li}</li>)}
+                </ul>
+                <span className="rl-engage-foot">{e.foot}</span>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- CTA ---------------- */}
+      <section className="rl-cta rl-cta--dark">
+        <div className="rl-container rl-cta-inner">
+          <h2 className="rl-cta-title">
+            Let's define what<br />your brand <em className="rl-script">stands</em> for.
+          </h2>
+          <div className="rl-cta-actions">
+            <Link to="/contact" className="rl-pill rl-pill-light">
+              Schedule advisory <span className="rl-pill-arrow">→</span>
+            </Link>
+            <p className="rl-cta-note">Response within 24 hours</p>
+          </div>
         </div>
       </section>
     </>

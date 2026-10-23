@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'motion/react';
 import { projects } from '../data/projects';
+import PageHero from '../components/PageHero';
 
-const archiveItems = [
+const ARCHIVE = [
   {
     id: 101,
     title: 'Signature Brand Identity System',
@@ -11,7 +13,7 @@ const archiveItems = [
     image_path: '/images/portfolio/01.jpg',
     logo_path: '',
     project_url: '',
-    description: 'Comprehensive brand architecture, corporate identity manual, and visual stationery system developed for coherent multi-touchpoint communication.'
+    description: 'Comprehensive brand architecture, corporate identity manual and stationery system built for coherent multi-touchpoint communication.'
   },
   {
     id: 102,
@@ -21,7 +23,7 @@ const archiveItems = [
     image_path: '/images/portfolio/02.jpg',
     logo_path: '',
     project_url: '',
-    description: 'Premium retail packaging structural design engineered for standout retail presence and tactile shelf appeal.'
+    description: 'Premium retail packaging engineered for standout shelf presence and tactile brand appeal.'
   },
   {
     id: 103,
@@ -31,7 +33,7 @@ const archiveItems = [
     image_path: '/images/portfolio/03.jpg',
     logo_path: '',
     project_url: '',
-    description: 'Visual advertising campaign roll-out with multi-channel creative direction across print, outdoor displays, and commercial media.'
+    description: 'Multi-channel campaign roll-out with creative direction across print, outdoor and commercial media.'
   },
   {
     id: 104,
@@ -41,17 +43,17 @@ const archiveItems = [
     image_path: '/images/portfolio/04.jpg',
     logo_path: '',
     project_url: '',
-    description: 'Bespoke corporate typographic mark designed for enduring corporate stature and high digital scalability.'
+    description: 'Bespoke typographic mark designed for enduring corporate stature and high digital scalability.'
   },
   {
     id: 105,
-    title: 'Theatrical Commercial Key Visual Art',
+    title: 'Theatrical Commercial Key Visual',
     category: 'archive',
     cat_label: 'Key Visual Art',
     image_path: '/images/portfolio/07.jpg',
     logo_path: '',
     project_url: '',
-    description: 'Cinematic visual art and promotional poster layout designed for widescreen theatrical release and billboard advertising.'
+    description: 'Cinematic key art and promotional layout designed for widescreen release and billboard advertising.'
   },
   {
     id: 106,
@@ -61,170 +63,125 @@ const archiveItems = [
     image_path: '/images/portfolio/14.jpg',
     logo_path: '',
     project_url: '',
-    description: 'Directorial storyboards mapping camera shot compositions, temporal pacing, and dramatic beats before on-set filming.'
+    description: 'Directorial storyboards mapping shot composition, pacing and dramatic beats before filming.'
   }
 ];
 
-const allItems = [...projects, ...archiveItems];
+const ALL_ITEMS = [...projects, ...ARCHIVE];
+
+const FILTERS = [
+  { key: 'all', label: 'All Projects' },
+  { key: 'ecommerce', label: 'E-Commerce' },
+  { key: 'healthcare', label: 'Healthcare' },
+  { key: 'hospitality', label: 'Hospitality' },
+  { key: 'tech', label: 'Technology' },
+  { key: 'fashion', label: 'Fashion' },
+  { key: 'realestate', label: 'Real Estate' },
+  { key: 'archive', label: 'Brand Architecture' }
+];
 
 export default function Portfolio() {
   const [filter, setFilter] = useState('all');
 
-  const filteredItems = filter === 'all' 
-    ? allItems 
-    : allItems.filter(item => item.category === filter);
+  const items = filter === 'all' ? ALL_ITEMS : ALL_ITEMS.filter((i) => i.category === filter);
+  const countFor = (key) => (key === 'all' ? ALL_ITEMS.length : ALL_ITEMS.filter((i) => i.category === key).length);
 
   return (
     <>
-      {/* ===================================================================
-           PORTFOLIO HERO BANNER
-           =================================================================== */}
-      <section className="page-hero-editorial hero-page-work">
-        <div className="hero-editorial-overlay"></div>
-        <div className="container">
-          <div className="hero-editorial-content">
-            <div className="hero-editorial-badge">
-              <span className="dash"></span>
-              <span>CURATED WORK &bull; CASE STUDIES</span>
-            </div>
-            <h1 className="hero-editorial-headline">
-              Ideas Made <span className="hero-italic-gold">Visible.</span>
-            </h1>
-            <p className="hero-editorial-lead">
-              A selection of creative work shaped by strategy, storytelling, and purposeful execution.
-            </p>
-            <div className="hero-editorial-actions">
-              <a href="#portfolio-grid" className="btn-hero-dark-pill" title="Explore Selected Projects">
-                <span>EXPLORE PROJECTS</span>
-                <i className="fa-solid fa-arrow-down"></i>
-              </a>
-              <Link to="/contact" className="btn-hero-outline-pill" title="Start a Project Conversation">
-                <span>START A PROJECT</span>
-                <i className="fa-solid fa-arrow-right"></i>
-              </Link>
-            </div>
-            <div className="hero-editorial-breadcrumbs">
-              <Link to="/">Home</Link>
-              <span className="sep">/</span>
-              <span>Work</span>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        crumb="Projects"
+        title={(
+          <>
+            Explore Our<br />
+            <em className="rl-script">Projects</em>
+          </>
+        )}
+        lead="A selection of work shaped by strategy, storytelling and purposeful execution — across identity, digital and film."
+        meta={[`${ALL_ITEMS.length} case studies`, 'Brand · Digital · Film', 'Since 1991']}
+      />
 
-      {/* ===================================================================
-           PORTFOLIO GALLERY & CATEGORY FILTERS
-           =================================================================== */}
-      <section className="section-padding bg-canvas" id="portfolio-grid">
-        <div className="container">
-          {/* Category Filter Tabs */}
-          <div className="portfolio-filter-bar">
-            <button 
-              type="button" 
-              className={`portfolio-filter-btn ${filter === 'all' ? 'active' : ''}`}
-              onClick={() => setFilter('all')}
-            >
-              All Projects ({allItems.length})
-            </button>
-            <button 
-              type="button" 
-              className={`portfolio-filter-btn ${filter === 'ecommerce' ? 'active' : ''}`}
-              onClick={() => setFilter('ecommerce')}
-            >
-              E-Commerce &amp; Retail
-            </button>
-            <button 
-              type="button" 
-              className={`portfolio-filter-btn ${filter === 'healthcare' ? 'active' : ''}`}
-              onClick={() => setFilter('healthcare')}
-            >
-              Healthcare &amp; Medical
-            </button>
-            <button 
-              type="button" 
-              className={`portfolio-filter-btn ${filter === 'hospitality' ? 'active' : ''}`}
-              onClick={() => setFilter('hospitality')}
-            >
-              Hospitality &amp; Events
-            </button>
-            <button 
-              type="button" 
-              className={`portfolio-filter-btn ${filter === 'tech' ? 'active' : ''}`}
-              onClick={() => setFilter('tech')}
-            >
-              Technology &amp; Web
-            </button>
-            <button 
-              type="button" 
-              className={`portfolio-filter-btn ${filter === 'fashion' ? 'active' : ''}`}
-              onClick={() => setFilter('fashion')}
-            >
-              Fashion
-            </button>
-            <button 
-              type="button" 
-              className={`portfolio-filter-btn ${filter === 'realestate' ? 'active' : ''}`}
-              onClick={() => setFilter('realestate')}
-            >
-              Real Estate
-            </button>
-            <button 
-              type="button" 
-              className={`portfolio-filter-btn ${filter === 'archive' ? 'active' : ''}`}
-              onClick={() => setFilter('archive')}
-            >
-              Brand Architecture
-            </button>
-          </div>
-
-          {/* Portfolio Projects Grid */}
-          <div className="work-grid-editorial">
-            {filteredItems.map((item) => (
-              <div key={item.id} className="work-card-editorial portfolio-item">
-                <div className="work-img-box">
-                  <img src={item.image_path} alt={item.title} loading="lazy" />
-                  {item.logo_path && (
-                    <div className="work-brand-logo-badge" title={`${item.title} Verified Brand Identity`}>
-                      <img src={item.logo_path} alt={`${item.title} Official Logo`} />
-                    </div>
-                  )}
-                </div>
-
-                <div className="work-content-box">
-                  <span className="work-cat-tag">{item.cat_label}</span>
-                  <h4 className="work-title-text">{item.title}</h4>
-                  <p className="work-desc-text">{item.description}</p>
-                  
-                  <div className="work-card-actions">
-                    {item.project_url && item.project_url !== '#' ? (
-                      <a href={item.project_url} target="_blank" rel="noopener noreferrer" className="work-view-link">
-                        <span>View Project</span> <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.72rem' }}></i>
-                      </a>
-                    ) : (
-                      <Link to="/contact" className="work-view-link">
-                        <span>Enquire Project</span> <i className="fa-solid fa-arrow-right"></i>
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              </div>
+      {/* ---------------- WORK GRID ---------------- */}
+      <section className="rl-section">
+        <div className="rl-container">
+          <div className="rl-filter-bar" role="tablist" aria-label="Project categories">
+            {FILTERS.map((f) => (
+              <button
+                key={f.key}
+                type="button"
+                role="tab"
+                aria-selected={filter === f.key}
+                className={`rl-filter-btn ${filter === f.key ? 'is-active' : ''}`}
+                onClick={() => setFilter(f.key)}
+              >
+                {f.label} ({String(countFor(f.key)).padStart(2, '0')})
+              </button>
             ))}
           </div>
+
+          <motion.div layout className="rl-grid">
+            <AnimatePresence mode="popLayout">
+              {items.map((item) => {
+                /* When the only artwork on file is the brand mark itself, the
+                   card shows it contained on a plate rather than cropping it. */
+                const isLogoPlate = Boolean(item.logo_path) && item.image_path === item.logo_path;
+
+                return (
+                  <motion.article
+                    key={item.id}
+                    layout
+                    className={`rl-grid-card ${isLogoPlate ? 'is-logo-plate' : ''}`}
+                    initial={{ opacity: 0, y: 22 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+                    whileHover={{ y: -4 }}
+                  >
+                    <div className="rl-grid-media">
+                      <img src={item.image_path} alt={item.title} loading="lazy" />
+                      {!isLogoPlate && item.logo_path && (
+                        <span className="rl-grid-logo" title={`${item.title} identity`}>
+                          <img src={item.logo_path} alt={`${item.title} logo`} loading="lazy" />
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="rl-grid-body">
+                      <span className="rl-grid-cat">{item.cat_label}</span>
+                      <h3 className="rl-grid-title">{item.title}</h3>
+                      <p className="rl-grid-desc">{item.description}</p>
+                      <div className="rl-grid-foot">
+                        <span>{item.category === 'archive' ? 'Studio archive' : 'Client project'}</span>
+                        {item.project_url && item.project_url !== '#' ? (
+                          <a href={item.project_url} target="_blank" rel="noopener noreferrer">
+                            View project <span>↗</span>
+                          </a>
+                        ) : (
+                          <Link to="/contact">
+                            Enquire <span>→</span>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </motion.article>
+                );
+              })}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </section>
 
-      {/* Bottom CTA */}
-      <section className="section-padding bg-surface" style={{ borderTop: '1px solid var(--border-light)' }}>
-        <div className="container" style={{ textAlign: 'center', maxWidth: '720px' }}>
-          <span className="editorial-badge" style={{ justifyContent: 'center' }}>Start Your Build</span>
-          <h2>Have an Ambitious Project in Mind?</h2>
-          <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', marginBottom: '30px' }}>
-            From high-converting e-commerce web systems to bespoke corporate visual identities, let's architect a solution that sets your enterprise apart.
-          </p>
-          <Link to="/contact" className="btn btn-primary">
-            <span>Discuss Your Project</span>
-            <i className="fa-solid fa-arrow-right"></i>
-          </Link>
+      {/* ---------------- CTA ---------------- */}
+      <section className="rl-cta rl-cta--dark">
+        <div className="rl-container rl-cta-inner">
+          <h2 className="rl-cta-title">
+            Have an ambitious<br />project in <em className="rl-script">mind</em>?
+          </h2>
+          <div className="rl-cta-actions">
+            <Link to="/contact" className="rl-pill rl-pill-light">
+              Discuss your project <span className="rl-pill-arrow">→</span>
+            </Link>
+            <p className="rl-cta-note">From identity systems to full market launches</p>
+          </div>
         </div>
       </section>
     </>

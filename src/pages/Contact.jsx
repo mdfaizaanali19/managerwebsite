@@ -1,169 +1,306 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import PageHero from '../components/PageHero';
+import Faq from '../components/Faq';
+import Reveal from '../motion/Reveal';
+import { services, serviceTitleById } from '../data/services';
+
+const FAQ = [
+  {
+    q: 'How quickly will I hear back?',
+    a: 'Every enquiry is reviewed personally and answered within 24 hours on business days. If the brief is a fit, the next step is a 30-minute call to understand the business before any proposal is written.'
+  },
+  {
+    q: 'What should I include in the brief?',
+    a: 'The business, the market it operates in, what has already been tried, and the outcome you want. Timelines and budget range help scope the engagement accurately.'
+  },
+  {
+    q: 'Do you take on early-stage businesses?',
+    a: 'Yes — when the ambition is clear. Early-stage brands often get the most value from a focused positioning sprint before investing in identity or campaigns.'
+  }
+];
+
+/**
+ * Delivery endpoint for project briefs.
+ *
+ * Set VITE_CONTACT_ENDPOINT (a Formspree form, a Vercel function, any JSON
+ * POST endpoint) and the form submits directly. Until that is configured the
+ * form hands a fully composed brief to the visitor's mail client — the enquiry
+ * still reaches its destination instead of being silently discarded.
+ */
+const CONTACT_ENDPOINT = import.meta.env.VITE_CONTACT_ENDPOINT;
+const CONTACT_EMAIL = 'info@sohealvaseem.com';
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validateBrief(values) {
+  const found = {};
+  if (!values.name.trim()) found.name = 'Please enter your name.';
+  if (!values.email.trim()) found.email = 'Please enter your email address.';
+  else if (!EMAIL_PATTERN.test(values.email.trim())) found.email = 'That email address looks incomplete.';
+  if (!values.message.trim()) found.message = 'Please add a short project brief.';
+  else if (values.message.trim().length < 20) found.message = 'A sentence or two more — at least 20 characters.';
+  return found;
+}
+
+function buildMailto(brief) {
+  const subject = `Project brief — ${brief.name}`;
+  const body = [
+    `Name: ${brief.name}`,
+    `Email: ${brief.email}`,
+    `Telephone: ${brief.phone || '—'}`,
+    `Service: ${brief.service}`,
+    '',
+    'Brief:',
+    brief.message
+  ].join('\n');
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '', company: '' });
+  const [status, setStatus] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [errorMsg, setErrorMsg] = useState('');
+  const [submittedName, setSubmittedName] = useState('');
 
-  const handleSubmit = (e) => {
+  const loading = status === 'sending';
+  const done = status === 'sent' || status === 'mailto';
+
+  const update = (key) => (e) => {
+    const { value } = e.target;
+    setForm((f) => ({ ...f, [key]: value }));
+    if (errors[key]) setErrors((prev) => ({ ...prev, [key]: undefined }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
-    setLoading(true);
+    if (loading) return;
 
-    // Client-side simulation or send to Web3Forms / mailto
-    setTimeout(() => {
-      setLoading(false);
-      setSubmitted(true);
-    }, 600);
+    const found = validateBrief(form);
+    setErrors(found);
+    if (Object.keys(found).length > 0) {
+      setStatus('error');
+      setErrorMsg('Please check the highlighted fields and try again.');
+      return;
+    }
+
+    // Honeypot: real visitors never fill a field they cannot see.
+    if (form.company) return;
+
+    setStatus('sending');
+    setErrorMsg('');
+
+    const brief = {
+      name: form.name.trim(),
+      email: form.email.trim(),
+      phone: form.phone.trim(),
+      service: form.service ? serviceTitleById(form.service) : 'Not specified',
+      message: form.message.trim()
+    };
+
+    try {
+      if (CONTACT_ENDPOINT) {
+        const response = await fetch(CONTACT_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ ...brief, submittedAt: new Date().toISOString() })
+        });
+        if (!response.ok) throw new Error(`Request failed with ${response.status}`);
+        setSubmittedName(brief.name.split(' ')[0]);
+        setStatus('sent');
+        return;
+      }
+
+      window.location.href = buildMailto(brief);
+      setSubmittedName(brief.name.split(' ')[0]);
+      setStatus('mailto');
+    } catch {
+      setStatus('error');
+      setErrorMsg('Your brief could not be sent. Please email info@sohealvaseem.com directly.');
+    }
   };
 
   return (
     <>
-      {/* ===================================================================
-           CONTACT HERO BANNER
-           =================================================================== */}
-      <section className="page-hero-editorial hero-page-contact">
-        <div className="hero-editorial-overlay"></div>
-        <div className="container">
-          <div className="hero-editorial-content">
-            <div className="hero-editorial-badge">
-              <span className="dash"></span>
-              <span>DIRECT ENGAGEMENT &bull; STRATEGIC ADVISORY</span>
+      <PageHero
+        short
+        crumb="Contact"
+        title={(
+          <>
+            Build a Brand.<br />
+            Win the <em className="rl-script">Market</em>.
+          </>
+        )}
+        lead="Have a project, an idea, or an opportunity in mind? Let's explore what we can create together."
+        meta={['Response within 24 hours', 'Mumbai · Hyderabad', 'Working nationally']}
+      />
+
+      {/* ---------------- CONTACT ---------------- */}
+      <section className="rl-section">
+        <div className="rl-container rl-contact-grid">
+          <Reveal direction="up">
+            <div>
+              <span className="rl-eyebrow">Direct engagement</span>
+              <h2 className="rl-h2">Let's discuss your<br />commercial <em className="rl-script">objectives</em></h2>
+              <p className="rl-head-lead" style={{ justifySelf: 'start', marginTop: '24px' }}>
+                Every project begins with understanding the strategic vision and the challenge behind it. Reach out directly, or send a brief and I will respond personally.
+              </p>
+
+              <dl className="rl-contact-block">
+                <div className="rl-contact-row">
+                  <dt>Telephone</dt>
+                  <dd><a href="tel:+919014365364">+91 9014 365 364</a></dd>
+                </div>
+                <div className="rl-contact-row">
+                  <dt>Email</dt>
+                  <dd><a href="mailto:info@sohealvaseem.com">info@sohealvaseem.com</a></dd>
+                </div>
+                <div className="rl-contact-row">
+                  <dt>Based in</dt>
+                  <dd>Mumbai &amp; Hyderabad, India</dd>
+                </div>
+                <div className="rl-contact-row">
+                  <dt>Availability</dt>
+                  <dd>Monday – Saturday · 10:00 – 19:00 IST</dd>
+                </div>
+                <div className="rl-contact-row">
+                  <dt>Follow</dt>
+                  <dd>
+                    <div className="rl-contact-socials">
+                      <a href="https://www.linkedin.com/in/sohealvaseem" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                      <a href="https://www.youtube.com/user/Sohealvaseem" target="_blank" rel="noopener noreferrer">YouTube</a>
+                      <a href="https://www.instagram.com/soheal_vaseem" target="_blank" rel="noopener noreferrer">Instagram</a>
+                    </div>
+                  </dd>
+                </div>
+              </dl>
             </div>
-            <h1 className="hero-editorial-headline">
-              Let's Start a <span className="hero-italic-gold">Conversation.</span>
-            </h1>
-            <p className="hero-editorial-lead">
-              Have a project, an idea, or an opportunity in mind? Let's explore what we can create together.
-            </p>
-            <div className="hero-editorial-actions">
-              <a href="#inquiry-form" className="btn-hero-dark-pill" title="Submit Project Brief">
-                <span>MESSAGE DIRECTLY</span>
-                <i className="fa-solid fa-arrow-down"></i>
-              </a>
-              <a href="tel:+919014365364" className="btn-hero-outline-pill" title="Call Direct Office Line">
-                <span>+91 9014 365 364</span>
-                <i className="fa-solid fa-phone"></i>
-              </a>
+          </Reveal>
+
+          <Reveal direction="up" delay={0.12}>
+            <div className="rl-form-panel">
+              {done ? (
+                <div className="rl-form-success" role="status">
+                  <strong>Thank you, {submittedName}.</strong>
+                  {status === 'sent'
+                    ? 'Your brief has been received. I will review it personally and respond within 24 hours.'
+                    : 'Your mail app should have opened with the brief ready to send. If nothing happened, email info@sohealvaseem.com directly.'}
+                </div>
+              ) : (
+                <>
+                  <h3>Submit a project brief</h3>
+                  <p>Share your goals, the brand challenge and the timeline. All enquiries are read personally.</p>
+
+                  <form className="rl-form" onSubmit={handleSubmit} noValidate>
+                    <div className="rl-honeypot" aria-hidden="true">
+                      <label htmlFor="cf-company">Company</label>
+                      <input
+                        id="cf-company"
+                        type="text"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={form.company}
+                        onChange={update('company')}
+                      />
+                    </div>
+
+                    <div className="rl-field">
+                      <label htmlFor="cf-name">Full name *</label>
+                      <input
+                        id="cf-name"
+                        type="text"
+                        required
+                        className={errors.name ? 'is-invalid' : undefined}
+                        aria-invalid={errors.name ? true : undefined}
+                        aria-describedby={errors.name ? 'cf-name-error' : undefined}
+                        placeholder="Your name"
+                        value={form.name}
+                        onChange={update('name')}
+                      />
+                      {errors.name && <span className="rl-field-error" id="cf-name-error">{errors.name}</span>}
+                    </div>
+
+                    <div className="rl-field">
+                      <label htmlFor="cf-email">Email address *</label>
+                      <input
+                        id="cf-email"
+                        type="email"
+                        required
+                        className={errors.email ? 'is-invalid' : undefined}
+                        aria-invalid={errors.email ? true : undefined}
+                        aria-describedby={errors.email ? 'cf-email-error' : undefined}
+                        placeholder="name@company.com"
+                        value={form.email}
+                        onChange={update('email')}
+                      />
+                      {errors.email && <span className="rl-field-error" id="cf-email-error">{errors.email}</span>}
+                    </div>
+
+                    <div className="rl-field">
+                      <label htmlFor="cf-phone">Telephone</label>
+                      <input
+                        id="cf-phone"
+                        type="tel"
+                        placeholder="+91"
+                        value={form.phone}
+                        onChange={update('phone')}
+                      />
+                    </div>
+
+                    <div className="rl-field">
+                      <label htmlFor="cf-service">What do you need?</label>
+                      <select id="cf-service" value={form.service} onChange={update('service')}>
+                        <option value="">Select a service</option>
+                        {services.map((service) => (
+                          <option key={service.id} value={service.id}>{service.title}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="rl-field">
+                      <label htmlFor="cf-message">Project brief *</label>
+                      <textarea
+                        id="cf-message"
+                        rows="4"
+                        required
+                        className={errors.message ? 'is-invalid' : undefined}
+                        aria-invalid={errors.message ? true : undefined}
+                        aria-describedby={errors.message ? 'cf-message-error' : undefined}
+                        placeholder="Describe the business, the challenge and the timeline…"
+                        value={form.message}
+                        onChange={update('message')}
+                      />
+                      {errors.message && <span className="rl-field-error" id="cf-message-error">{errors.message}</span>}
+                    </div>
+
+                    {status === 'error' && errorMsg && (
+                      <p className="rl-form-error" role="alert">{errorMsg}</p>
+                    )}
+
+                    <div className="rl-form-submit">
+                      <button type="submit" className="rl-pill rl-pill-dark" disabled={loading}>
+                        {loading ? 'Sending…' : 'Send inquiry'} <span className="rl-pill-arrow">→</span>
+                      </button>
+                      <p className="rl-form-note">
+                        Or email directly at<br />
+                        <a href="mailto:info@sohealvaseem.com">info@sohealvaseem.com</a>
+                      </p>
+                    </div>
+                  </form>
+                </>
+              )}
             </div>
-            <div className="hero-editorial-breadcrumbs">
-              <Link to="/">Home</Link>
-              <span className="sep">/</span>
-              <span>Contact</span>
-            </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* Contact Details & Form Section */}
-      <section className="section-padding bg-canvas" id="inquiry-form">
-        <div className="container">
-          <div className="row" style={{ alignItems: 'flex-start', justifyContent: 'space-between' }}>
-            <div className="col-md-5" style={{ marginBottom: '40px' }}>
-              <span className="editorial-badge">Consultation Inquiries</span>
-              <h2>Let's Discuss Your Commercial Objectives</h2>
-              <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: '30px' }}>
-                Every project begins with understanding your strategic vision and challenges. Reach out directly or complete the brief form to initiate a conversation.
-              </p>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', borderTop: '1px solid var(--border-light)', paddingTop: '28px' }}>
-                <div>
-                  <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.14em', color: 'var(--text-muted)', marginBottom: '4px' }}>Direct Telephone</div>
-                  <a href="tel:+919014365364" style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', fontWeight: 600, color: 'var(--text-primary)' }}>+91 9014 365 364</a>
-                </div>
-
-                <div>
-                  <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.14em', color: 'var(--text-muted)', marginBottom: '4px' }}>Direct Email</div>
-                  <a href="mailto:info@sohealvaseem.com" style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', fontWeight: 600, color: 'var(--text-primary)' }}>info@sohealvaseem.com</a>
-                </div>
-
-                <div>
-                  <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.14em', color: 'var(--text-muted)', marginBottom: '4px' }}>Primary Locations</div>
-                  <span style={{ fontSize: '1.05rem', color: 'var(--text-primary)', fontWeight: 500 }}>Mumbai &bull; Hyderabad &bull; Available Nationally</span>
-                </div>
-
-                <div style={{ marginTop: '6px' }}>
-                  <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.14em', color: 'var(--text-muted)', marginBottom: '8px' }}>Professional Network</div>
-                  <div className="top-social" style={{ fontSize: '1.1rem', gap: '16px' }}>
-                    <a href="https://www.linkedin.com/in/sohealvaseem" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i className="fa-brands fa-linkedin-in"></i></a>
-                    <a href="https://www.youtube.com/user/Sohealvaseem" target="_blank" rel="noopener noreferrer" title="YouTube"><i className="fa-brands fa-youtube"></i></a>
-                    <a href="https://www.instagram.com/soheal_vaseem" target="_blank" rel="noopener noreferrer" title="Instagram"><i className="fa-brands fa-instagram"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-6">
-              <div style={{ background: '#ffffff', border: '1px solid var(--border-light)', padding: '40px', boxShadow: 'var(--shadow-subtle)', borderRadius: '4px' }}>
-                <h3 style={{ marginBottom: '6px' }}>Submit a Project Brief</h3>
-                <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', marginBottom: '26px' }}>
-                  Share your goals, current brand challenges, and timeline. I review all inquiries and respond within 24 hours.
-                </p>
-
-                {submitted ? (
-                  <div className="alert alert-success" style={{ padding: '20px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '4px', color: '#166534', marginBottom: '20px' }}>
-                    <i className="fa-solid fa-circle-check" style={{ marginRight: '8px' }}></i>
-                    <strong>Thank you, {formData.name}!</strong> Your message has been received. I will review your project brief and get in touch shortly.
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit}>
-                    <div className="form-group" style={{ marginBottom: '20px' }}>
-                      <label htmlFor="contact-name" style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>Your Full Name *</label>
-                      <input 
-                        id="contact-name" 
-                        type="text" 
-                        className="form-control" 
-                        placeholder="Enter your full name" 
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        style={{ width: '100%', padding: '12px 16px', border: '1px solid var(--border-medium)', borderRadius: '4px' }}
-                      />
-                    </div>
-
-                    <div className="form-group" style={{ marginBottom: '20px' }}>
-                      <label htmlFor="contact-email" style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>Email Address *</label>
-                      <input 
-                        id="contact-email" 
-                        type="email" 
-                        className="form-control" 
-                        placeholder="name@company.com" 
-                        required
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        style={{ width: '100%', padding: '12px 16px', border: '1px solid var(--border-medium)', borderRadius: '4px' }}
-                      />
-                    </div>
-
-                    <div className="form-group" style={{ marginBottom: '24px' }}>
-                      <label htmlFor="contact-message" style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-primary)' }}>Project Brief or Objective *</label>
-                      <textarea 
-                        id="contact-message" 
-                        className="form-control" 
-                        rows="5" 
-                        placeholder="Describe your brand, key requirements, and timeline..." 
-                        required
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        style={{ width: '100%', padding: '12px 16px', border: '1px solid var(--border-medium)', borderRadius: '4px' }}
-                      ></textarea>
-                    </div>
-
-                    <button 
-                      type="submit" 
-                      className="btn btn-primary" 
-                      disabled={loading}
-                      style={{ width: '100%', justifyContent: 'center' }}
-                    >
-                      <span>{loading ? 'Sending...' : 'Send Project Inquiry'}</span>
-                      <i className="fa-solid fa-arrow-right"></i>
-                    </button>
-                  </form>
-                )}
-              </div>
-            </div>
+      {/* ---------------- FAQ ---------------- */}
+      <section className="rl-section rl-section--light">
+        <div className="rl-container rl-two-col">
+          <div>
+            <span className="rl-eyebrow">Before we speak</span>
+            <h2 className="rl-h2">Common<br /><em className="rl-script">questions</em></h2>
           </div>
+          <Faq items={FAQ} />
         </div>
       </section>
     </>

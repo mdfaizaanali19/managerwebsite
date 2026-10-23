@@ -1,261 +1,380 @@
-import React, { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'motion/react';
+import PageHero from '../components/PageHero';
+import Reveal from '../motion/Reveal';
+import AnimatedCounter from '../motion/AnimatedCounter';
+
+const SHOWREEL = 'O0AT4TKrUSY';
+const SHOWREEL_TIER = 1;
+
+const STATS = [
+  { value: 150, suffix: '+', label: 'Commercial films directed for nationwide broadcast' },
+  { value: 30, suffix: '+', label: 'Years of directorial craft on set and soundstage' },
+  { text: 'Prime-Time', label: 'Television drama series directed and broadcast' },
+  { text: 'National', label: 'Press recognition across leading Indian dailies' }
+];
+
+const FILMS = [
+  {
+    id: 'qg8MG9mtJhc',
+    title: 'Saani Napkin TVC',
+    client: 'Saani Tissues',
+    category: 'commercial',
+    year: 2019,
+    desc: 'Swachh Bharat campaign film — “pehle swachh ho aap, phir swachh hoga Bharat.”'
+  },
+  {
+    id: 'u50Alx52nKk',
+    title: 'Saani Facial Tissues',
+    client: 'Saani Tissues',
+    category: 'commercial',
+    year: 2020,
+    thumb: 2,
+    desc: 'Premium facial tissue film shot at Hyderabad Polo & Riding Club.'
+  },
+  {
+    id: 'WpT15Phb4_c',
+    title: 'Saani Napkin',
+    client: 'Saani Tissues',
+    category: 'commercial',
+    year: 2020,
+    desc: '“Aadat badal lo” — the line carried across the Saani tissue campaign.'
+  },
+  {
+    id: '3bpEK3TYrzs',
+    title: 'Saani Napkin — Short Cut',
+    client: 'Saani Tissues',
+    category: 'commercial',
+    year: 2023,
+    thumb: 1,
+    desc: 'Short-form edit of the napkin film built for social platforms.'
+  },
+  {
+    id: 'oTBjrKt43ok',
+    title: '60 Sec — Fashion Dock',
+    client: 'Fashion Dock',
+    category: 'commercial',
+    year: 2018,
+    desc: 'Premium casual wear TVC. Music direction by Srikanth.'
+  },
+  {
+    id: 'jmmrfxQ0Aw0',
+    title: 'Pratham Shampoo',
+    client: 'Pratham',
+    category: 'commercial',
+    year: 2017,
+    thumb: 2,
+    desc: 'National FMCG commercial for the Pratham haircare range.'
+  },
+  {
+    id: 'w3k-AAkTsIk',
+    title: 'Pratham Ayurveda Soap',
+    client: 'Pratham',
+    category: 'commercial',
+    year: 2017,
+    thumb: 2,
+    desc: 'Ayurvedic soap film from the same Pratham campaign.'
+  },
+  {
+    id: '3wMwHgozVyo',
+    title: 'Khwahishen — Music Video',
+    client: 'Media Wagon Productions',
+    category: 'music',
+    year: 2020,
+    desc: 'Four artists, four cities, one lockdown. Released Eid 2020.'
+  },
+  {
+    id: 'omwesSaPTdw',
+    title: 'Khwahishein — Album Promo',
+    client: 'Media Wagon Productions',
+    category: 'music',
+    year: 2020,
+    thumb: 2,
+    desc: 'Launch promo cut ahead of the Eid release.'
+  },
+  {
+    id: 'NkxcvTfACoA',
+    title: 'Song Shoot — On Location',
+    client: 'Production diary',
+    category: 'onset',
+    year: 2017,
+    desc: 'Location work for a song sequence, shot on the move.'
+  },
+  {
+    id: 'KcD9HfhAsHQ',
+    title: 'Song Shoot — Second Unit',
+    client: 'Production diary',
+    category: 'onset',
+    year: 2017,
+    desc: 'Additional location footage from the same schedule.'
+  },
+  {
+    id: 'EB5-2UVLo7Q',
+    title: 'On Location',
+    client: 'Camera test',
+    category: 'onset',
+    year: 2017,
+    desc: 'Shot on Canon 5D Mark II during a location recce.'
+  },
+  {
+    id: 'ZPZCeQ8RbxM',
+    title: 'Iftaar at Thumbay Hospital',
+    client: 'Thumbay Hospital',
+    category: 'brand',
+    year: 2019,
+    desc: 'Community film with Shehbaaz Khan, visiting patients at Chaderghat.'
+  },
+  {
+    id: 'jATMusCcEP4',
+    title: 'Media Wagon — Channel Film',
+    client: 'Media Wagon',
+    category: 'brand',
+    year: 2019,
+    desc: 'Studio identity film for the production house.'
+  }
+];
+
+const FILTERS = [
+  { key: 'all', label: 'All Work' },
+  { key: 'commercial', label: 'Commercials' },
+  { key: 'music', label: 'Music' },
+  { key: 'onset', label: 'On Set' },
+  { key: 'brand', label: 'Brand & Events' }
+];
+
+/* YouTube poster sizes, sharpest first. Older uploads do not all have every
+   size, so each film records the best tier that actually exists for it —
+   that way no card wastes a request on a 404. */
+const THUMB_TIERS = ['maxresdefault', 'sddefault', 'hqdefault'];
+
+const thumbnail = (id, tier = 0) => `https://i.ytimg.com/vi/${id}/${THUMB_TIERS[tier]}.jpg`;
+
+const handleThumbError = (e, id) => {
+  const img = e.currentTarget;
+  const next = Number(img.dataset.tier || 0) + 1;
+  if (next >= THUMB_TIERS.length) return;
+  img.dataset.tier = String(next);
+  img.src = thumbnail(id, next);
+};
 
 export default function Filmmaking() {
   const [activeVideo, setActiveVideo] = useState(null);
+  const [filter, setFilter] = useState('all');
+  const closeRef = useRef(null);
 
-  const stills = [
-    {
-      img: '/images/resource/slider01.jpg',
-      category: 'Commercial Ad Campaign',
-      title: 'Infinite Horizon • Natura Film',
-      desc: 'National multi-location commercial ad campaign featuring outdoor natural-light cinematography, vast horizon framing, and brand storytelling.'
-    },
-    {
-      img: '/images/resource/slider02.jpg',
-      category: 'Television Drama Broadcast',
-      title: 'Prime-Time Drama Series',
-      desc: 'Director Soheal Vaseem commanding complex multi-camera setups, character staging, and dramatic scene progression on a soundstage.'
-    },
-    {
-      img: '/images/resource/slider03.jpg',
-      category: 'Soundstage Commercial',
-      title: 'Behind the Directorial Monitor',
-      desc: 'Fine-tuning lighting angles, color temperatures, and lens choices with cinematographer on a high-fashion studio set.'
-    },
-    {
-      img: '/images/resource/slider04.jpg',
-      category: 'Corporate Brand Film',
-      title: 'Corporate Manufacturing Monograph',
-      desc: 'Cinematic documentary tracking industrial automation, assembly excellence, and enterprise scale for global corporate stakeholders.'
-    },
-    {
-      img: '/images/resource/slider05.jpg',
-      category: 'Commercial Ad Campaign',
-      title: 'Heritage Jewellery Commercial Spot',
-      desc: 'Macro lens choreography and soft gold ambient lighting capturing artisanal craftsmanship and timeless heirloom luxury.'
-    },
-    {
-      img: '/images/resource/slider1.jpg',
-      category: 'Brand Key Visual',
-      title: 'Automotive Kinetic Commercial Spot',
-      desc: 'High-speed camera rigging, vehicle tracking mounts, and dynamic night-drive reflections engineered for performance brand launch.'
-    }
-  ];
+  const activeFilm = activeVideo ? FILMS.find((f) => f.id === activeVideo) : null;
+
+  /* Escape closes the player; the page behind it stops scrolling while open. */
+  useEffect(() => {
+    if (!activeVideo) return;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setActiveVideo(null);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    document.body.style.overflow = 'hidden';
+    closeRef.current?.focus();
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [activeVideo]);
+
+  const items = filter === 'all' ? FILMS : FILMS.filter((f) => f.category === filter);
+  const countFor = (key) => (key === 'all' ? FILMS.length : FILMS.filter((f) => f.category === key).length);
 
   return (
     <>
-      {/* Video Modal */}
-      {activeVideo && (
-        <div 
-          style={{
-            position: 'fixed',
-            inset: 0,
-            backgroundColor: 'rgba(0,0,0,0.85)',
-            zIndex: 9999,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '20px'
-          }}
-          onClick={() => setActiveVideo(null)}
-        >
-          <div 
-            style={{
-              position: 'relative',
-              width: '100%',
-              maxWidth: '900px',
-              aspectRatio: '16/9',
-              backgroundColor: '#000',
-              borderRadius: '8px',
-              overflow: 'hidden'
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button 
-              onClick={() => setActiveVideo(null)}
-              style={{
-                position: 'absolute',
-                top: '-40px',
-                right: '0',
-                background: 'transparent',
-                border: 'none',
-                color: '#fff',
-                fontSize: '1.5rem',
-                cursor: 'pointer'
-              }}
-            >
-              <i className="fa-solid fa-xmark"></i> Close
-            </button>
-            <iframe 
-              src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1`}
-              title="YouTube video player"
-              style={{ width: '100%', height: '100%', border: 'none' }}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </div>
-      )}
+      <PageHero
+        crumb="Filmmaking"
+        title={(
+          <>
+            Stories Beyond<br />
+            the <em className="rl-script">Frame</em>
+          </>
+        )}
+        lead="Commercials, music videos and brand films — directed with a strategist's eye and a filmmaker's craft."
+        meta={['Commercial direction', '30+ years', '4K production']}
+      />
 
-      {/* Hero */}
-      <section className="page-hero-editorial hero-page-filmmaking">
-        <div className="hero-editorial-overlay"></div>
-        <div className="container">
-          <div className="hero-editorial-content">
-            <div className="hero-editorial-badge">
-              <span className="dash"></span>
-              <span>DIRECTORIAL CRAFT &bull; 20+ YEARS</span>
-            </div>
-            <h1 className="hero-editorial-headline">
-              Stories Beyond<br />
-              the <span className="hero-italic-gold">Frame.</span>
-            </h1>
-            <p className="hero-editorial-lead">
-              Bringing ideas to life through visual storytelling, film, and advertising.
-            </p>
-            <div className="hero-editorial-actions">
-              <a href="#showreel" className="btn-hero-dark-pill" title="Experience Directorial Showreel">
-                <span>EXPLORE SHOWREEL</span>
-                <i className="fa-solid fa-arrow-down"></i>
-              </a>
-              <Link to="/contact" className="btn-hero-outline-pill" title="Discuss Film Production">
-                <span>DISCUSS PRODUCTION</span>
-                <i className="fa-solid fa-arrow-right"></i>
-              </Link>
-            </div>
-            <div className="hero-editorial-breadcrumbs">
-              <Link to="/">Home</Link>
-              <span className="sep">/</span>
-              <span>Film Making</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Directorial Milestones & Credentials */}
-      <section style={{ backgroundColor: 'var(--bg-card)', borderBottom: '1px solid var(--border-light)', padding: '48px 0' }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px', textAlign: 'left' }}>
-            <div className="filmmaking-stat-card">
-              <div style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1 }}>150+</div>
-              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent-bronze)', marginTop: '8px', fontWeight: 600 }}>Commercial Films Directed</div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '6px' }}>Nationwide broadcast and multi-channel campaigns</div>
-            </div>
-            <div className="filmmaking-stat-card">
-              <div style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1 }}>20+</div>
-              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent-bronze)', marginTop: '8px', fontWeight: 600 }}>Years Directorial Craft</div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '6px' }}>Decades commanding film sets &amp; soundstages</div>
-            </div>
-            <div className="filmmaking-stat-card">
-              <div style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1 }}>Prime-Time</div>
-              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent-bronze)', marginTop: '8px', fontWeight: 600 }}>Television Drama Series</div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '6px' }}>Critically acclaimed multi-episode broadcasts</div>
-            </div>
-            <div className="filmmaking-stat-card">
-              <div style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1 }}>National</div>
-              <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--accent-bronze)', marginTop: '8px', fontWeight: 600 }}>Media Recognition</div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '6px' }}>Covered in The Hindu, Deccan Chronicle, Siasat</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Directorial Showreel */}
-      <section className="section-padding bg-canvas" id="showreel">
-        <div className="container">
-          <div style={{ maxWidth: '820px', margin: '0 auto 48px', textAlign: 'center' }}>
-            <span className="editorial-badge"><i className="fa-solid fa-play"></i> Cinematic Reel</span>
-            <h2 style={{ fontSize: 'clamp(2rem, 3.2vw, 2.75rem)', margin: '14px 0' }}>The Directorial Showreel (4K)</h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: '1.8' }}>
-              A curated sequence of commercial television commercials, brand monographs, and broadcast visual narratives directed by Soheal Vaseem. Click below to experience the directorial reel.
-            </p>
-          </div>
-
-          <div style={{ maxWidth: '1040px', margin: '0 auto', position: 'relative', borderRadius: 'var(--radius-sm)', overflow: 'hidden', boxShadow: '0 24px 60px rgba(0,0,0,0.12)', border: '1px solid var(--border-light)' }}>
-            <div style={{ position: 'relative', aspectRatio: '16/9', background: '#000000', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <img src="/images/resource/slider02.jpg" alt="Soheal Vaseem Directorial Showreel" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.82 }} />
-              
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(14, 18, 28, 0.85) 0%, rgba(14, 18, 28, 0.3) 60%, rgba(14, 18, 28, 0.4) 100%)' }}></div>
-
-              <button 
-                type="button"
-                onClick={() => setActiveVideo('O0AT4TKrUSY')}
-                title="Play Cinematic Showreel (4K)" 
-                style={{ position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '14px', background: 'transparent', border: 'none', cursor: 'pointer', zIndex: 2 }}
-              >
-                <div style={{ width: '88px', height: '88px', borderRadius: '50%', background: 'rgba(157, 120, 68, 0.9)', border: '2px solid rgba(255,255,255,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontSize: '1.8rem', boxShadow: '0 10px 30px rgba(0,0,0,0.4)' }}>
-                  <i className="fa-solid fa-play" style={{ marginLeft: '4px' }}></i>
-                </div>
-                <span style={{ fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#ffffff', background: 'rgba(0,0,0,0.65)', padding: '6px 16px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.2)' }}>
-                  Play Directorial Reel (4K)
+      {/* ---------------- NUMBERS ---------------- */}
+      <section className="rl-band-top rl-section--light">
+        <div className="rl-container">
+          <div className="rl-stats">
+            {STATS.map((s) => (
+              <div className="rl-stat" key={s.label}>
+                <span className="rl-stat-num">
+                  {s.value ? <AnimatedCounter to={s.value} suffix={s.suffix} duration={2.2} /> : s.text}
                 </span>
-              </button>
-
-              <div style={{ position: 'absolute', bottom: '20px', left: '24px', zIndex: 2, color: '#ffffff' }}>
-                <span style={{ fontSize: '0.72rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--accent-bronze)', fontWeight: 700, display: 'block' }}>Commercial Direction</span>
-                <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem' }}>Cinema &bull; TVCs &bull; Brand Narratives</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Production Stills Showcase */}
-      <section className="section-padding bg-surface" style={{ borderTop: '1px solid var(--border-light)' }}>
-        <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '20px', marginBottom: '48px' }}>
-            <div>
-              <span className="editorial-badge">Verified Production Archive</span>
-              <h2 style={{ fontSize: 'clamp(2rem, 3.2vw, 2.75rem)', margin: '12px 0 6px' }}>Directorial Stills &amp; Key Visuals</h2>
-              <p style={{ color: 'var(--text-secondary)', margin: 0, fontSize: '1.05rem' }}>
-                Archived stills from commercials, key visual art, television series, and on-set production assets.
-              </p>
-            </div>
-            <div>
-              <Link to="/portfolio" className="btn btn-outline" style={{ borderColor: 'var(--border-medium)' }}>
-                View Full Portfolio <i className="fa-solid fa-arrow-right" style={{ marginLeft: '8px' }}></i>
-              </Link>
-            </div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
-            {stills.map((still, idx) => (
-              <div key={idx} style={{ background: 'var(--bg-card)', border: '1px solid var(--border-light)', borderRadius: 'var(--radius-sm)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ display: 'block', position: 'relative', aspectRatio: '16/10', overflow: 'hidden' }}>
-                  <img src={still.img} alt={still.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
-                </div>
-                <div style={{ padding: '24px', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: '0.76rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--accent-bronze)', fontWeight: 700, marginBottom: '6px' }}>
-                    {still.category}
-                  </div>
-                  <h3 style={{ fontSize: '1.25rem', marginBottom: '10px' }}>{still.title}</h3>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: '1.6', marginBottom: 0 }}>
-                    {still.desc}
-                  </p>
-                </div>
+                <span className="rl-stat-label">{s.label}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="cta-meaningful-section">
-        <div className="container">
-          <div className="cta-meaningful-inner">
-            <span className="editorial-badge" style={{ justifyContent: 'center' }}>Initiate Production</span>
-            <h2>Bring Your Story to the Screen.</h2>
-            <p>
-              Looking for directorial vision, commercial ad production, or a corporate film that elevates your brand? Let's discuss your production goals.
+      {/* ---------------- SHOWREEL ---------------- */}
+      <section className="rl-section">
+        <div className="rl-container">
+          <div className="rl-head">
+            <div>
+              <span className="rl-eyebrow">Showreel</span>
+              <h2 className="rl-h2">The directorial<br /><em className="rl-script">reel</em>, in 4K</h2>
+            </div>
+            <p className="rl-head-lead">
+              A curated sequence of television commercials, brand monographs and broadcast narratives.
             </p>
-            <Link to="/contact" className="btn btn-primary">
-              <span>Start Production Dialogue</span>
-              <i className="fa-solid fa-arrow-right"></i>
+          </div>
+
+          <Reveal direction="up">
+            <div className="rl-reel">
+              <img
+                src={thumbnail(SHOWREEL, SHOWREEL_TIER)}
+                data-tier={SHOWREEL_TIER}
+                alt="Soheal Vaseem directorial showreel"
+                onError={(e) => handleThumbError(e, SHOWREEL)}
+              />
+              <button
+                type="button"
+                className="rl-reel-play"
+                onClick={() => setActiveVideo(SHOWREEL)}
+                aria-label="Play the directorial showreel"
+              >
+                <span className="rl-reel-btn" aria-hidden="true">▶</span>
+              </button>
+              <div className="rl-reel-meta">
+                <span>Commercial Direction</span>
+                <span>Cinema · TVCs · Brand Narratives</span>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ---------------- ARCHIVE ---------------- */}
+      <section className="rl-section rl-section--light">
+        <div className="rl-container">
+          <div className="rl-head">
+            <div>
+              <span className="rl-eyebrow">Film archive</span>
+              <h2 className="rl-h2">Commercials,<br />music &amp; <em className="rl-script">craft</em></h2>
+            </div>
+            <p className="rl-head-lead">
+              Ad films, music videos and on-set work directed across the last three decades.
+            </p>
+          </div>
+
+          <div className="rl-filter-bar" role="tablist" aria-label="Film categories">
+            {FILTERS.map((f) => (
+              <button
+                key={f.key}
+                type="button"
+                role="tab"
+                aria-selected={filter === f.key}
+                className={`rl-filter-btn ${filter === f.key ? 'is-active' : ''}`}
+                onClick={() => setFilter(f.key)}
+              >
+                {f.label} ({String(countFor(f.key)).padStart(2, '0')})
+              </button>
+            ))}
+          </div>
+
+          <motion.div layout className="rl-film-grid">
+            <AnimatePresence mode="popLayout">
+              {items.map((f) => (
+                <motion.article
+                  key={f.id}
+                  layout
+                  className="rl-film-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.97 }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <button
+                    type="button"
+                    className="rl-film-thumb"
+                    onClick={() => setActiveVideo(f.id)}
+                    aria-label={`Play ${f.title}`}
+                  >
+                    <img
+                      src={thumbnail(f.id, f.thumb || 0)}
+                      data-tier={f.thumb || 0}
+                      alt={f.title}
+                      loading="lazy"
+                      onError={(e) => handleThumbError(e, f.id)}
+                    />
+                    <span className="rl-film-year">{f.year}</span>
+                    <span className="rl-film-play" aria-hidden="true">▶</span>
+                  </button>
+
+                  <div className="rl-film-body">
+                    <span className="rl-film-client">{f.client}</span>
+                    <h3>{f.title}</h3>
+                    <p>{f.desc}</p>
+                  </div>
+                </motion.article>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ---------------- CTA ---------------- */}
+      <section className="rl-cta rl-cta--dark">
+        <div className="rl-container rl-cta-inner">
+          <h2 className="rl-cta-title">
+            Bring your story<br />to the <em className="rl-script">screen</em>.
+          </h2>
+          <div className="rl-cta-actions">
+            <Link to="/contact" className="rl-pill rl-pill-light">
+              Discuss production <span className="rl-pill-arrow">→</span>
             </Link>
+            <p className="rl-cta-note">TVCs · Brand films · Music videos</p>
           </div>
         </div>
       </section>
+
+      {/* ---------------- VIDEO MODAL ---------------- */}
+      <AnimatePresence>
+        {activeVideo && (
+          <motion.div
+            className="rl-video-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={() => setActiveVideo(null)}
+            role="dialog"
+            aria-modal="true"
+            aria-label={activeFilm ? `Playing ${activeFilm.title}` : 'Film player'}
+          >
+            <motion.div
+              className="rl-video-modal-inner"
+              initial={{ scale: 0.96, y: 12 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.96, y: 12 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                className="rl-video-modal-close"
+                ref={closeRef}
+                onClick={() => setActiveVideo(null)}
+              >
+                Close ✕
+              </button>
+              <iframe
+                src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1&rel=0`}
+                title={activeFilm ? `${activeFilm.title} — Soheal Vaseem` : 'Soheal Vaseem film'}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

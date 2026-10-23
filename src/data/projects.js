@@ -99,7 +99,10 @@ export const projects = [
     description: 'Specialized healthcare web application and consultation platform optimized for patient engagement, treatment discovery, and SEO visibility.',
     logo_path: '/images/portfolio/projects/bakshi_showcase.webp',
     image_path: '/images/portfolio/projects/bakshi_showcase.webp',
-    project_url: 'https://drbakshisworld.com/',
+    // drbakshisworld.com no longer resolves (NXDOMAIN at time of audit). Left
+    // blank so the card offers a working enquiry action instead of a dead host.
+    // Restore the live URL once it is confirmed.
+    project_url: '',
     is_featured: 0,
     sort_order: 8
   },
