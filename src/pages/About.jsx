@@ -7,7 +7,7 @@ import AnimatedCounter from '../motion/AnimatedCounter';
 const STATS = [
   { value: 30, suffix: '+', label: 'Years building brands that lead their markets' },
   { value: 250, suffix: '+', label: 'Brands repositioned, launched and sharpened' },
-  { value: 1200, suffix: '+', label: 'Films and campaigns delivered end to end' },
+  { value: 50, suffix: '+', label: 'Films and campaigns delivered end to end' },
   { text: '12', label: 'Industries — retail, hospitality, healthcare, tech and more' }
 ];
 

@@ -148,14 +148,21 @@ const FILTERS = [
    that way no card wastes a request on a 404. */
 const THUMB_TIERS = ['maxresdefault', 'sddefault', 'hqdefault'];
 
-const thumbnail = (id, tier = 0) => `https://i.ytimg.com/vi/${id}/${THUMB_TIERS[tier]}.jpg`;
+const externalThumbnail = (id, tier = 0) => `https://i.ytimg.com/vi/${id}/${THUMB_TIERS[tier]}.jpg`;
+const localThumbnail = (id) => `/images/filmmaking/${id}.jpg`;
 
 const handleThumbError = (e, id) => {
   const img = e.currentTarget;
+  if (!img.dataset.fallback) {
+    img.dataset.fallback = 'cdn';
+    const tier = Number(img.dataset.tier || 0);
+    img.src = externalThumbnail(id, tier);
+    return;
+  }
   const next = Number(img.dataset.tier || 0) + 1;
   if (next >= THUMB_TIERS.length) return;
   img.dataset.tier = String(next);
-  img.src = thumbnail(id, next);
+  img.src = externalThumbnail(id, next);
 };
 
 export default function Filmmaking() {
@@ -229,7 +236,7 @@ export default function Filmmaking() {
           <Reveal direction="up">
             <div className="rl-reel">
               <img
-                src={thumbnail(SHOWREEL, SHOWREEL_TIER)}
+                src={localThumbnail(SHOWREEL)}
                 data-tier={SHOWREEL_TIER}
                 alt="Soheal Vaseem directorial showreel"
                 onError={(e) => handleThumbError(e, SHOWREEL)}
@@ -298,7 +305,7 @@ export default function Filmmaking() {
                     aria-label={`Play ${f.title}`}
                   >
                     <img
-                      src={thumbnail(f.id, f.thumb || 0)}
+                      src={localThumbnail(f.id)}
                       data-tier={f.thumb || 0}
                       alt={f.title}
                       loading="lazy"

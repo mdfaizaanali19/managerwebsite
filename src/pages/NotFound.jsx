@@ -20,7 +20,6 @@ export default function NotFound() {
   return (
     <>
       <PageHero
-        short
         crumb="Page not found"
         title={(
           <>

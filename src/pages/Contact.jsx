@@ -20,15 +20,15 @@ const FAQ = [
 ];
 
 /**
- * Delivery endpoint for project briefs.
+ * Delivery channel for project briefs.
  *
- * Set VITE_CONTACT_ENDPOINT (a Formspree form, a Vercel function, any JSON
- * POST endpoint) and the form submits directly. Until that is configured the
- * form hands a fully composed brief to the visitor's mail client — the enquiry
- * still reaches its destination instead of being silently discarded.
+ * The brief is composed into a WhatsApp message and the visitor is taken
+ * straight to the chat (wa.me) with every field already written out. There is
+ * no server round-trip, so nothing is silently lost — the visitor just presses
+ * send in WhatsApp.
  */
-const CONTACT_ENDPOINT = import.meta.env.VITE_CONTACT_ENDPOINT;
-const CONTACT_EMAIL = 'info@sohealvaseem.com';
+const CONTACT_WHATSAPP = '919014365364';
+const CONTACT_PHONE_DISPLAY = '+91 9014 365 364';
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function validateBrief(values) {
@@ -41,9 +41,10 @@ function validateBrief(values) {
   return found;
 }
 
-function buildMailto(brief) {
-  const subject = `Project brief — ${brief.name}`;
+function buildWhatsApp(brief) {
   const body = [
+    'New project brief',
+    '',
     `Name: ${brief.name}`,
     `Email: ${brief.email}`,
     `Telephone: ${brief.phone || '—'}`,
@@ -52,7 +53,16 @@ function buildMailto(brief) {
     'Brief:',
     brief.message
   ].join('\n');
-  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  return `https://wa.me/${CONTACT_WHATSAPP}?text=${encodeURIComponent(body)}`;
+}
+
+/**
+ * Opens the composed chat in a new tab. Falls back to the current tab when a
+ * popup blocker swallows the window.
+ */
+function openWhatsApp(url) {
+  const opened = window.open(url, '_blank', 'noopener,noreferrer');
+  if (!opened) window.location.href = url;
 }
 
 export default function Contact() {
@@ -61,9 +71,10 @@ export default function Contact() {
   const [errors, setErrors] = useState({});
   const [errorMsg, setErrorMsg] = useState('');
   const [submittedName, setSubmittedName] = useState('');
+  const [chatUrl, setChatUrl] = useState('');
 
   const loading = status === 'sending';
-  const done = status === 'sent' || status === 'mailto';
+  const done = status === 'sent';
 
   const update = (key) => (e) => {
     const { value } = e.target;
@@ -71,7 +82,7 @@ export default function Contact() {
     if (errors[key]) setErrors((prev) => ({ ...prev, [key]: undefined }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (loading) return;
 
@@ -98,31 +109,20 @@ export default function Contact() {
     };
 
     try {
-      if (CONTACT_ENDPOINT) {
-        const response = await fetch(CONTACT_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ ...brief, submittedAt: new Date().toISOString() })
-        });
-        if (!response.ok) throw new Error(`Request failed with ${response.status}`);
-        setSubmittedName(brief.name.split(' ')[0]);
-        setStatus('sent');
-        return;
-      }
-
-      window.location.href = buildMailto(brief);
+      const url = buildWhatsApp(brief);
+      setChatUrl(url);
       setSubmittedName(brief.name.split(' ')[0]);
-      setStatus('mailto');
+      setStatus('sent');
+      openWhatsApp(url);
     } catch {
       setStatus('error');
-      setErrorMsg('Your brief could not be sent. Please email info@sohealvaseem.com directly.');
+      setErrorMsg('WhatsApp could not be opened automatically. Please message +91 9014 365 364 directly.');
     }
   };
 
   return (
     <>
       <PageHero
-        short
         crumb="Contact"
         title={(
           <>
@@ -181,9 +181,9 @@ export default function Contact() {
               {done ? (
                 <div className="rl-form-success" role="status">
                   <strong>Thank you, {submittedName}.</strong>
-                  {status === 'sent'
-                    ? 'Your brief has been received. I will review it personally and respond within 24 hours.'
-                    : 'Your mail app should have opened with the brief ready to send. If nothing happened, email info@sohealvaseem.com directly.'}
+                  Your brief is waiting in WhatsApp — just press send. If the chat did not open,{' '}
+                  <a href={chatUrl} target="_blank" rel="noopener noreferrer">open WhatsApp again</a>{' '}
+                  or message {CONTACT_PHONE_DISPLAY} directly.
                 </div>
               ) : (
                 <>
@@ -281,8 +281,8 @@ export default function Contact() {
                         {loading ? 'Sending…' : 'Send inquiry'} <span className="rl-pill-arrow">→</span>
                       </button>
                       <p className="rl-form-note">
-                        Or email directly at<br />
-                        <a href="mailto:info@sohealvaseem.com">info@sohealvaseem.com</a>
+                        Your details open in WhatsApp, ready to send.<br />
+                        Or email <a href="mailto:info@sohealvaseem.com">info@sohealvaseem.com</a>
                       </p>
                     </div>
                   </form>

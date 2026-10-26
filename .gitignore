@@ -12,6 +12,15 @@ dist
 dist-ssr
 *.local
 
+# Unreferenced assets parked outside public/ (never served, never committed)
+_unused
+
+# Zip archives and temporary screenshots
+*.zip
+_shots
+_*.png
+shot_*.png
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

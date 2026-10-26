@@ -1,0 +1,75 @@
+# ===================================================================
+# Hostinger / Apache / LiteSpeed — static deployment of a React SPA
+#
+# Lives in public/ and is copied verbatim into dist/ by `npm run build`,
+# so every build ships with the routing rules Hostinger needs.
+# ===================================================================
+
+# Serve index.html first. Hostinger's directory root often contains a
+# leftover index.php (their default placeholder); DirectoryIndex is
+# evaluated in order, so without this line that file would win and the
+# visitor would see the host's page instead of the site.
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Anything that physically exists (css, images, assets, index.html) is
+  # served untouched — this is what keeps the hashed JS bundle reachable.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Everything else is a client-side route (/about, /contact, legacy
+  # /about.php …). Hand it to index.html and let React Router resolve it,
+  # instead of letting the server answer 404.
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Text assets compress well; images are already compressed and skipped.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 hour"
+
+  # Content-hashed build output can be cached indefinitely: a new build
+  # writes a new filename, so a stale copy can never be served.
+  <FilesMatch "\.(js|mjs|woff2?|ttf|otf)$">
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+  </FilesMatch>
+
+  # Stylesheets and images keep their names across deploys, so they are
+  # cached briefly rather than for a year — edits stay visible.
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType image/x-icon "access plus 30 days"
+
+  # The shell itself must always be revalidated, otherwise visitors keep
+  # an index.html that points at a bundle the new deploy has removed.
+  <FilesMatch "\.html$">
+    ExpiresByType text/html "access plus 0 seconds"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Belongs here, not inside the mod_expires block: `Header` is owned by
+  # mod_headers, so declaring it while that module is absent is a 500.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # Baseline hardening that costs nothing on a static site.
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

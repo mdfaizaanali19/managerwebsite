@@ -5,10 +5,14 @@ import HeroCanvas from './HeroCanvas';
 /**
  * PageHero — inner-page banner matching the reference site:
  * animated ink backdrop, giant gradient headline, lead + meta rail.
+ *
+ * Every route renders this at exactly one viewport tall, the same fold as the
+ * home hero — there is no shorter variant, so the banner never changes height
+ * as the visitor moves between pages.
  */
-export default function PageHero({ title, lead, meta = [], crumb = 'Page', short = false }) {
+export default function PageHero({ title, lead, meta = [], crumb = 'Page' }) {
   return (
-    <section className={`rl-page-hero ${short ? 'rl-page-hero--short' : ''}`}>
+    <section className="rl-page-hero">
       <HeroCanvas />
       <div className="rl-page-hero-shade" aria-hidden="true" />
 
